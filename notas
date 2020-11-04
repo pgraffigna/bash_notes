@@ -4,7 +4,19 @@
 # Funciones -- agregar al archivo ~/.bashrc #	
 ############################################# 
 
-# función para conexiones remotas vía RPD -- necesita 3 argumentos USUARIO PASSWORD IP
+# compartida portable
+smbportable(){
+local sharename
+[[ -z $1 ]] && sharename="SHARE" || sharename=$1
+docker run --rm -it -p 445:445 -v "${PWD}:/tmp/serve" rflathers/impacket smbserver.py -smb2support $sharename /tmp/serve
+}
+
+# crackmapexec dockerizado --necesita una DIRECCIÓN DE RED como argumento
+cme(){
+docker run -it --rm byt3bl33d3r/crackmapexec smb $1/24
+}
+
+# función para conexiones remotas vía RPD -- necesita USUARIO PASSWORD IP como argumentos
 rdp(){
   xfreerdp /u:$1 /p:$2 /size:1024x768 /f /v:$3
 }

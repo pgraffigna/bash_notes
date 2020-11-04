@@ -4,6 +4,11 @@
 # Funciones -- agregar al archivo ~/.bashrc #	
 ############################################# 
 
+# función para conexiones remotas vía RPD -- necesita 3 argumentos USUARIO PASSWORD IP
+rdp(){
+  xfreerdp /u:$1 /p:$2 /size:1024x768 /f /v:$3
+}
+
 # consulta la ip pública
 myip(){ 
   curl -s ifconfig.me/all | grep ip_addr | awk '{print $2}'

@@ -1,3 +1,3 @@
 # bash_notes
 
-Funciones, Alias y notas para usar en Bash.
+Funciones, Aliases y notas varias para usar en Bash.

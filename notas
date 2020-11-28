@@ -1,10 +1,9 @@
 # bash_notes
-
 #############################################
 # Funciones -- agregar al archivo ~/.bashrc #	
 ############################################# 
 
-# compartida portable
+# compartida portable con docker
 smbportable(){
 local sharename
 [[ -z $1 ]] && sharename="SHARE" || sharename=$1
@@ -26,7 +25,7 @@ myip(){
   curl -s ifconfig.me/all | grep ip_addr | awk '{print $2}'
 }
 
-# masscan arp mode hacia archivo
+# escaneo de MACs
 mscan(){ 
   sudo masscan ip/cidr --arp > FILE
 }
@@ -62,8 +61,22 @@ vpn(){
 alias check_battery="upower -i /org/freedesktop/UPower/devices/battery_BAT1 | grep percentage | awk 'NF{print $NF}'"
 
 ##########################################
-# Varios                                 #
+# Notas                                  #
 ##########################################
 
 # Agrega la fecha a la salida del comando HISTORY
 export HISTTIMEFORMAT="%d/%m/%y %T "
+
+# Apagado remoto de equipo con linux 
+ssh -t -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no USUARIO@EQUIPO 'sudo poweroff'
+
+# Apagado remoto de equipo con windows 
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no USUARIO@EQUIPO shutdown /h /f
+
+# notificación por pantalla en Linux
+sudo apt install libnotify-bin
+notify-send  "NOTIFICACION" -t 20000 -i /mnt/c/Users/quentin/Downloads/imagen.jpg
+
+# iniciar firefox en kiosk mode + URL 
+"C:\Program Files\Mozilla Firefox\firefox.exe" -kiosk URL
+

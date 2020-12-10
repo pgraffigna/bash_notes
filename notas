@@ -50,6 +50,13 @@ vpn(){
   sudo openvpn FILE.ovpn
 }
 
+# chequeo los hosts activos y busca el hostname
+# Espera 2 parametros IP/CDIR y NOMBRE_ARCHIVO
+hosts_activos() {
+   nmap -sn $1 | grep report | awk '{print $5}' > $2
+   for ips in $(cat $2);do host $ips; done | grep -vE 'NXDOMAIN|SERVFAIL'
+}
+
 ################################################
 # Alias					       #	
 # agregar los alias al archivo ~/.bash_aliases #
@@ -59,6 +66,9 @@ vpn(){
 
 # muestra el nivel de batería
 alias check_battery="upower -i /org/freedesktop/UPower/devices/battery_BAT1 | grep percentage | awk 'NF{print $NF}'"
+
+# Alias batcat --> apt install -y bat
+alias cat="batcat"
 
 ##########################################
 # Notas                                  #

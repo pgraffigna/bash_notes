@@ -55,6 +55,7 @@ vpn(){
 hosts_activos() {
    nmap -sn $1 | grep report | awk '{print $5}' > $2
    for ips in $(cat $2);do host $ips; done | grep -vE 'NXDOMAIN|SERVFAIL'
+   cat $2
 }
 
 ################################################
@@ -77,16 +78,19 @@ alias cat="batcat"
 # Agrega la fecha a la salida del comando HISTORY
 export HISTTIMEFORMAT="%d/%m/%y %T "
 
-# Apagado remoto de equipo con linux 
-ssh -t -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no USUARIO@EQUIPO 'sudo poweroff'
+# Alias apagar linux remoto
+# en equipo remoto USUARIO ALL=(ALL) NOPASSWD:/sbin/shutdown -h 0
+# en equipo local ssh_config omv
+alias apagar_omv_remoto="ssh -t omv 'sudo /sbin/shutdown -h 0'"
 
-# Apagado remoto de equipo con windows 
-ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no USUARIO@EQUIPO shutdown /h /f
+# Alias apagar windows remoto
+# en equipo local ssh_config win10
+alias apagar_win10_remoto="ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=1 win10 shutdown /h /f"
 
 # notificación por pantalla en Linux
 sudo apt install libnotify-bin
 notify-send  "NOTIFICACION" -t 20000 -i /mnt/c/Users/quentin/Downloads/imagen.jpg
 
-# iniciar firefox en kiosk mode + URL 
+# iniciar página en firefox kiosk mode   
 "C:\Program Files\Mozilla Firefox\firefox.exe" -kiosk URL
 

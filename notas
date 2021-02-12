@@ -50,14 +50,6 @@ vpn(){
   sudo openvpn FILE.ovpn
 }
 
-# chequeo los hosts activos y busca el hostname
-# Espera 2 parametros IP/CDIR y NOMBRE_ARCHIVO
-hosts_activos() {
-   nmap -sn $1 | grep report | awk '{print $5}' > $2
-   for ips in $(cat $2);do host $ips; done | grep -vE 'NXDOMAIN|SERVFAIL'
-   cat $2
-}
-
 ################################################
 # Alias					       #	
 # agregar los alias al archivo ~/.bash_aliases #
@@ -65,11 +57,30 @@ hosts_activos() {
 # touch ~/.bash_aliases                        #
 ################################################
 
-# muestra el nivel de batería
+# Muestra el nivel de batería
 alias check_battery="upower -i /org/freedesktop/UPower/devices/battery_BAT1 | grep percentage | awk 'NF{print $NF}'"
 
-# Alias batcat --> apt install -y bat
+# Batcat --> apt install -y bat
 alias cat="batcat"
+
+# Apagar linux remoto
+# en equipo remoto USUARIO ALL=(ALL) NOPASSWD:/sbin/shutdown -h 0
+alias apagar_omv_remoto="ssh -t omv 'sudo /sbin/shutdown -h 0'"
+
+# Apagar windows remoto
+alias apagar_win10_remoto="ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=1 win10 shutdown /h /f"
+
+# Acceso rápido al HOME del usuario en Windows WSL
+alias win="cd /mnt/c/Users/quentin/" 
+
+# Info sobre el cpu
+alias cpu="lscpu | egrep 'Model name|Socket|Thread|NUMA|CPU\(s\)'"
+
+# grep con colores
+alias grep="grep --color=auto"
+
+# ls con colores y muestra los directorios primero 
+alias ls="ls --color=auto --group-directories-first"
 
 ##########################################
 # Notas                                  #
@@ -78,19 +89,22 @@ alias cat="batcat"
 # Agrega la fecha a la salida del comando HISTORY
 export HISTTIMEFORMAT="%d/%m/%y %T "
 
-# Alias apagar linux remoto
-# en equipo remoto USUARIO ALL=(ALL) NOPASSWD:/sbin/shutdown -h 0
-# en equipo local ssh_config omv
-alias apagar_omv_remoto="ssh -t omv 'sudo /sbin/shutdown -h 0'"
-
-# Alias apagar windows remoto
-# en equipo local ssh_config win10
-alias apagar_win10_remoto="ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=1 win10 shutdown /h /f"
-
 # notificación por pantalla en Linux
 sudo apt install libnotify-bin
 notify-send  "NOTIFICACION" -t 20000 -i /mnt/c/Users/quentin/Downloads/imagen.jpg
 
 # iniciar página en firefox kiosk mode   
 "C:\Program Files\Mozilla Firefox\firefox.exe" -kiosk URL
+
+# Prompt con fecha y colores 
+STARTCOLOR='\e[0;32m';
+ENDCOLOR="\e[0m"
+export PS1="$STARTCOLOR\u@\h:\w [\t]> $ENDCOLOR"
+
+# Default path donde inicia Windows Terminal WSL
+cd ~
+
+# Para entrar en los directorios solo tipeando el nombre
+shopt -s autocd
+
 

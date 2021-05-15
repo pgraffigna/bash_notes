@@ -6,48 +6,55 @@
 # compartida portable con docker
 smbportable(){
 local sharename
-[[ -z $1 ]] && sharename="SHARE" || sharename=$1
-docker run --rm -it -p 445:445 -v "${PWD}:/tmp/serve" rflathers/impacket smbserver.py -smb2support $sharename /tmp/serve
+	[[ -z $1 ]] && sharename="SHARE" || sharename=$1
+	docker run --rm -it -p 445:445 -v "${PWD}:/tmp/serve" rflathers/impacket smbserver.py -smb2support $sharename /tmp/serve
 }
 
 # crackmapexec dockerizado --necesita una DIRECCIÓN DE RED como argumento
 cme(){
-docker run -it --rm byt3bl33d3r/crackmapexec smb $1/24
+	docker run -it --rm byt3bl33d3r/crackmapexec smb $1/24
 }
 
 # función para conexiones remotas vía RPD -- necesita USUARIO PASSWORD IP como argumentos
 rdp(){
-  xfreerdp /u:$1 /p:$2 /size:1024x768 /f /v:$3
+  	xfreerdp /u:$1 /p:$2 /size:1024x768 /f /v:$3
 }
 
 # consulta la ip pública
 myip(){ 
-  curl -s ifconfig.me/all | grep ip_addr | awk '{print $2}'
+  	curl -s ifconfig.me/all | grep ip_addr | awk '{print $2}'
 }
 
-# escaneo de MACs
+# escaneo masivo de MACs
 mscan(){ 
-  sudo masscan ip/cidr --arp > FILE
+  	sudo masscan ip/cidr --arp > FILE
 }
 
 # usa el archivo generado por la función mscan para resolver los nombres de host
 mscanHOST(){
-  for ips in $(cat FILE | awk '{print $6}');do host $ips; done
+  	for ips in $(cat FILE | awk '{print $6}');do host $ips; done
 }
 
 # chequeo de la configuración de nagios
 check_nagios(){ 
-  /usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg
+  	/usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg
 }
 
 # consulta la ip de los contenedores
 dockip(){
-  docker inspect -f "{{ .NetworkSettings.IPAddress }}" $1
+  	docker inspect -f "{{ .NetworkSettings.IPAddress }}" $1
 }
 
 # inicia una conexión VPN
 vpn(){
-  sudo openvpn FILE.ovpn
+  	sudo openvpn FILE.ovpn
+}
+
+# funcion para crear estructura de trabajo para proyectos con Ansible
+mka(){
+RUTA=ansible_role_template/roles/template/
+       mkdir -p "${RUTA}"{tasks,vars,handlers} && touch "${RUTA}"{tasks/main.yml,vars/main.yml,handlers/main.yml}
+       touch ansible_role_template/{ansible.cfg,inventory,main.yml}
 }
 
 ################################################
@@ -70,8 +77,8 @@ alias apagar_omv_remoto="ssh -t omv 'sudo /sbin/shutdown -h 0'"
 # Apagar windows remoto
 alias apagar_win10_remoto="ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=1 win10 shutdown /h /f"
 
-# Acceso rápido al HOME del usuario en Windows WSL
-alias win="cd /mnt/c/Users/quentin/" 
+# HOME del usuario en Windows WSL
+alias win="/mnt/c/Users/quentin/" 
 
 # Info sobre el cpu
 alias cpu="lscpu | egrep 'Model name|Socket|Thread|NUMA|CPU\(s\)'"
@@ -81,6 +88,10 @@ alias grep="grep --color=auto"
 
 # ls con colores y muestra los directorios primero 
 alias ls="ls --color=auto --group-directories-first"
+
+# bajar audio de videos de youtube con youtube-dl 
+alias ytmp3="youtube-dl -x --audio-format mp3"
+
 
 ##########################################
 # Notas                                  #

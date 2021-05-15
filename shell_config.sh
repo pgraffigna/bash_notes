@@ -27,7 +27,6 @@ Install-Module posh-git -Scope CurrentUser --> si usas git en Windows
 Install-Module oh-my-posh -Scope CurrentUser
 
 # ejecutar "notepad $PROFILE" y agregar estas lineas:
-
 Import-Module posh-git --> si usas git en Windows
 Import-Module oh-my-posh
 Set-PoshPrompt -Theme Paradox
@@ -38,9 +37,9 @@ https://github.com/microsoft/cascadia-code/releases/tag/v2102.25
 # Editar setting.json en Windows Terminal
 
 "profiles":
-    {
+    	{
         "defaults": {
 		"fontFace": "Cascadia Code PL",
-        "fontSize": 11
-		},
+	        "fontSize": 11
+	},
 }

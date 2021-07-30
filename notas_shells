@@ -1,3 +1,7 @@
+# updog
+pip3 install updog
+updog -d /tmp -p 1234
+
 # python
 python -c 'import pty;pty.spawn("/bin/bash")'
 export TERM=xterm

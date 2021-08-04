@@ -1,5 +1,6 @@
 # hashcat
 hashcat --help
+hashcat -m MODE -a 0 hashfile diccionario --username
 hashcat -m MODE -a 0 hashfile diccionario
 hashcat -a 3 -m 0 hash ?a?a?a?a # a3=fuerza bruta,m0=MD5,?a=cantidad de caracteres del hash
 hashcat -a 0 -m 0 hash wordlist # a0=ataque de diccionario,m0=MD5

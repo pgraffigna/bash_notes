@@ -33,15 +33,19 @@ tr '\n' ',' < tplinkList.txt
 paste -sd "," FILE **agrega una coma entre palabras**
 head /dev/urandom | tr -dc A-Za-z0-9 | head -c 10 ; echo ' ' **generador de passwords**
 sed -i '/192\.168\.0\.1/d' /var/log/messages.log **elimina todas las lineas que contienen la ip**
+-
 awk '{print "https://"$1}'
 awk '{print $1 ":" $2}'
 awk '{print $1}' FS=':' **FS=delimitador**
+-
 echo "root2:WVLY0mgH0RtUI:0:0:root:/root:/bin/bash" >> /etc/passwd **crear un usuario 'root2' con el PASSWORD creado**
 echo !:2-3 **rango de argumentos**
 echo !? **estado de salida del último comando**
 echo !$ **ultimo argumento**
 echo !^ **primer argumento**
 echo !* **todos los argumentos**
+echo "testing%3Fcmd%3Dwhoami" | php -R 'echo urldecode($argn);'
+-
 grep -oP '\[.*?\]' **quita los corchetes**
 grep -a '[0-9][0-9]:[0-9][0-9]:[0-9][0-9]' /var/log/apache2/access.log **formato: HH:MM:SS**
 

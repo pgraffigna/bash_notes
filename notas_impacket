@@ -1,6 +1,6 @@
 # smbserver
 python3 /usr/share/doc/python3-impacket/examples/smbserver.py compartida . -smb2support
-impacket-smbserver COMPARTIDA $(pwd) -smb2support -u USUARIO -p PASSWORD
+impacket-smbserver COMPARTIDA . -smb2support -u USUARIO -p PASSWORD
 
 # crackmapexec
 crackmapexec smb ip -u 'user' -p 'pass'

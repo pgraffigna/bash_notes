@@ -5,3 +5,4 @@ nmap -sC -sV -p80,135,139,445,3389,5985,8080 IP -oN nscan
 nmap --script http-enum -p80 IP
 nmap -p445 --scripts "vuln and safe" IP
 nmap --script smb-enum-share -p PORTS IP
+nmap -sS --open -n --min-rate 5000 -p- 10.10.236.234 -oN allPorts -Pn

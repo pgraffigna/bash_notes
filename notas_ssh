@@ -2,21 +2,47 @@
 A> ssh user@IP-C -D 1234
 A> editar /etc/proxychains.conf --> agregar socks4 127.0.0.1 1234
 A> proxychains ping localhost
-
----
+----
 A> ssh usuario@10.10.229.243 -D 1234 
 A> nano /etc/proxychains.conf
 ++ socks4 127.0.0.1 1234
 
 A> proxychains firefox http://127.0.0.1:631
 A> proxychains C:\"Program Files\Mozilla Firefox"\firefox.exe http://127.0.0.1:631
----
+----
 
 # ssh local portforwarding
 ssh -f -N -L PUERTO_LOCAL:IP_REMOTA:PUERTO_REMOTO USUARIO@IP_REMOTA
 ssh usuario@10.10.229.243 -T -L 3631:localhost:631 
 ssh -L 10000:localhost:10000 <username>@<ip>
+----
 
 # ssh remote portforwarding
 C> ssh -f -N -R PUERTO_REMOTO:127.0.0.1:631 USUARIO@IP_REMOTA -o StrictHostKeyChecking=no
+----
+
+# MOTD config
+1. Login to SSH.
+2. edit it with vi /etc/motd
+3. Use vi /etc/ssh/sshd_config -->PrintMotd yes
+4. restart the SSH server
+----
+
+# SSH INCLUDE
+editar '~/.ssh/config'
+agregar "Include ~/.ssh/conf.d/*"
+
+crear archivos en '~/.ssh/conf.d'
+mnba-nagios.conf
+openmediavault.conf
+
+mnba-nagios.conf
+Host nagios
+    HostName 192.168.0.5
+    Port 22
+    User quentin
+    StrictHostKeyChecking no
+    LogLevel ERROR
+    UserKnownHostsFile /dev/null
+----
 

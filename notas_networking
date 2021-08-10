@@ -1,0 +1,1 @@
+sshuttle -r user@IP_REMOTA IP_RED_REMOTA/CIDR

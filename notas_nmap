@@ -6,3 +6,5 @@ nmap --script http-enum -p80 IP
 nmap -p445 --scripts "vuln and safe" IP
 nmap --script smb-enum-share -p PORTS IP
 nmap -sS --open -n --min-rate 5000 -p- 10.10.236.234 -oN allPorts -Pn
+nmap -p139 --script smb-brute --script-args userdb=users.txt,passdb=passwords.txt 10.10.20.192
+nmap --script "pop3-capabilities or pop3-ntlm-info" -sV 10.10.20.192 -p110

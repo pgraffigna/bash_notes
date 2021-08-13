@@ -6,7 +6,9 @@ hashcat -a 3 -m 0 hash ?a?a?a?a # a3=fuerza bruta,m0=MD5,?a=cantidad de caracter
 hashcat -a 0 -m 0 hash wordlist # a0=ataque de diccionario,m0=MD5
 hashcat --examples-hashes | grep 'mode'
 hashcat -m MODE -a 0 HASH diccionario --force -o FILE **a=fuerza bruta, o=archivo destino**
+hashcat -m 3200 jonah_hash rock12L.txt --show 
 
+# crunch
 crunch 4 4 caracteres -o wordlist # crea un diccionario de 4 caracteres de largo
 
 # john

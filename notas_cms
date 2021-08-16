@@ -4,3 +4,10 @@ http://10.10.33.156/language/en-GB/en-GB.xml
 
 # apt install -y joomscan
 joomscan -u http://IP
+
+# wordpress
+# xmlrpc.php brute force
+https://www.youtube.com/watch?v=t4QW23rctcI&t=1398s
+
+# php reverse shell
+http://10.10.186.7/blog/wp-content/themes/twentyseventeen/404.php

@@ -22,8 +22,7 @@ xclip -sel clip
 find / -perm -4000 -type f 2>/dev/null
 find . -type d -exec touch {}/FILE \;
 find . -type f -printf "%T+ %p\n" | sort # ordena archivos y muestra una columna con timestamps
-find / -group GRUPO -type f 2>/dev/null
-find / -user USUARIO -type f 2>/dev/null
+find /opt -readable 2>/dev/null
 
 # mount
 mount -o rw,vers=2 10.10.10.10:/tmp /tmp/nfs

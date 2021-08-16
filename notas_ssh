@@ -14,7 +14,7 @@ A> proxychains C:\"Program Files\Mozilla Firefox"\firefox.exe http://127.0.0.1:6
 # ssh local portforwarding
 ssh -f -N -L PUERTO_LOCAL:IP_REMOTA:PUERTO_REMOTO USUARIO@IP_REMOTA
 ssh usuario@10.10.229.243 -T -L 3631:localhost:631 
-ssh -L 10000:localhost:10000 <username>@<ip>
+ssh -L 8081:172.17.0.2:8080 aubreanna@10.10.54.196
 ----
 
 # ssh remote portforwarding

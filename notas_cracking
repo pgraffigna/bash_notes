@@ -31,6 +31,10 @@ john --wordlist=/usr/share/wordlists/rockyou.txt outfile
 ssh2john id_rsa_priv > outfile
 john --wordlist=/usr/share/wordlists/rockyou.txt outfile
 
+# mozilla master key cracking
+usr/share/john/mozilla2john.py carlj/.mozilla/firefox/0ryxwn4c.default-release/key3.db > hash
+python3 ../firefox_decrypt-1.0.0/firefox_decrypt.py .mozilla/firefox/ 
+
 # linux password cracking
 unshadow /etc/passwd /etc/shadow > hash
 john --wordlist=/usr/share/wordlists/rockyou.txt --format=sha512crypt hash

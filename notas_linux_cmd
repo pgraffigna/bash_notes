@@ -80,6 +80,7 @@ kill -9 $(jobs -p) # elimina los trabajos
 kill % # borra todos los trabajos
 ----
 xfreerdp /u:USUARIO /p:PASSWORD /size:1366x768 /f /v:10.16.22.103 # conexion remota via RDP por consola
+xfreerdp /u:admin /p:password /cert:ignore /v:MACHINE_IP
 ----
 read -n 5 -s -p "No podes poner mas de 5 caracteres" # n=caracteres, s=silent(oculta el texto), p=prompt
 read -t 10 # 10 segundos para ingresar texto

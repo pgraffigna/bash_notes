@@ -73,7 +73,13 @@ masscan --arp ip/mask > file
 sudo nmap -RP ip
 
 # varios
+<<<<<<< HEAD
 wget -r --no-parent http://10.10.150.153:9000/.mozilla/  # descarga recursiva
+=======
+apt-get install git htop -qq > /dev/null # muestra solo los errores
+----
+wget  -q --show-progress --progress=bar:force 2>&1 # muestra solo la barra de progreso
+>>>>>>> 1e6c63f3c62933ee517e3b5b4af500a8f8e9e0af
 ----
 ping -c ip -R # muestra ruta del ping hasta el destino
 ----
@@ -81,6 +87,7 @@ kill -9 $(jobs -p) # elimina los trabajos
 kill % # borra todos los trabajos
 ----
 xfreerdp /u:USUARIO /p:PASSWORD /size:1366x768 /f /v:10.16.22.103 # conexion remota via RDP por consola
+xfreerdp /u:admin /p:password /cert:ignore /v:MACHINE_IP
 ----
 read -n 5 -s -p "No podes poner mas de 5 caracteres" # n=caracteres, s=silent(oculta el texto), p=prompt
 read -t 10 # 10 segundos para ingresar texto
@@ -112,3 +119,16 @@ git log -p # dentro de la carpeta .git
 ----
 # fix snd-hda-intel en ubuntu 20.04
 sudo tee /etc/modprobe.d/snd-hda-intel-fix.conf <<< 'options snd-hda-intel probe_mask=1'
+
+# login modo texto
+editar /etc/default/grub:
+comentar linea 'quietsplash'
+agregar 'text' a linea grub_cmdline
+agregar 'console' a linea grub_terminal
+sudo update-grub && sudo systemctl set-default multi_user.target
+
+# background login lubuntu 18.04
+/etc/lightdm/lightdm-gtk-greeter.conf 
+background=/usr/share/lubuntu/wallpapers/fondo.jpg
+user-background=false
+

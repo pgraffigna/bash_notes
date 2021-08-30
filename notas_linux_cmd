@@ -73,13 +73,14 @@ masscan --arp ip/mask > file
 sudo nmap -RP ip
 
 # varios
-<<<<<<< HEAD
+dpkg -i DEB &>/dev/null # esconde output + error 
+----
+wget --recursive http://ip -q
 wget -r --no-parent http://10.10.150.153:9000/.mozilla/  # descarga recursiva
-=======
+-----
 apt-get install git htop -qq > /dev/null # muestra solo los errores
 ----
 wget  -q --show-progress --progress=bar:force 2>&1 # muestra solo la barra de progreso
->>>>>>> 1e6c63f3c62933ee517e3b5b4af500a8f8e9e0af
 ----
 ping -c ip -R # muestra ruta del ping hasta el destino
 ----
@@ -113,8 +114,10 @@ EOT
 # git initial config
 git config --global user.name "John Doe"
 git config --global user.email johndoe@example.com
+git remote set-url origin git@github.com:username/repo.git # configurar el repo para ssh
 ----
 # git enumeration
+
 git log -p # dentro de la carpeta .git
 ----
 # fix snd-hda-intel en ubuntu 20.04

@@ -1,6 +1,9 @@
 ## oh-my-bash en Ubuntu 20.04
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)"
 
+## agregar las fuentes necesarias
+apt-get install fonts-powerline
+ 
 # tema para oh-my-bash 
 # editar la linea en .bashrc
 OSH_THEME="powerline"

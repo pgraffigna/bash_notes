@@ -32,13 +32,13 @@ tr '\n' ',' < tplinkList.txt
 paste -sd "," FILE  # agrega una coma entre palabras
 head /dev/urandom | tr -dc A-Za-z0-9 | head -c 10 ; echo ' ' # generador de passwords
 sed -i '/192\.168\.0\.1/d' /var/log/messages.log # elimina todas las lineas que contienen la ip
--
+sed 's/ //g' hash.txt # elimina todas las lineas en blanco
 curl 'http://10.10.154.13/customers/reset?email=robert@acmeitsupport.thm' -H 'Content-Type: application/x-www-form-urlencoded' -d 'username=robert&email=test@customer.acmeitsupport.thm' # reset password hijacking
--
+------------------
 awk '{print "https://"$1}'
 awk '{print $1 ":" $2}'
 awk '{print $1}' FS=':' # FS=delimitador
--
+-----------------
 echo "root2:WVLY0mgH0RtUI:0:0:root:/root:/bin/bash" >> /etc/passwd # crear un usuario 'root2' con el PASSWORD creado
 echo !:2-3 # rango de argumentos
 echo !? # estado de salida del último comando
@@ -46,7 +46,7 @@ echo !$ # ultimo argumento
 echo !^ # primer argumento 
 echo !* # todos los argumentos
 echo "testing%3Fcmd%3Dwhoami" | php -R 'echo urldecode($argn);'
--
+----------------
 grep -oP '\[.*?\]' # quita los corchetes
 grep -a '[0-9][0-9]:[0-9][0-9]:[0-9][0-9]' /var/log/apache2/access.log # formato: HH:MM:SS
 grep -oP '".*?"' bytearray.txt # filtra todo lo que esta entre comillas
@@ -73,33 +73,35 @@ masscan --arp ip/mask > file
 sudo nmap -RP ip
 
 # varios
+intitle: index.of #open directory listing
+-----------------
 dpkg -i DEB &>/dev/null # esconde output + error 
-----
+----------------
 wget --recursive http://ip -q
 wget -r --no-parent http://10.10.150.153:9000/.mozilla/  # descarga recursiva
------
+----------------
 apt-get install git htop -qq > /dev/null # muestra solo los errores
-----
+---------------
 wget  -q --show-progress --progress=bar:force 2>&1 # muestra solo la barra de progreso
-----
+-----------------
 ping -c ip -R # muestra ruta del ping hasta el destino
-----
+---------------
 kill -9 $(jobs -p) # elimina los trabajos
 kill % # borra todos los trabajos
-----
+--------------
 xfreerdp /u:USUARIO /p:PASSWORD /size:1366x768 /f /v:10.16.22.103 # conexion remota via RDP por consola
 xfreerdp /u:admin /p:password /cert:ignore /v:MACHINE_IP
 xfreerdp /v:10.10.239.237 /u:USERNAME /p:PASSWORD /cert:ignore +clipboard /dynamic-resolution /drive:/tmp,share
-----
+---------------
 read -n 5 -s -p "No podes poner mas de 5 caracteres" # n=caracteres, s=silent(oculta el texto), p=prompt
 read -t 10 # 10 segundos para ingresar texto
-----
+--------------
 setxkbmap -layout es # cambiar distribución de teclado
 dpkg-reconfigure locales # cambiar idioma del sistema
-----
+---------------
 # caracteres especiales que necesitan ser escapados con \
 # ! " # $ & ' ( ) * , : ; < = > ? @ [ \ ] ^ ` { | }
-----
+----------------
 # agregar multiples lineas a archivo
 cat <<EOF >> /tmp/file.txt
 linea 1
@@ -111,16 +113,24 @@ sudo tee -a /tmp/file.txt > /dev/null <<EOT
 linea 1
 linea 2
 EOT
-----
+--------------
 # git initial config
 git config --global user.name "John Doe"
 git config --global user.email johndoe@example.com
 git remote set-url origin git@github.com:username/repo.git # configurar el repo para ssh
-----
-# git enumeration
 
+# git enumeration
 git log -p # dentro de la carpeta .git
-----
+
+# git repo cli
+echo "# Dashboard-homer" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/PUTINVLADIMI/Dashboard-homer.git
+git push -u origin main
+---------------
 # fix snd-hda-intel en ubuntu 20.04
 sudo tee /etc/modprobe.d/snd-hda-intel-fix.conf <<< 'options snd-hda-intel probe_mask=1'
 
@@ -136,3 +146,8 @@ sudo update-grub && sudo systemctl set-default multi_user.target
 background=/usr/share/lubuntu/wallpapers/fondo.jpg
 user-background=false
 
+# python env 
+sudo apt update && sudo apt install python3-venv
+python3 -m venv poc-venv
+source poc-venv/bin/activate
+deactivate

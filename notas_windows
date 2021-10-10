@@ -1,5 +1,6 @@
 # iniciar powershell con permisos para correr scripts
 powershell.exe -nop -exec bypass
+powershell -ep bypass 
 
 # Iniciar powershell como admin
 Start-Process powershell 'Start-Process cmd -Verb RunAs' -Credential adm1n
@@ -90,7 +91,9 @@ Get-ChildItem -Path C:\ -recurse | Select-String -Pattern 'API_KEY'
 certutil -decode "C:\Users\Administrator\Desktop\b64.txt" out.txt 
 $file = ".\b64.txt"; $data = Get-Content $file; [System.Text.Encoding]::Ascii.GetString([System.Convert]::FromBase64String($data))
 
-systeminfo
+# systeminfo
+python windows-exploit-suggester.py -i systeminfo -d 2021-10-04-mssb.xls --ostext 'windows 10.0.14393 N/A Build 14393' -lq
+
 net localgroup Administrators --> lista los miembros del grupo Administrators
 reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run --> consulta los programas en autorun
 icacls.exe c:\\windows\system32\SecurityHealthSystray.exe --> muestra los permisos de ejecución de un ejecutable

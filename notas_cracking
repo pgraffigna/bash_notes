@@ -8,6 +8,9 @@ hashcat --examples-hashes | grep 'mode'
 hashcat -m MODE -a 0 HASH diccionario --force -o FILE **a=fuerza bruta, o=archivo destino**
 hashcat -m 3200 jonah_hash rock12L.txt --show 
 
+#hashcat crack krb5asrep$23
+hashcat -m 18200 -a 0 hash.txt Pass.txt
+
 # crunch
 crunch 4 4 caracteres -o wordlist # crea un diccionario de 4 caracteres de largo
 

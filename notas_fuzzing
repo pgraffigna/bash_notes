@@ -32,8 +32,9 @@ for i in {0..255}; do echo $i; done | ffuf -u 'http://MACHINE_IP/sqli-labs/Less-
 seq 0 255 | ffuf -u 'http://MACHINE_IP/sqli-labs/Less-1/?id=FUZZ' -c -w - -fw 33
 
 # subdomain fuzzing:
-ffuf -u http://FUZZ.google.com -c -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt -fs 0
+ffuf -u http://FUZZ.google.com -c -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt -fs 0 #fs=hide file size
 ffuf -u http://google.com -c -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt -H 'Host: FUZZ.google.com' -fs 0
+ffuf -w /usr/share/seclists/Discovery/DNS/namelist.txt -H "Host: FUZZ.acmeitsupport.thm" -u http://10.10.134.24 -fs 2395
 gobuster vhost -u http://holo.live -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt -t 100 -o vhosts.log
 wfuzz -u <URL> -w <wordlist> -H "Host: FUZZ.example.com" --hc <status codes to hide>
 

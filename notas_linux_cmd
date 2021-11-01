@@ -50,6 +50,7 @@ echo "testing%3Fcmd%3Dwhoami" | php -R 'echo urldecode($argn);'
 grep -oP '\[.*?\]' # quita los corchetes
 grep -a '[0-9][0-9]:[0-9][0-9]:[0-9][0-9]' /var/log/apache2/access.log # formato: HH:MM:SS
 grep -oP '".*?"' bytearray.txt # filtra todo lo que esta entre comillas
+grep '^mo' /usr/share/seclists/Discovery/Web-Content/common.txt | grep -x '.\{7,7\}' # busca palabras de 7 letras
 
 # One-liners
 for seq in $(seq 5); do curl -s -i http://10.10.74.120/post?id=$seq | grep 'Post not found' &>/dev/null && echo "post $seq no existe" || echo "post>for i in admin dev test backup; do gobuster -u "url"/$i -w "wordlist" -t -o outputFile$i.txt; done # bucle para enum directorios

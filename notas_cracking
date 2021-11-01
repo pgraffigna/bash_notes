@@ -12,7 +12,8 @@ hashcat -m 3200 jonah_hash rock12L.txt --show
 hashcat -m 18200 -a 0 hash.txt Pass.txt
 
 # crunch
-crunch 4 4 caracteres -o wordlist # crea un diccionario de 4 caracteres de largo
+crunch 4 4 caracteres -o wordlist # crea un diccionario de 4 chars
+crunch 8 8 abcdefghijklmnopqrstuvwxyz0123456789 -o pass.txt -z bzip2 # crea un diccionario de 8 chars y compresion
 
 # john
 john --list=formats | grep -iF "md5"

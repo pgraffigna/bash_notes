@@ -31,8 +31,11 @@ mount -o rw,vers=2 10.10.10.10:/tmp /tmp/nfs
 tr '\n' ',' < tplinkList.txt
 paste -sd "," FILE  # agrega una coma entre palabras
 head /dev/urandom | tr -dc A-Za-z0-9 | head -c 10 ; echo ' ' # generador de passwords
+--------------------
 sed -i '/192\.168\.0\.1/d' /var/log/messages.log # elimina todas las lineas que contienen la ip
 sed 's/ //g' hash.txt # elimina todas las lineas en blanco
+sed '/^[[:space:]]*$/d' # elimina los espacios 
+--------------------
 curl 'http://10.10.154.13/customers/reset?email=robert@acmeitsupport.thm' -H 'Content-Type: application/x-www-form-urlencoded' -d 'username=robert&email=test@customer.acmeitsupport.thm' # reset password hijacking
 ------------------
 awk '{print "https://"$1}'
@@ -73,7 +76,11 @@ arp-scan -I enp5s0 ip/mask
 masscan --arp ip/mask > file
 sudo nmap -RP ip
 
-# varios
+# variosc
+cups:
+ssh admin@10.36.8.43 -T -L 3631:localhost:631 # portforwarding
+cupsctl --remote-admin --remote-any --share-printers # activa la administración remota	
+-----------------
 intitle: index.of #open directory listing
 -----------------
 dpkg -i DEB &>/dev/null # esconde output + error 
@@ -152,3 +159,14 @@ sudo apt update && sudo apt install python3-venv
 python3 -m venv poc-venv
 source poc-venv/bin/activate
 deactivate
+
+# dislocker (para montar sistema de archivos bitlocker)
+mkdir -p /media/{bitlocker,bitlockermount}
+dislocker /dev/sda3 -usistemas -p /media/bitlocker # desencripta la partición  
+sudo mount -t ntfs-3g -o loop /media/bitlocker/dislocker-file /media/bitlockermount # monta la partición
+
+# lxmed
+chmod +x install.sh
+sudo ./install.sh
+apt install -y openjdk-17-jre-headless openjdk-17-jdk
+java -jar /opt/lxmed/LXMenuEditor.jar

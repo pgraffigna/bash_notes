@@ -74,3 +74,7 @@ function mka(){
     touch ansible_role_template/{ansible.cfg,inventory,main.yml}
 }
 
+# buscar en el historial 
+# Create ~/.inputrc and fill it with this:
+"\e[A": history-search-backward
+"\e[B": history-search-forward

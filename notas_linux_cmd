@@ -77,10 +77,12 @@ arp-scan -I enp5s0 ip/mask
 masscan --arp ip/mask > file
 sudo nmap -RP ip
 
-# variosc
+# varios
+
 cups:
 ssh admin@10.36.8.43 -T -L 3631:localhost:631 # portforwarding
 cupsctl --remote-admin --remote-any --share-printers # activa la administración remota	
+/usr/sbin/lpadmin -p imp_sistemas_testing -E -v socket://alv2-sist-print:9100 -P OKI_MPS5502mb.ppd
 -----------------
 intitle: index.of #open directory listing
 -----------------
@@ -101,6 +103,7 @@ kill % # borra todos los trabajos
 xfreerdp /u:USUARIO /p:PASSWORD /size:1366x768 /f /v:10.16.22.103 # conexion remota via RDP por consola
 xfreerdp /u:admin /p:password /cert:ignore /v:MACHINE_IP
 xfreerdp /v:10.10.239.237 /u:USERNAME /p:PASSWORD /cert:ignore +clipboard /dynamic-resolution /drive:/tmp,share
+rdp_check.py USUARIO:PASSWORD@10.21.17.107
 ---------------
 read -n 5 -s -p "No podes poner mas de 5 caracteres" # n=caracteres, s=silent(oculta el texto), p=prompt
 read -t 10 # 10 segundos para ingresar texto
@@ -171,3 +174,10 @@ chmod +x install.sh
 sudo ./install.sh
 apt install -y openjdk-17-jre-headless openjdk-17-jdk
 java -jar /opt/lxmed/LXMenuEditor.jar
+
+# DNS tools debugging
+https://jvns.ca/blog/2021/11/04/how-do-you-tell-if-a-problem-is-caused-by-dns/
+
+dig wizardzines.com
+dig @1.1.1.1 domain.com
+dig SOA wizardzines.com

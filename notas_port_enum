@@ -7,13 +7,15 @@ nmap -sS --open -n --min-rate 5000 -p- 10.10.236.234 -oN allPorts -Pn
 # nmap scripts
 nmap --script http-enum -p80 IP
 nmap --script smb-enum-share -p PORTS IP
-nmap -sS --open -n --min-rate 5000 -p- 10.10.236.234 -oN allPorts -Pn
-nmap -p139 --script smb-brute --script-args userdb=users.txt,passdb=passwords.txt 10.10.20.192
+nmap --script "rdp-enum-encryption or rdp-vuln-ms12-020 or rdp-ntlm-info" -p 3389 -T4 10.21.17.107
 nmap --script "pop3-capabilities or pop3-ntlm-info" -sV 10.10.20.192 -p110
-nmap -p445 --script "vuln and safe" IP
-nmap -sV --script nfs-showmount -p2049 IP
+nmap --script smb-brute --script-args userdb=users.txt,passdb=passwords.txt 10.10.20.192
+nmap --script "vuln and safe" IP
 nmap --script smb-os-discovery -p139,445 IP
 nmap --script smb-vuln* -p139,445 IP
+nmap -sV --script nfs-showmount -p2049 IP
+nmap -sS --open -n --min-rate 5000 -p- 10.10.236.234 -oN allPorts -Pn
+nmap -sn 10.21.17.0/24 | grep 'report' | awk '{print $6}' | tr '()' ' ' | sed 's/ //g'
 
 # threader
 ./threader6000.py -u 10.10.148.181 -t 500

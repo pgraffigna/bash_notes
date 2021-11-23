@@ -8,6 +8,7 @@ sudo chmod 4777 bash
 ./bash -p
 
 #telnet CE
+A> tcpdump -n -i any port 53
 A> tcpdump -i tun0 icmp
 C> .RUN ping -c1 IP
 

@@ -50,6 +50,7 @@ echo !$ # ultimo argumento
 echo !^ # primer argumento 
 echo !* # todos los argumentos
 echo "testing%3Fcmd%3Dwhoami" | php -R 'echo urldecode($argn);'
+echo /dev/null > ~/.zsh_history #borrar el historial zsh
 ----------------
 grep -oP '\[.*?\]' # quita los corchetes
 grep -a '[0-9][0-9]:[0-9][0-9]:[0-9][0-9]' /var/log/apache2/access.log # formato: HH:MM:SS

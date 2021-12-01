@@ -5,6 +5,7 @@ ffuf -u http://10.10.21.202/FUZZ -w /usr/share/seclists/Discovery/Web-Content/ra
 ffuf -u http://10.10.21.202/indexFUZZ -w /usr/share/seclists/Discovery/Web-Content/web-extensions.txt
 ffuf -u http://10.10.21.202/FUZZ -w /usr/share/seclists/Discovery/Web-Content/raft-medium-files-lowercase.txt
 ffuf -u http://10.10.21.202/FUZZ -w /usr/share/seclists/Discovery/Web-Content/raft-medium-directories-lowercase.txt -t 100
+gobuster dir -u http://store.cybercrafted.thm/ -w /usr/share/seclists/Discovery/Web-Content/dirsearch.txt -t 20 -o gob.log -e -q
 
 # wfuzz
 wfuzz -u admin.holo.live/FUZZ.php -w /usr/share/seclists/Discovery/Web-Content/big.txt
@@ -36,6 +37,7 @@ ffuf -u http://FUZZ.google.com -c -w /usr/share/seclists/Discovery/DNS/subdomain
 ffuf -u http://google.com -c -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt -H 'Host: FUZZ.google.com' -fs 0
 ffuf -w /usr/share/seclists/Discovery/DNS/namelist.txt -H "Host: FUZZ.acmeitsupport.thm" -u http://10.10.134.24 -fs 2395
 gobuster vhost -u http://holo.live -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt -t 100 -o vhosts.log
+gobuster vhost -d cybercrafted.thm -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt -t 10
 wfuzz -u <URL> -w <wordlist> -H "Host: FUZZ.example.com" --hc <status codes to hide>
 
 # enviando trafico ffuf a un proxy:

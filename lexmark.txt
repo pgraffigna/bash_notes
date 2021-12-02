@@ -1,0 +1,27 @@
+# Nmap 7.80 scan initiated Thu Dec  2 11:12:47 2021 as: nmap -p- --min-rate 2000 --open -oN lexmark.txt 10.21.16.130
+Nmap scan report for alv2-cnm-print-02.alv2 (10.21.16.130)
+Host is up (0.00038s latency).
+Not shown: 61068 closed ports, 4448 filtered ports
+Some closed ports may be reported as filtered due to --defeat-rst-ratelimit
+PORT      STATE SERVICE
+21/tcp    open  ftp
+79/tcp    open  finger
+80/tcp    open  http
+443/tcp   open  https
+515/tcp   open  printer
+631/tcp   open  ipp
+4000/tcp  open  remoteanything
+5000/tcp  open  upnp
+5001/tcp  open  commplex-link
+6100/tcp  open  synchronet-db
+6110/tcp  open  softcm
+8000/tcp  open  http-alt
+9200/tcp  open  wap-wsp
+9400/tcp  open  sec-t4net-srv
+9500/tcp  open  ismserver
+9600/tcp  open  micromuse-ncpw
+65002/tcp open  unknown
+65003/tcp open  unknown
+65004/tcp open  unknown
+
+# Nmap done at Thu Dec  2 11:12:54 2021 -- 1 IP address (1 host up) scanned in 7.71 seconds

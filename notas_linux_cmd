@@ -26,6 +26,7 @@ find /opt -readable 2>/dev/null
 
 # mount
 mount -o rw,vers=2 10.10.10.10:/tmp /tmp/nfs
+sudo mount -t cifs //10.16.22.245/SCANNERDOC /mnt/ -o user=USER,vers=2.0
 
 # manipulacion de texto
 tr '\n' ',' < tplinkList.txt

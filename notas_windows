@@ -77,6 +77,12 @@ taskkill /pid 1234
 taskkill /F /IM notepad.exe
 whoami /priv
 
+findstr /si password *.txt
+dir /b /s flag.txt C:\Users\USER 
+wmic product get name,version,vendor
+wmic service list brief | findstr  "Running"
+wmic service get name,displayname,pathname,startmode
+
 Start-Process notepad.exe
 Get-Process -Name notepad
 Get-Process | Export-Csv running_processes.csv
@@ -99,6 +105,8 @@ $file = ".\b64.txt"; $data = Get-Content $file; [System.Text.Encoding]::Ascii.Ge
 
 # systeminfo
 python windows-exploit-suggester.py -i systeminfo -d 2021-10-04-mssb.xls --ostext 'windows 10.0.14393 N/A Build 14393' -lq
+systeminfo | findstr /B /C:"OS Name" /C:"OS Version"
+
 
 net localgroup Administrators --> lista los miembros del grupo Administrators
 reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run --> consulta los programas en autorun
@@ -172,3 +180,8 @@ WebBrowserPassView.exe /UseChromeProfileFolder 1 /ChromeProfileFolder "C:\Users\
 $SecPass = ConvertTo-SecureString 'PASS' -AsPlainText -Force
 $creds = New-Object System.Management.Automation PSCredential ('USER' ,$SecPass)
 Invoke-WebRequest -Uri $url -OutFile $dest -Credential $creds
+
+#Activar powershell transcription logging (historial de comandos ejecutados en powershell):
+reg add HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\PowerShell\Transcription /v EnableTranscripting /t REG_DWORD /d 0x1 /f
+reg add HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\PowerShell\Transcription /v OutputDirectory /t REG_SZ /d C:/ /f
+reg add HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\PowerShell\Transcription /v EnableInvocationHeader /t REG_DWORD /d 0x1 /f

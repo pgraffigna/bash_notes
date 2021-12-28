@@ -47,6 +47,7 @@ curl -s -X POST URL --data-urlencode "email=admin@admin.com'-- -"  | grep '<h2>'
 awk '{print "https://"$1}'
 awk '{print $1 ":" $2}'
 awk '{print $1}' FS=':' # FS=delimitador
+awk -F\- '{ print "#EXTINF:0,cap-" $NF " "; print }' one.txt > one-piece-1003.m3u
 -----------------
 echo "root2:WVLY0mgH0RtUI:0:0:root:/root:/bin/bash" >> /etc/passwd # crear un usuario 'root2' con el PASSWORD creado
 echo !:2-3 # rango de argumentos

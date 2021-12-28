@@ -15,16 +15,38 @@ enum4linux 10.10.20.192 -a
 enum4linux -u Bill -p 'Juw4nnaM4n420696969!$$$' -a 10.10.22.36
 
 # rpcclient
+connection:
 rpcclient -U 'Bill' 10.10.22.36
 rpcclient -U "" -N IP
 rpcclient -U 'user' -P 'pass' 10.21.7.123
-	
->enumdomgroups
->querygroupmem 0x200 # rid
 
->enumdomusers
->queryuser 0x3e8 # rid
+groups:
+enumdomgroups
+querygroupmem 0x200 # rid
 
+users:
+enumdomusers
+queryuser 0x3e8 # rid
+
+domain info:
+querydominfo
+enumdomains
+
+privs:
+enumprivs
+
+all shares:
+netshareenumall
+
+shares:
+netshareenum
+
+change password:
+setuserinfo2 USUARIO 23 'PASSWORD'
+
+lookup:
+lookupnames Administrador
+lookupsids S-1-5-21-3848638404-522410393-3157200768-501
 
 # chequear si tenemos permisos de escritura en una montura samba
 find . -type d | while read directorio; do

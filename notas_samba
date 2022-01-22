@@ -2,6 +2,7 @@
 smbclient -L \\iP -N
 smbclient -L \\10.10.218.140 -U USER -m SMB2
 smbclient \\\\10.10.218.140\\anonymous -N
+smbclient -L //10.10.49.33/ --no-pass
 
 # smbmap
 smbmap -H 10.10.218.140

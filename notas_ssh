@@ -1,7 +1,7 @@
 # ssh dinamyc portforwarding
-A> ssh user@IP-C -D 1234
-A> editar /etc/proxychains.conf --> agregar socks4 127.0.0.1 1234
-A> proxychains ping localhost
+A> ssh -Nf -D 1080 user@ip_victima
+A> editar /etc/proxychains.conf --> agregar socks5 127.0.0.1 1080
+A> proxychains nmap -p- -n localhost -Pn
 ----
 A> ssh usuario@10.10.229.243 -D 1234 
 A> nano /etc/proxychains.conf

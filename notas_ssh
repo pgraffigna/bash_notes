@@ -2,29 +2,24 @@
 A> ssh -Nf -D 1080 user@ip_victima
 A> editar /etc/proxychains.conf --> agregar socks5 127.0.0.1 1080
 A> proxychains nmap -p- -n localhost -Pn
-----
-A> ssh usuario@10.10.229.243 -D 1234 
-A> nano /etc/proxychains.conf
-++ socks4 127.0.0.1 1234
 
 A> proxychains firefox http://127.0.0.1:631
 A> proxychains C:\"Program Files\Mozilla Firefox"\firefox.exe http://127.0.0.1:631
 ----
 
-# ssh local portforwarding
-ssh -f -N -L PUERTO_LOCAL:IP_REMOTA:PUERTO_REMOTO USUARIO@IP_REMOTA
-ssh usuario@10.10.229.243 -T -L 3631:localhost:631 
-ssh -L 8081:172.17.0.2:8080 aubreanna@10.10.54.196
+# ssh local portforwarding (desde equipo local)
+ssh -L PUERTO_LOCAL:IP_REMOTA:PUERTO_REMOTO USUARIO@IP_REMOTA -fN
+ssh -L 8080:127.0.0.1:80 usuario@10.10.54.196 -i ssh_keys
 ----
 
-# ssh remote portforwarding
-C> ssh -f -N -R PUERTO_REMOTO:127.0.0.1:631 USUARIO@IP_REMOTA -o StrictHostKeyChecking=no
+# ssh remote portforwarding (desde equipo remoto)
+ssh -R 6631:127.0.0.1:631 USUARIO@IP_REMOTA -o StrictHostKeyChecking=no -fN
 ----
 
 # MOTD config
 1. Login to SSH.
-2. edit it with vi /etc/motd
-3. Use vi /etc/ssh/sshd_config -->PrintMotd yes
+2. editar /etc/motd con el texto a mostrar
+3. /etc/ssh/sshd_config -->PrintMotd yes
 4. restart the SSH server
 ----
 

@@ -1,7 +1,9 @@
 # updog
 pip3 install updog
 updog -d /tmp -p 1234
+
 php -S localhost:9000 -t PATH
+python3 -m http.server 1337 --directory=/home/bob/Code/HTB/bins
 
 # python
 V> python -c 'import pty;pty.spawn("/bin/bash")'

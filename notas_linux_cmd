@@ -99,6 +99,7 @@ intitle: index.of #open directory listing
 -----------------
 # qemu
 sudo apt install -y spice-vdagent && spice-vdagent # spice qemu copy-paste (aplicar en la VM)
+remote-viewer spice://localhost:5900 -f & disown
 virt-viewer --connect qemu:///system --wait kali64-OS &>/dev/null & disown # levanta el proceso + oculta el output + disocia el proceso de la terminal
 ----------------
 dpkg -i DEB &>/dev/null # esconde output + error 

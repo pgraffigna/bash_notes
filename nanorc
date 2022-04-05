@@ -1,0 +1,14 @@
+set autoindent
+set tabsize 4
+set smooth
+set nowrap
+#set linenumbers
+
+# disables the shortcut hints
+set nohelp
+
+# disable inverse text for the minibar
+set titlecolor normal,normal
+
+# sintax highlighting
+include "~/.nano/*.nanorc"

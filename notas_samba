@@ -3,6 +3,8 @@ smbclient -L \\iP -N
 smbclient -L \\10.10.218.140 -U USER -m SMB2
 smbclient \\\\10.10.218.140\\anonymous -N
 smbclient -L //10.10.49.33/ --no-pass
+smbclient '\\10.10.69.8\temporary share' -N -c ls # remote listing
+smbclient '\\10.10.69.8\temporary share' -N -c 'prompt OFF;recurse ON;mget chapter* # recursive download
 
 # smbmap
 smbmap -H 10.10.218.140

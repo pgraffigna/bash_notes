@@ -1,3 +1,6 @@
+# sshpass 
+sshpass -p 'PASSWORD' ssh -o StrictHostKeyChecking=no -p 1690 sistemas@10.21.17.91
+
 # ssh jump
 ssh -J user@192.168.122.1 -o StrictHostKeyChecking=no quentin@192.168.0.20 -o StrictHostKeyChecking=no
 scp -o 'ProxyJump user@192.168.122.1' copy-paste-qemu.sh quentin@192.168.0.20:
@@ -10,24 +13,20 @@ A> editar /etc/proxychains.conf --> agregar socks5 127.0.0.1 1080
 A> proxychains nmap -p- -n localhost -Pn
 
 A> proxychains firefox http://127.0.0.1:631
-A> proxychains C:\"Program Files\Mozilla Firefox"\firefox.exe http://127.0.0.1:631
-----
+A> proxychains C:\Program Files\Mozilla Firefox\firefox.exe http://127.0.0.1:631 
 
 # ssh local portforwarding (desde equipo local)
 ssh -L PUERTO_LOCAL:IP_REMOTA:PUERTO_REMOTO USUARIO@IP_REMOTA -fN
 ssh -L 8080:127.0.0.1:80 usuario@10.10.54.196 -i ssh_keys
-----
 
 # ssh remote portforwarding (desde equipo remoto)
 ssh -R 6631:127.0.0.1:631 USUARIO@IP_REMOTA -o StrictHostKeyChecking=no -fN
-----
 
 # MOTD config
 1. Login to SSH.
 2. editar /etc/motd con el texto a mostrar
 3. /etc/ssh/sshd_config -->PrintMotd yes
 4. restart the SSH server
-----
 
 # SSH INCLUDE
 editar '~/.ssh/config'
@@ -45,5 +44,4 @@ Host nagios
     StrictHostKeyChecking no
     LogLevel ERROR
     UserKnownHostsFile /dev/null
-----
 

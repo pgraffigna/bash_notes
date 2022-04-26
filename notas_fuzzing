@@ -12,6 +12,7 @@ wfuzz -u admin.holo.live/FUZZ.php -w /usr/share/seclists/Discovery/Web-Content/b
 wfuzz -u http://admin.holo.live/FUZZ.php -w /usr/share/seclists/Discovery/Web-Content/big.txt --hc 404 -v -t 50
 wfuzz -c -L --hc=404 -w WORDLIST TARGET **L=recursivo**
 wfuzz -c --hc=404 -w WORDLIST -w WORDLIST2 url/FUZZ/FUZ2Z
+wfuzz -c --hc=404 -w WORDLIST -z list, php-txt-jpg url/FUZZ.FUZ2Z
 
 # fuff
 # filtros:

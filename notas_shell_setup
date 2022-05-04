@@ -57,20 +57,9 @@ RUTA=ansible_role_template/roles/template/
        touch ansible_role_template/{ansible.cfg,inventory,main.yml}
 }
 
-# funcion para filtrar los puertos/ip de una scan vía NMAP
+# funcion para copiar en la clipboard los puertos de un escaneo NMAP
 function nports(){
-    #Colores
-    greenColor="\e[0;32m\033[1m"
-    yellowColor="\e[0;33m\033[1m"
-    endColor="\033[0m\e[0m"
-
-    IP=$(grep 'report' allPorts | awk '{print $5}')
-    PORTS=$(grep 'open' $1 | cut -d/ -f1 | paste -sd ",")
-
-    echo -e "${yellowColor}Los puertos son: ${PORTS} ${endColor}" > /tmp/ports
-    echo -e "\n${greenColor}La IP de la maquina es: ${IP} ${endColor}"  >> /tmp/ports
-    cat /tmp/ports
-    rm /tmp/ports
+    "grep 'tcp' $1 | awk '{print $1}' FS='/' | tr '\n' ',' | xclip -sel clip"
 }
 
 ################################################
@@ -133,16 +122,3 @@ cd ~
 # Para entrar en los directorios solo tipeando el nombre
 shopt -s autocd
 
-# copyq multiples clipboards
-## sudo apt install -y copyq
-## F6 para agregar comandos
-
-[Command]="
-    copyq:
-    var n = str(data(mimeShortcut)).slice(-1)
-    select(n)
-    paste()"
-GlobalShortcut=ctrl+shift+0, ctrl+shift+1, ctrl+shift+2, ctrl+shift+3, ctrl+shift+4, ctrl+shift+5, ctrl+shift+6, ctrl+shift+7, ctrl+shift+8, ctrl+shift+9
-Icon=\xf0cb
-IsGlobalShortcut=true
-Name=Multiclipboard

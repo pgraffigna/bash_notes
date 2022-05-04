@@ -126,6 +126,7 @@ remote-viewer spice://localhost:5900 -f & disown
 virt-viewer --connect qemu:///system --wait kali64-OS &>/dev/null & disown # levanta el proceso + oculta el output + disocia el proceso de la terminal
 
 dpkg -i DEB &>/dev/null # esconde output + error 
+dpkg-deb -xv file.deb file.out # descomprime el deb
 
 wget --recursive http://ip -q
 wget -r --no-parent http://10.10.150.153:9000/.mozilla/  # descarga recursiva

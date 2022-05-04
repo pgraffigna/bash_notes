@@ -1,0 +1,11 @@
+# lista los datasets
+zfs list
+
+# lista los snapshots
+zfs list -t snapshot
+
+# lista los datasets con opciones
+zfs list -o name,sharesmb,mountpoint
+
+# crea un snapshot de alv_pool/imagenes con el nombre sep2021
+zfs snapshot alv_pool/imagenes@sep2021

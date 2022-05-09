@@ -20,4 +20,4 @@ C> ./chisel client IP-A:8000 R:8080:127.0.0.1:8080  R:6379:127.0.0.1:6379
 # chisel reverse socks
 A> ./chisel server -p 8000 --reverse
 C> ./chisel client IP-A:8000 R:socks
-
+A> editar proxychains

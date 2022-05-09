@@ -6,6 +6,7 @@ smbclient -L //10.10.49.33/ --no-pass
 smbclient '\\10.10.69.8\temporary share' -N -c ls # remote listing
 smbclient '\\10.10.69.8\temporary share' -N -c 'prompt OFF;recurse ON;mget chapter* # recursive download
 smbclient -L \\noc-samba-01.noc -N --option='client min protocol=NT1' 
+smbclient \\\\10.129.112.148\\users -U 'bob' -c 'prompt OFF; get flag\flag.txt'
 
 # smbmap
 smbmap -H 10.10.218.140

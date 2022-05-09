@@ -1,3 +1,40 @@
+# Get-WmiObject cmdlet
+Get-WmiObject -Class win32_OperatingSystem | select Version,BuildNumber
+Get-WmiObject -Class win32_Process
+Get-WmiObject -Class win32_Service
+Get-WmiObject -Class win32_Bios
+
+# directories
+tree c:\ /f | more
+
+# permisos
+icacls c:\windows
+
+Basic access permissions are as follows:
+F : full access
+D :  delete access
+N :  no access
+M :  modify access
+RX :  read and execute access
+R :  read-only access
+W :  write-only access
+
+icacls c:\users /grant joe:f
+icacls c:\users /remove joe
+
+# Servicios
+Get-Service | ? {$_.Status -eq "Running"} | select -First 2 |fl # muestra dos primeros resultados
+Get-Service | ? {$_.Status -eq "Running"} | fl # muestra todos los resultados
+
+sc qc wuauserv
+sc config wuauserv binPath=C:\Winbows\Perfectlylegitprogram.exe # modificando el path del binario
+
+Get-ACL -Path HKLM:\System\CurrentControlSet\Services\wuauserv | Format-List
+
+# SID enum
+WMIC useraccount get name,sid
+WMIC group get name,sid
+
 ## Bypassing Always Notify - schedule task
 # tarea programada
 %windir%\system32\cleanmgr.exe /autoclean /d %systemdrive

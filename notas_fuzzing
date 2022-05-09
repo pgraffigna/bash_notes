@@ -14,6 +14,9 @@ wfuzz -c -L --hc=404 -w WORDLIST TARGET **L=recursivo**
 wfuzz -c --hc=404 -w WORDLIST -w WORDLIST2 url/FUZZ/FUZ2Z
 wfuzz -c --hc=404 -w WORDLIST -z list, php-txt-jpg url/FUZZ.FUZ2Z
 
+# fuzzing de imagenes
+wfuzz -c --hc=404 --hh=718 -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -u http://10.10.25.94/FUZZ.jpg -t 100
+
 # fuff
 # filtros:
 ffuf -u http://10.10.21.202/FUZZ -w /usr/share/seclists/Discovery/Web-Content/raft-medium-files-lowercase.txt -t 100 -fc 403 fc=filter code
@@ -40,6 +43,10 @@ ffuf -w /usr/share/seclists/Discovery/DNS/namelist.txt -H "Host: FUZZ.acmeitsupp
 gobuster vhost -u http://holo.live -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt -t 100 -o vhosts.log
 gobuster vhost -d cybercrafted.thm -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt -t 10
 wfuzz -u <URL> -w <wordlist> -H "Host: FUZZ.example.com" --hc <status codes to hide>
+
+# virtual host fuzzing
+wfuzz -H "Host: FUZZ.undiscovered.thm" --hc 404-c -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt -u http://undiscovered.thm ->
+gobuster vhost -u undiscovered.thm -w /Seclist/Discovery/DNS/subdomains-top1million-5000.txt | grep 200
 
 # enviando trafico ffuf a un proxy:
 ffuf -u http://10.10.235.197/ -c -w /usr/share/seclists/Discovery/Web-Content/common.txt -x http://127.0.0.1:8080

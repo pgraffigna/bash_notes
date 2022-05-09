@@ -17,6 +17,8 @@ nmap --script smb-vuln* -p139,445 IP
 nmap -sV --script nfs-showmount -p2049 IP
 nmap -sS --open -n --min-rate 5000 -p- 10.10.236.234 -oN allPorts -Pn
 nmap -sn 10.21.17.0/24 | grep 'report' | awk '{print $6}' | tr '()' ' ' | sed 's/ //g'
+nmap -sV --script=banner -p21 10.10.10.231
+nmap -p110 --script pop3-brute -script-args userdb=users_pop3, passdb=passwords 10.10.55.147
 
 # threader
 ./threader6000.py -u 10.10.148.181 -t 500

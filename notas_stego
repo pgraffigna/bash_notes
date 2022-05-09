@@ -1,0 +1,6 @@
+# extraccion de datos
+steghide --extract -sf photo.jpg
+
+stegseek brooklyn99.jpg /usr/share/wordlists/rockyou.txt --> version mejorada de stegcracked
+
+stegcracker brooklyn99.jpg /usr/share/wordlists/rockyou.txt

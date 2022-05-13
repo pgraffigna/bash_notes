@@ -60,6 +60,11 @@ alias grep="grep --color=auto"
 alias ls="ls --color=auto --group-directories-first"
 alias ytmp3="youtube-dl -x --audio-format mp3"
 
+# vpns
+alias vpn_thm="sudo openvpn ~/thm/rugeleon.ovpn"
+alias vpn_htb_academy="sudo openvpn ~/htb/academy.ovpn"
+alias vpn_htb_starting="sudo openvpn ~/htb/starting_point.ovpn"
+
 # apagar windows remoto
 alias apagar_win10_remoto="ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=1 win10 shutdown /h /f"
 

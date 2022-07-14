@@ -52,3 +52,10 @@ Host nagios
 hydra -t 4 -l jake -P /usr/share/wordlists/rockyou.txt -vV 10.10.25.94 ssh
 nmap 10.10.50.172 -p 22 --script ssh-brute --script-args userdb=users.txt,passdb=/usr/share/wordlists/rockyou.txt,brute.firstonly -v
 auxiliary/scanner/ssh/ssh_login --> metasploit
+
+# ssh cluster
+cssh -l manager -T 'testing' -c ~/.clusterssh/clusters switches_produccion -p1690
+
+## archivo de configuracion 
+cat .clusterssh/clusters --> switches_produccion 10.17.4.233 10.17.4.234 10.17.4.235 10.17.4.236 10.17.4.237 10.17.4.238 10.17.4.239 10.17.4.240
+

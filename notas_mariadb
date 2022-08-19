@@ -1,0 +1,25 @@
+# instalando mariadb
+sudo apt install -y mariadb-server && sudo mysql_secure_installation
+
+--> Enter current password for root (enter for none): ENTER
+--> Set root password? [Y/n] N
+--> Remove anonymous users? [Y/n] Y
+--> Disallow root login remotely? [Y/n] Y
+--> Remove test database and access to it? [Y/n] Y
+--> Reload privilege tables now? [Y/n] Y
+
+# configurando acceso a mysql sin sudo
+sudo mariadb
+--> MariaDB [(none)]> use mysql;
+--> MariaDB [mysql]> UPDATE user SET plugin='mysql_native_password' WHERE User='root';
+--> MariaDB [mysql]> FLUSH PRIVILEGES;
+--> MariaDB [mysql]> exit;
+
+# creando usuario keycloak
+--> MariaDB [(none)]> GRANT ALL ON *.* TO 'keycloak'@'localhost' IDENTIFIED BY 'keycloak_password';
+--> MariaDB [(none)]> FLUSH PRIVILEGES;
+--> MariaDB [(none)]> Create DATABASE keycloak;
+--> MariaDB [(none)]> exit;
+
+# reiniciando servicio
+service mysql restart

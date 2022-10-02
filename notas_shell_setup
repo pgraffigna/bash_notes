@@ -45,16 +45,13 @@ dockip(){
   	docker inspect -f "{{ .NetworkSettings.IPAddress }}" $1
 }
 
-# inicia una conexión VPN
-vpn(){
-  	sudo openvpn FILE.ovpn
-}
-
 # funcion para crear estructura de trabajo para proyectos con Ansible
-mka(){
-RUTA=ansible_role_template/roles/template/
-       mkdir -p "${RUTA}"{tasks,vars,handlers} && touch "${RUTA}"{tasks/main.yml,vars/main.yml,handlers/main.yml}
-       touch ansible_role_template/{ansible.cfg,inventory,main.yml}
+mkansible(){
+RUTA_FULL=ansible_role_template/roles/template/
+RUTA=ansible_role_template/
+
+       mkdir -p "${RUTA_FULL}"{tasks,vars,handlers,files,defaults} && touch "${RUTA_FULL}"{tasks/main.yml,vars/main.yml,handlers/main.yml,defaults/main.yml}
+       touch "$RUTA"{ansible.cfg,inventory,main.yml} 
 }
 
 # funcion para copiar en la clipboard los puertos de un escaneo NMAP
@@ -68,6 +65,9 @@ function nports(){
 # sino existe crear                            #
 # touch ~/.bash_aliases                        #
 ################################################
+
+# inicia una conexión VPN
+alias vpn_cultura="cd ~/vpn && sudo openvpn archivo.ovpn"
 
 # Muestra el nivel de batería
 alias check_battery="upower -i /org/freedesktop/UPower/devices/battery_BAT1 | grep percentage | awk 'NF{print $NF}'"
@@ -87,6 +87,12 @@ alias win="/mnt/c/Users/quentin/"
 
 # Info sobre el cpu
 alias cpu="lscpu | egrep 'Model name|Socket|Thread|NUMA|CPU\(s\)'"
+
+# escritorio remoto via rdp
+alias rdp_note="xfreerdp /u:usuario /p:password /v:192.168.0.17 /cert:ignore +clipboard /dynamic-resolution &>/dev/null &"
+
+# muestra los ssh alias configurados
+alias ssh_alias="sed -rn 's/^\s*Host\s+(.*)\s*/\1/ip' ~/.ssh/conf.d/*.conf"
 
 # grep con colores
 alias grep="grep --color=auto"

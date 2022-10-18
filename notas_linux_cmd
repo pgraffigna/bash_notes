@@ -46,6 +46,7 @@ find thm/ -type f -iname 'notas'| xargs -i scp -o 'ProxyJump pgraffigna@192.168.
 find . -type f -iname 'notas' -exec cat {} \; > total_notes.txt
 find . ! -name 'notas.txt' -type f -exec rm -f {} +
 find . -empty -type d -delete
+find / -newermt "2022-10-15" ! -newermt "2022-10-16" -ls 2>/dev/null | less -S #&! para filtrar output no deseado
 
 # mount
 mount -o rw,vers=2 10.10.10.10:/tmp /tmp/nfs
@@ -108,6 +109,8 @@ grep -oP '\[.*?\]' # quita los corchetes
 grep -a '[0-9][0-9]:[0-9][0-9]:[0-9][0-9]' /var/log/apache2/access.log # formato: HH:MM:SS
 grep -oP '".*?"' bytearray.txt # filtra todo lo que esta entre comillas
 grep '^mo' /usr/share/seclists/Discovery/Web-Content/common.txt | grep -x '.\{7,7\}' # busca palabras de 7 letras
+grep '60E327' -i /usr/share/nmap/nmap-mac-prefixes
+pdfgrep 'string' archivo.pdf | awk 'NF {print $NF}' | xclip -sel clip
 
 # One-liners
 for seq in $(seq 5); do curl -s -i http://10.10.74.120/post?id=$seq | grep 'Post not found' &>/dev/null && echo "post $seq no existe" || echo post>for i in admin dev test backup; do gobuster -u "url"/$i -w WORDLIST -t -o outputFile$i.txt; done # bucle para enum directorios
@@ -174,6 +177,8 @@ read -t 10 # 10 segundos para ingresar texto
 
 setxkbmap -layout es # cambiar distribución de teclado
 dpkg-reconfigure locales # cambiar idioma del sistema
+
+jq '.listTemplateResponse[] | {name} | join(" ")' # extrae los nombres de VMs
 
 # caracteres especiales que necesitan ser escapados con \
 # ! " # $ & ' ( ) * , : ; < = > ? @ [ \ ] ^ ` { | }

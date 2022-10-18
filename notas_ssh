@@ -59,3 +59,5 @@ cssh -l manager -T 'testing' -c ~/.clusterssh/clusters switches_produccion -p169
 ## archivo de configuracion 
 cat .clusterssh/clusters --> switches_produccion 10.17.4.233 10.17.4.234 10.17.4.235 10.17.4.236 10.17.4.237 10.17.4.238 10.17.4.239 10.17.4.240
 
+# putty ppk key to ssh-key
+docker run --rm --volume=$HOME/putty_key.ppk:/tmp/id.ppk --volume=$HOME/:/tmp/out/ --network none czerasz/putty-tools

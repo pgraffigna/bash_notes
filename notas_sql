@@ -1,3 +1,6 @@
+# sql queries oneliners
+mysql -uadmin -ppassword -e 'select id,name from osticket_db.ost_user'
+
 # sqli wordlist
 https://github.com/xmendez/wfuzz/blob/master/wordlist/Injections/SQL.txt
 

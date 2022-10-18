@@ -1,7 +1,7 @@
 # go install
 apt install golang
 --
-nano .zhsrc 
+nano .zhsrc
 export GOPATH=/home/$USER/go
 export PATH=${PATH}:$GOROOT/bin:/home/$USER/go/bin
 source .zhsrc

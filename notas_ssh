@@ -28,18 +28,18 @@ ssh -R 6631:127.0.0.1:631 USUARIO@IP_REMOTA -o StrictHostKeyChecking=no -fN
 # MOTD config
 1. Login to SSH.
 2. editar /etc/motd con el texto a mostrar
-3. /etc/ssh/sshd_config -->PrintMotd yes
+3. /etc/ssh/sshd_config ==> PrintMotd yes
 4. restart the SSH server
 
-# SSH INCLUDE
+# SSH Include
 editar '~/.ssh/config'
-agregar "Include ~/.ssh/conf.d/*"
+==> agregar "Include ~/.ssh/conf.d/*"
 
 crear archivos en '~/.ssh/conf.d'
-mnba-nagios.conf
-openmediavault.conf
+==> servers.conf
+==> hosts.conf
 
-mnba-nagios.conf
+servers.conf
 Host nagios
     HostName 192.168.0.5
     Port 22
@@ -47,6 +47,40 @@ Host nagios
     StrictHostKeyChecking no
     LogLevel ERROR
     UserKnownHostsFile /dev/null
+
+# SSH Jump
+Host equipoPUENTE
+    HostName 10.10.6.155
+    Port 22
+    User usuario1
+    StrictHostKeyChecking no
+    LogLevel ERROR
+    UserKnownHostsFile /dev/null
+
+Host equipoFINAL
+    HostName 10.100.1.45
+    Port 22
+    User usuario2
+    StrictHostKeyChecking no
+    LogLevel ERROR
+    UserKnownHostsFile /dev/null
+    IdentityFile ~/.ssh/id_rsa
+    ProxyJump equipoPUENTE
+
+# SSH Match Host
+Host server-01
+    HostName 10.100.1.45
+
+Host server-02
+    HostName 10.100.0.119
+
+Match host 10.100.*.*
+    Port 2222
+    User pgraffigna
+    StrictHostKeyChecking no
+    LogLevel ERROR
+    UserKnownHostsFile /dev/null
+    IdentityFile ~/.ssh/id_rsa
 
 # ssh brute force
 hydra -t 4 -l jake -P /usr/share/wordlists/rockyou.txt -vV 10.10.25.94 ssh

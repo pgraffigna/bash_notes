@@ -123,6 +123,8 @@ for num in {1..10}; do sudo arping -c 1 192.168.0.$num | grep '60' | awk '{print
 
 while read password; do echo 'penny:' $password && smbclient -L \\10.10.199.125 -U penny%\$password; done < rock-7L.txt
 
+seq 1 1000 | xargs -P 50 -I {} echo {} 
+
 # manipulación de archivos/carpetas
 touch {/folder1/,./}file.{exe,dll,txt} # crea multiples archivos
 curl -# --upload-file -F file=@FILE URL

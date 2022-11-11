@@ -1,0 +1,14 @@
+# crear app con lista de puertos 
+nano /etc/ufw/applications.d/unifi-server
+                                                                                                                                 
+[unifi]                                                                                                                                                                                       
+title=UniFi Controller                                                                                                                                                                        
+description=The Ubiquiti UniFi Controller                                                                                                                                                     
+ports=3478/udp|8080/tcp|8443/tcp    
+
+# agrega puertos por app
+ufw allow unifi
+
+# lista puertos por app
+ufw app info unifi
+

@@ -1,0 +1,12 @@
+# ip vlan config
+modprobe --first-time 8021q
+modinfo 8021q
+
+# configurar vlan a interface
+ip link add link enp1s0 name enp1s0.8 type vlan id 8
+
+# configurar ip a vlan
+ip addr add local 10.16.4.2/24 dev enp1s0.8
+
+# levantar la interface
+ip link set dev enp1s0.8 up

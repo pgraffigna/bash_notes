@@ -1,0 +1,60 @@
+# creando el CA - certificate authority
+## generando la llave privada del CA
+openssl genrsa -aes256 -out ca-key.pem 4096
+
+# generando el certificado para la llave privada del CA
+openssl req -new -x509 -sha256 -days 365 -key ca-key.pem -out ca.pem
+
+# chequeando el estado del certificado
+openssl x509 -in ca.pem -text | less
+
+# generando la llave privada para los clientes
+openssl genrsa -out cert-key.pem 4096
+
+# generando un CSR - Certificate Signing Request 
+openssl req -new -sha256 -subj "/CN=proxmox-cnb" -key cert-key.pem -out cert.csr
+
+# generando un "extfile" para los hostnames,ips de los servidores
+echo "subjectAltName=DNS:test.cdc,IP:10.10.6.113" >> extfile.cnf
+
+# generando el certificado para los clientes
+openssl x509 -req -sha256 -days 365 -in cert.csr -CA ca.pem -CAkey ca-key.pem -out cert.pem -extfile extfile.cnf -CAcreateserial
+
+# concatenando los certificados 
+cat cert.pem ca.pem > fullchain.pem
+
+# creando certificados autofirmados para sitios APACHE 
+sudo openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout /etc/ssl/private/ssp.cultura.lab.key -out /etc/ssl/certs/ssp.cultura.lab.crt
+
+# template sitio con ssl
+<VirtualHost *:443>
+        ServerName ssp.cultura.lab
+        ServerAdmin administradores@cultura.lab
+        DocumentRoot /usr/share/self-service-password/htdocs
+        DirectoryIndex index.php
+
+        AddDefaultCharset UTF-8
+
+        <Directory "/usr/share/self-service-password/htdocs">
+            Options +MultiViews -FollowSymLinks -Indexes -ExecCGI +SymLinksIfOwnerMatch
+            AllowOverride All
+            Order allow,deny
+            Allow from all
+        </Directory>
+
+        #LogLevel info ssl:warn
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+        SSLEngine on
+        SSLCertificateFile /etc/ssl/certs/ssp.cultura.lab.crt
+        SSLCertificateKeyFile /etc/ssl/private/ssp.cultura.lab.key
+</VirtualHost>
+
+# activando ssl 
+a2enmod ssl
+systemctl restart apache2
+
+# ufw 
+ufw allow "Apache Full"

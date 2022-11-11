@@ -1,8 +1,31 @@
-# save snapshot
-virsh snapshot-create-as $VM --name $NOMBRE_SNAP
+# tomar un snapshot
+virsh snapshot-create-as --domain {VM-NAME} --name {SNAPSHOT-NAME} --description "Snapshot" 
 
-# restore snapshot
-virsh snapshot-revert $VM --snapshotname $NOMBRE_SNAP --running
+# listar snapshots
+virsh snapshot-list --domain {VM-NAME}
 
-# delete snapshot 
-virsh snapshot-delete --domain $DOMAIN --snapshotname $NOMBRE_SNAP
+# restaurar un snapshot
+virsh snapshot-revert --domain {VM-NAME} --snapshotname {SNAPSHOT-NAME} --running
+
+# eliminar snapshot
+virsh snapshot-delete --domain {VM-NAME} --snapshotname {SNAPSHOT-NAME}
+
+# lista los volumenes que usa un dominio + purgar dominio
+virsh domblklist --domain vagrant_kasm_kasm
+virsh undefine vagrant_kasm_kasm --remove-all-storage
+
+# consulta tabla de dhcp
+virsh net-dhcp-leases --network default
+
+# lista interfaces de red
+virsh domifaddr domain
+
+## emular conectar/desconectar cable de red en qemu-kvm
+# estado de la conexion 
+virsh domif-getlink domain vnet0
+
+# "desconectar" cable de red en interfaz vnet0
+sudo virsh domif-setlink domain vnet0 down
+
+# "conectar" cable de red en interfaz vnet0
+sudo virsh domif-setlink domain vnet0 up

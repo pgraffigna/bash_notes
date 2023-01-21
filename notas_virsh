@@ -20,6 +20,9 @@ virsh net-dhcp-leases --network default
 # lista interfaces de red
 virsh domifaddr domain
 
+# lista VMs y sus ips
+virsh list | awk '{print $2}' | grep -vi 'name' | xargs -t -L1 virsh domifaddr
+
 ## emular conectar/desconectar cable de red en qemu-kvm
 # estado de la conexion 
 virsh domif-getlink domain vnet0

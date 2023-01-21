@@ -7,7 +7,7 @@ scp -o 'ProxyJump user@192.168.122.1' copy-paste-qemu.sh quentin@192.168.0.20:
 find thm/ -type f -iname 'notas'| xargs -i scp -o 'ProxyJump pgraffigna@192.168.122.1' '{}' quentin@192.168.0.20:
 
 # ssh dinamyc portforwarding
-A> ssh -Nf -D 1080 user@ip_victima
+A> ssh -Nf -D 8888 user@ip_victima
 A> editar /etc/proxychains.conf --> agregar socks5 127.0.0.1 1080
 A> proxychains nmap -p- -n localhost -Pn
 

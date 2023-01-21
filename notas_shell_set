@@ -1,4 +1,68 @@
-# bash_notes
+## oh-my-bash en Ubuntu 20.04
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)"
+
+## agregar las fuentes necesarias
+apt-get install fonts-powerline
+
+# tema para oh-my-bash
+# editar la linea en .bashrc
+OSH_THEME="powerline"
+
+-------------------
+## powerline-go en Ubuntu 18.04
+sudo add-apt-repository ppa:longsleep/golang-backports
+sudo apt update && sudo apt install -y golang-go
+go get -u github.com/justjanne/powerline-go
+
+# agregar esto en ~/.bashrc
+GOPATH=$HOME/go
+function _update_ps1() {
+    PS1="$($GOPATH/bin/powerline-go -error $?)"
+}
+if [ "$TERM" != "linux" ] && [ -f "$GOPATH/bin/powerline-go" ]; then
+    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+fi
+
+------------------------
+## oh-my-posh en Powershell
+Install-Module posh-git -Scope CurrentUser --> si usas git en Windows
+Install-Module oh-my-posh -Scope CurrentUser
+
+# ejecutar "notepad $PROFILE" y agregar estas lineas:
+Import-Module posh-git --> si usas git en Windows
+Import-Module oh-my-posh
+Set-PoshPrompt -Theme Paradox
+
+# Instalar las fuentes "Cascadia Code PL" para todos los usuarios
+https://github.com/microsoft/cascadia-code/releases/tag/v2102.25
+
+# Editar setting.json en Windows Terminal
+
+"profiles":
+    	{
+        "defaults": {
+		"fontFace": "Cascadia Code PL",
+	        "fontSize": 11
+	},
+}
+
+# Default path donde inicia Windows Terminal
+cd ~
+
+# Para entrar en los directorios solo tipeando el nombre
+shopt -s autocd
+
+# buscar en el historial 
+# Create ~/.inputrc and fill it with this:
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+
+# tmux copy-mode
+prefix + [ # copy mode
+ctrl + space # seleccionar texto 
+ctrl + w # copia
+prefix + ] # pega# bash_notes
+
 #############################################
 # Funciones -- agregar al archivo ~/.bashrc #	
 ############################################# 
@@ -103,6 +167,8 @@ alias ls="ls --color=auto --group-directories-first"
 # bajar audio de videos de youtube con youtube-dl 
 alias ytmp3="youtube-dl -x --audio-format mp3"
 
+# copia archivos a vagrant host sin guardar host_keys
+alias vscp='scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
 
 ##########################################
 # Notas                                  #
@@ -122,9 +188,4 @@ notify-send  "NOTIFICACION" -t 20000 -i /mnt/c/Users/quentin/Downloads/imagen.jp
 USUARIO@HOSTNAME:/PATH:COD_STATUS> 
 export PS1="\[$(tput bold)\]\[\033[38;5;4m\]\u\[$(tput sgr0)\]@\[$(tput sgr0)\]\[\033[38;5;1m\]\h\[$(tput sgr0)\]:\[$(tput sgr0)\]\[\033[38;5;11m\]\w\[$(tput sgr0)\]:\[$(tput sgr0)\]\[\033[38;5;2m\]\$?\[$(tput sgr0)\]>\[$(tput sgr0)\]"
 
-# Default path donde inicia Windows Terminal WSL
-cd ~
-
-# Para entrar en los directorios solo tipeando el nombre
-shopt -s autocd
 

@@ -19,6 +19,8 @@ ftp -p 10.10.69.8 21 # modo pasivo
 
 # cp
 cp FILE.iso REN-FILE.iso && watch -n 2 du -sh $!
+cp -rp /home/my_home /media/backup/my_home # copia recursiva y mantiene permisos y propietario
+cp /etc/apache2/sites-available/self-service-password.conf{,.bak} # crea archivo de backup
 
 # cat
 cat file | tr '[A-Z]' '[a-z]' # convierte Mayusculas por Minusculas
@@ -137,6 +139,7 @@ arping -c 1 -I enp5s0 ip/mask
 arp-scan -I enp5s0 IP -l
 masscan --arp ip/mask > file
 sudo nmap -RP ip
+nmap -sn 10.21.7.0/24 --dns-servers 10.21.4.1
 
 # cups
 ssh admin@10.36.8.43 -T -L 3631:localhost:631 # portforwarding
@@ -265,6 +268,7 @@ https://jvns.ca/blog/2021/11/04/how-do-you-tell-if-a-problem-is-caused-by-dns/
 dig wizardzines.com
 dig @1.1.1.1 domain.com
 dig SOA wizardzines.com
+dig google.com.ar +noall +answer -t A
 
 # virtualbox fix multipass
 systemctl stop snap.multipass.multipassd.service

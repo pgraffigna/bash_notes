@@ -14,3 +14,6 @@ ip addr del 10.0.0.1/8 dev ens33 label ens33:1
 
 # my trace route
 mtr -t -b -o 'LS' 1.1.1.1
+
+# chequear puertos
+lsof -i | grep 'LISTEN'

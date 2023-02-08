@@ -35,6 +35,7 @@ xclip -out -sel clip > file
 xclip -sel clip
 
 # find
+find . -type f -name '*2022*' -delete # elimina archivos con 2022 en el nombre
 find / -perm -4000 -type f 2>/dev/null
 find . -type d -exec touch {}/FILE \;
 find . -type f -printf "%T+ %p\n" | sort # ordena archivos y muestra una columna con timestamps
@@ -155,6 +156,8 @@ remote-viewer spice://localhost:5900 -f & disown
 virt-viewer --connect qemu:///system --wait kali64-OS &>/dev/null & disown # levanta el proceso + oculta el output + disocia el proceso de la terminal
 
 # varios
+adduser --no-create-home --shell /usr/sbin/nologin 
+
 apt list --installed > instalados.txt
 diff old.txt new.txt | grep ">"|cut -c 3- > diff.txt
 

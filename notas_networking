@@ -17,3 +17,7 @@ mtr -t -b -o 'LS' 1.1.1.1
 
 # chequear puertos
 lsof -i | grep 'LISTEN'
+
+# captura de paquetes
+## captura dns queries
+tshark -i enp6s0 -Y "dns.flags.response == 0 and dns.qry.type == 1" -T fields -e dns.qry.name

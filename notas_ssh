@@ -1,3 +1,6 @@
+# ssh options
+ssh -o IdentitiesOnly=yes 
+
 # sshpass 
 sshpass -p 'PASSWORD' ssh -o StrictHostKeyChecking=no -p 1690 sistemas@10.21.17.91
 
@@ -7,6 +10,8 @@ scp -o 'ProxyJump user@192.168.122.1' copy-paste-qemu.sh quentin@192.168.0.20:
 find thm/ -type f -iname 'notas'| xargs -i scp -o 'ProxyJump pgraffigna@192.168.122.1' '{}' quentin@192.168.0.20:
 
 # ssh dinamyc portforwarding
+ssh -D 1080 -fN equipoCNB --> acceso a red interna/vagrant vms
+
 A> ssh -Nf -D 8888 user@ip_victima
 A> editar /etc/proxychains.conf --> agregar socks5 127.0.0.1 1080
 A> proxychains nmap -p- -n localhost -Pn

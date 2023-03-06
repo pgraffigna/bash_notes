@@ -59,4 +59,5 @@ find . -type d | while read directorio; do
 > mkdir ${directorio}/carpeta 2>/dev/null && echo "puedo crear carpetas en ${directorio}" && rm -f ${directorio}/carpeta
 > done
 	 
- 
+# compartir carpeta via cme
+smbserver.py compartida $(pwd) -smb2support -user pgraffigna -password testing123 

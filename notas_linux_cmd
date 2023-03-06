@@ -71,6 +71,7 @@ sed -i '/192\.168\.0\.1/d' /var/log/messages.log # elimina todas las lineas que 
 sed 's/ //g' hash.txt # elimina todas las lineas en blanco
 sed '/^[[:space:]]*$/d' # elimina los espacios 
 sed 's/\\n/\n/g' # reemplazar \n a salto de linea
+:%g/^[ \t]*#/d -- elimina todos los comentarios
 
 # curl
 curl 'http://10.10.154.13/customers/reset?email=robert@acmeitsupport.thm' -H 'Content-Type: application/x-www-form-urlencoded' -d 'username=robert&email=test@customer.acmeitsupport.thm' # reset password hijacking
@@ -134,6 +135,7 @@ curl -# --upload-file -F file=@FILE URL
 dd if=FILE bs=1 skip=8 of=FILE.out # saca los primeros 8 bytes y deja el resto
 dd if=FILE bs=1 count=8 of=FILE.out # solo deja los primeros 8 bytes
 smbget -R smb://ip/carpeta -U USER
+du -hs * | sort -h
 
 # arp discovery
 arping -c 1 -I enp5s0 ip/mask

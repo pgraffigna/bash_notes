@@ -1,0 +1,27 @@
+# instalando apache2
+sudo apt update && sudo apt install -y apache2
+
+# configurando modulos php
+sudo apt install -y php7.4-fpm && sudo a2enmod proxy_fcgi && sudo a2enconf php7.4-fpm
+
+# configurando el soporte HTTP/2 en apache2
+sudo a2dismod mpm_prefork && sudo a2enmod mpm_event ssl http2
+
+# reiniciando apache2
+sudo systemctl restart apache2
+
+# SSL Certs
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/server.key -out /etc/ssl/certs/server.crt
+
+# site.conf
+SSLEngine on
+SSLCertificateFile      /etc/ssl/certs/server.crt
+SSLCertificateKeyFile /etc/ssl/private/server.key
+
+# activando sitio
+sudo a2ensite default-ssl.conf && sudo systemctl reload apache2
+
+# chequear que HTTP/2 esta activado
+curl -Iks --http2 https://localhost:443 --> chequeo de cabecera HTTP/2 
+curl -vso /dev/null --http2 https://localhost:443 --> chequeo de ofrecimiento de HTTP/2
+

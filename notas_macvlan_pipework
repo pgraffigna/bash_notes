@@ -1,0 +1,50 @@
+# macvlan con un rango de 32 ips para usar
+# aux-address reserva especificamente una ip
+docker network create -d macvlan --subnet 10.10.6.0/24 --gateway 10.10.6.1 --ip-range 10.10.6.192/27 --aux-address 'host=10.10.6.222' -o parent=enp6s0 cnb_mac_test
+
+# inspect mac
+docker inspect -f '{{range.NetworkSettings.Networks}}{{.MacAddress}}{{end}}' pgraffigna_web_1
+
+# inspect ip
+docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' pgraffigna_web_1
+
+##################### pipework para usar dhcp + macvlan ################
+# Creamos el bridge
+sudo brctl addbr pipebr0
+
+# conectamos bridge con interface
+sudo brctl addif pipebr0 enp1s0
+
+# configurando bridge via netplan
+network:
+  version: 2
+  renderer: NetworkManager
+  ethernets:
+    enp1s0:
+      dhcp4: no
+  bridges:
+    pipebr0:
+      dhcp4: yes
+      interfaces:
+        - enp1s0
+              
+# reinciando el servicio
+sudo systemctl restart NetworkManager
+
+# chequeamos estado del bridge
+sudo brctl show
+
+# clonamos Pipework en nuestro sistema
+git clone https://github.com/jpetazzo/pipework.git
+
+# copiamos o movemos Pipework en el directorio que debe estar
+sudo cp ~/pipework/pipework /usr/local/bin/
+
+# creando un contenedor con acceso a DHCP con Pipework 
+sudo pipework pipebr0 $(docker run --name alpinista2 --rm -d --privileged -ti alpine ash) dhclient
+
+# chequeamos ip en contenedor
+docker exec -it alpinista2 ip a
+
+# chequeamos comunicacion entre el host + contenedor
+docker exec -it alpinista2 ping -c2 10.10.6.155

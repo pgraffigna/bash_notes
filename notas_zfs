@@ -1,11 +1,36 @@
-# lista los datasets
+# asignacion de cuotas
+zfs create -o quota=5g POOL/DATASET
+
+# zfs auto-expand
+zpool get autoexpand cnb-pool
+zpool set autoexpand=on cnb-pool
+
+# zfs forzar expansion
+zpool online -e cnb-pool sdb
+
+# zfs send+recv	
+## listamos datasets
 zfs list
 
-# lista los snapshots
+## zfs listar shares
+zfs get sharesmb
+
+## damos permisos en equipo MASTER a usuario VAGRANT sobre DATASET server_pool/compartida_01
+zfs allow -u vagrant send,snapshot,hold server_pool/compartida_01
+
+## damos permisos en equipo BACKUP a usuario VAGRANT sobre DATASET backup_pool/backup_01
+zfs allow -u vagrant compression,mountpoint,create,mount,receive backup_pool/backup_01
+
+## creando snapshot llamado 'backup-30062020'
+zfs snapshot -r server_pool/compartida_01@backup-30062020
+ 
+## Listar los snapshots 
 zfs list -t snapshot
 
-# lista los datasets con opciones
-zfs list -o name,sharesmb,mountpoint
+## Envío de snapshot al equipo BACKUP
+zfs send -R server_pool/compartida_01@backup-30062020 | ssh vagrant@backup.cultura.lab zfs recv -dvu backup_pool/backup_01
 
-# crea un snapshot de alv_pool/imagenes con el nombre sep2021
-zfs snapshot alv_pool/imagenes@sep2021
+## Montando el snapshot en equipo BACKUP
+mount -t zfs backup_pool/backup_01/compartida_01@backup-30062020 /mnt/
+
+

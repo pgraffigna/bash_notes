@@ -1,0 +1,6 @@
+# cambiar dns en interfaz vpn --> editar archivo.ovpn
+ - pull-filter ignore "dhcp-options DNS"
+ - dhcp-options DNS 10.10.10.161
+
+# vpn auth
+auth-user-pass cultura_creds.txt 

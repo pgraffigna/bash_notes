@@ -1,4 +1,0 @@
-ssrf:
-retrieve data from https://server.website.thm/flag?id=9
-
-https://website.thm/item/2?server=server.website.thm/flag?id=9& # &=ignore the rest of the URL

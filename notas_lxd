@@ -1,0 +1,42 @@
+# instalacion via snap
+sudo apt update && sudo apt install -y snapd
+sudo apt install -y zfsutils-linux
+snap install lxd
+usermod -aG lxd $USER
+
+# cmd
+inicia un CT
+lxc init local:731d371a29f7 ub01
+lxc launch images:debian/stretch/amd64 debian-base
+
+# lista CT/imagenes
+lxc list
+lxc image list
+lxc image list images:
+
+# alias imagenes
+lxc image alias create focal 731d371a29f7
+
+# shell en CT
+lxc exec debian-base -- /bin/bash
+lxc exec ub01 -- bash -c 'ip a'
+
+# comandos dentro de CT
+lxc exec debian-base -- apt update
+
+# start/stop/delete CT
+lxc stop debian-base
+lxc start debian-base
+lxc delete debian-base
+
+# snapshot en CT
+lxc snapshot debian-base debian-base-snaps
+
+# creando ubuntu desktop VM
+lxc launch images:ubuntu/22.04/desktop ubuntu --vm -c limits.cpu=4 -c limits.memory=4GiB --console=vga
+
+# cloud-init
+## pasando cloud-init config - tener en cuenta que la imagen sea cloud
+lxc launch images:ubuntu/22.04/cloud --config=user.user-data="$(cat config.xml)" ub04
+lxc launch local:jammy-cloud --config=user.user-data="$(cat ~/lxc/config.xml)" ub02
+

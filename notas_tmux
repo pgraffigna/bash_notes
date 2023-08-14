@@ -1,0 +1,13 @@
+# nombre sesion
+tmux new-session -s NOMBRE_SESION
+
+# detachear de sesion
+prefix + D // tmux detach
+
+# listar sesiones
+tmux ls
+
+# atachear sesiones
+tmux attach-session -t NOMBRE_SESION
+
+

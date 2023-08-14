@@ -1,0 +1,37 @@
+# el proceso implica el formateo del disco -- tener en cuenta --
+# creacion de particion en /dev/sdc
+## elegimos disco a particionar
+fdisk /dev/sdc
+
+## definimos tipo de particion
+tocar 'g' y 'enter' -- formato GPT
+tocar 'w' -- guarda los cambios
+
+## creamos la particion
+tocar 'n' y 'enter' -- nueva particion
+
+enter -- default 1
+enter -- elige primer sector
+enter -- elige ultimo sector
+tocar 'p' y 'enter' -- para mostrar estado de la particion
+tocar 'w' y 'enter' -- guarda los cambios
+
+# encriptado con LUKS
+sudo apt update && sudo apt -y install cryptsetup
+
+# encripado + password
+cryptsetup -c aes-cbc-essiv:sha256 -y -s 256 luksFormat /dev/sda1
+
+# abrimos el dispositivo y asociamos al nombre "cultura"
+cryptsetup luksOpen /dev/sda1 cultura
+
+# formateo de la partición en ext4
+mkfs.ext4 -L privado /dev/mapper/cultura // L=label
+
+# montaje
+mkdir /mnt/encriptado && mount /dev/mapper/cultura /mnt/encriptado
+
+# desmontaje y cierre del disco
+umount /mnt/encriptado && cryptsetup luksClose cultura
+
+## NbZq7NJy9K7bKR5wnUAI ##

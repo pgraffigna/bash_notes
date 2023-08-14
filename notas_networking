@@ -1,28 +1,71 @@
-# rutas estaticas
-ip route add 172.16.0.0/24 (network) via 10.21.7.1 (gateway)
-ip route add 172.16.0.0/24 (network) dev tun0 (interface)
+# ifconfig alias one-liner
+ifconfig eth0:0 192.168.1.6 up
 
-ip route list	
-ip route show table ID
-ip route get 1.1.1.1 --> mejor ruta hacia 1.1.1.1
-ip route table
-ip rule
+# ip alias one-liner
+ip a add 192.168.178.2/24 dev enx0050b60c19af
 
-# rutas en linux 
-/proc/net/tcp --> puertos
-/proc/net/fib_trie --> ips
-/proc/net/arp --> tabla arp
+# ip estatica --> vi /etc/network/interfaces
+auto eth0:1
+iface eth0:1 inet static
+address 192.168.1.7
+netmask 255.255.255.0
+broadcast 192.168.1.255
+network 192.168.1.0
 
-# ip alias
-ip addr add 10.0.0.1/8 dev ens33 label ens33:1
-ip addr del 10.0.0.1/8 dev ens33 label ens33:1
+# arp scan sin ip
+sudo arp-scan --arpspa 0.0.0.0 10.10.6.0/24
 
-# my trace route
-mtr -t -b -o 'LS' 1.1.1.1
+# arp scan red local
+sudo arp-scan -I enp6s0 --localnet
 
-# chequear puertos
-lsof -i | grep 'LISTEN'
+# cli calc
+ipcalc 10.10.6.0/24
 
-# captura de paquetes
-## captura dns queries
-tshark -i enp6s0 -Y "dns.flags.response == 0 and dns.qry.type == 1" -T fields -e dns.qry.name
+# arp scan usando src-ip broadcast
+sudo arp-scan --arpspa=10.10.6.255 10.10.6.0/24
+
+# arp scan usando mac destino y vlans
+sudo arp-scan -I enp6s0 -Q 1006 --destaddr=EC:CD:6D:41:23:B4 10.24.4.0/24
+
+### actualizar db oui-iab
+/usr/share/arp-scan
+sudo get-iab -v -u https://standards-oui.ieee.org/iab/iab.txt
+sudo get-oui -v -u https://standards-oui.ieee.org/oui/oui.txt
+
+# ip vlan config
+modprobe --first-time 8021q
+modinfo 8021q
+
+# configurar vlan a interface
+ip link add link enp1s0 name enp1s0.8 type vlan id 8
+
+# configurar ip a vlan
+ip addr add local 10.16.4.2/24 dev enp1s0.8
+
+# levantar la interface
+ip link set dev enp1s0.8 up
+
+# escuchando por host + trafico UDP 
+tcpdump -n -i br0 host unifi-01.cs56cloud.internal and udp 
+
+# escuchando trafico en puerto 3478 udp
+tcpdump -n -i br0 udp port 3478
+
+# escuchando por puerto + host
+tcpdump -n -i eth0 port 3478 and host 10.21.5.21 
+
+# escuchando por puerto + host + guardado
+tcpdump -n -i eth0 port 3478 and host 10.21.5.21 -w captura.pcap 
+
+# testeando conectividad entre equipos con netcat
+## escuchando por paquetes
+a> sudo tcpdump -i enp6s0 -n host 10.10.6.155 and port 3478
+a> nc -lu 3478
+
+## enviando paquete
+b> echo 'probando' | nc -u 10.200.0.18 3478
+
+# ip brief color
+ip -br -c a 
+
+

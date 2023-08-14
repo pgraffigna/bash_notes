@@ -58,6 +58,12 @@ find . -type d | while read directorio; do
 > touch ${directorio}/archivo 2>/dev/null && echo "puedo crear archivos en ${directorio}" && rm ${directorio}/archivo 
 > mkdir ${directorio}/carpeta 2>/dev/null && echo "puedo crear carpetas en ${directorio}" && rm -f ${directorio}/carpeta
 > done
-	 
+
 # compartir carpeta via cme
 smbserver.py compartida $(pwd) -smb2support -user pgraffigna -password testing123 
+
+mount -t cifs -o username=pgraffigna //10.16.16.11/sistemas /mnt/tms/
+smbclient -L \\10.16.16.11 -N --option='client min protocol=NT1'
+
+## compartidas via impacket
+sudo python3 smbserver.py compartida $(pwd) -smb2support -username pgraffigna -password testing123

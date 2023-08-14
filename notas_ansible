@@ -1,0 +1,33 @@
+# crea un rol
+ansible-galaxy init role-name --offline
+
+# chequear modulo expect
+- name: Install Zabbix Agent
+  become: true
+   ansible.builtin.expect:
+   command: "bash {{ script_dir }}/install-agent.sh"
+   responses:
+   (.*)Zabbix Master server IP :-(.*): "monitoreo.home.local"
+
+# crea la estructura del rol
+- ansible-galaxy init nombre_role
+
+# muestra todos los facts
+- name: mostrando facts
+  debug:
+      var: ansible_facts
+
+# muestra valor de variables de "{{ user }}"
+- name: debug specified user's home dir through ansible.env
+  debug:
+      var: ansible_env.HOME
+      become: true
+      become_user: "{{ user }}"
+
+# muestra valor de variables
+- name: print magic vars
+  debug:
+      var: vars
+
+# detiene la playbook
+- meta: end_play

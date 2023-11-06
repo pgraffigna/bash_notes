@@ -10,4 +10,6 @@ tmux ls
 # atachear sesiones
 tmux attach-session -t NOMBRE_SESION
 
+# alias tmux 
+alias tmux_hack='tmux new-session -s testing \; rename-window -t testing:1 vpn \; new-window -t testing:2 -n local \; new-window -t testing:3 -n notas'
 

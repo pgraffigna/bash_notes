@@ -1,5 +1,6 @@
 # ifconfig alias one-liner
 ifconfig eth0:0 192.168.1.6 up
+ip addr add 192.168.0.209/24 dev enp43s0:0 --> ip alias
 
 # ip alias one-liner
 ip a add 192.168.178.2/24 dev enx0050b60c19af

@@ -46,17 +46,11 @@ xclip -sel clip
 
 # find
 find . -type f -name '*2022*' -delete # elimina archivos con 2022 en el nombre
-find / -perm -4000 -type f 2>/dev/null
+find /home/linux -mtime 0 --> ultimos archivos modificados
 find . -type d -exec touch {}/FILE \;
 find . -type f -printf "%T+ %p\n" | sort # ordena archivos y muestra una columna con timestamps
 find / -type f -regexp ".*\(png\|jpg\)$" 2>/dev/null # multiples extensiones
-find / -writable 2>/dev/null # archivos de escritura
-find / /etc /var -type f 2>/dev/null # multiples locaciones
-find / -user root -readable -type f 2>/dev/null # root + lectura
-find / -type f -name 'user.txt' -exec cat {} \; 2>/dev/null
-find /usr/bin/python3 -exec {} -c 'rev-shell' # bypassing
 find thm/ -type f -iname 'notas'| xargs -i scp -o 'ProxyJump pgraffigna@192.168.122.1' '{}' quentin@192.168.0.20:
-find . -type f -iname 'notas' -exec cat {} \; > total_notes.txt
 find . ! -name 'notas.txt' -type f -exec rm -f {} +
 find . -empty -type d -delete
 find / -newermt "2022-10-15" ! -newermt "2022-10-16" -ls 2>/dev/null | less -S #&! para filtrar output no deseado
@@ -136,6 +130,7 @@ for i in {1..20}; do curl http://ip/users/$i 2>&1 | grep "s page</h1>" | cut -f2
 for i in {1..10}; do timeout 1 bash -c "ping 192.168.0.$i"; done | grep '64' | awk '{print $4}' | tr -d ':' # ping sweep
 for x in port port port; do nmap -Pn --max-retries 0 -p $x ip; done # port knocker
 for num in {1..10}; do sudo arping -c 1 192.168.0.$num | grep '60' | awk '{print $4 "\t" $5}' | sed 's/(/ /;s/)/ /;s/.$//'; done # mac sweep
+for i in $(seq 21 100); do nc -vz 192.168.0.208 $i;done
 
 [ -d "${DIR}" ] || mkdir -p "${DIR}" # crear una carpeta sino existe
 
@@ -151,7 +146,7 @@ curl -# --upload-file -F file=@FILE URL
 dd if=FILE bs=1 skip=8 of=FILE.out # saca los primeros 8 bytes y deja el resto
 dd if=FILE bs=1 count=8 of=FILE.out # solo deja los primeros 8 bytes
 smbget -R smb://ip/carpeta -U USER
-du -hs * | sort -h
+du -h --max-depth=1 2> /dev/null | sort -hr | tail -n +2 | head
 
 # arp discovery
 arping -c 1 -I enp5s0 ip/mask
@@ -171,7 +166,7 @@ intitle: index.of #open directory listing
 # qemu
 sudo apt install -y spice-vdagent && spice-vdagent # spice qemu copy-paste (aplicar en la VM)
 remote-viewer spice://localhost:5900 -f & disown
-virt-viewer --connect qemu:///system --wait kali64-OS &>/dev/null & disown # levanta el proceso + oculta el output + disocia el proceso de la terminal
+virt-viewer --connect qemu:///system -f --wait kali-linux &>/dev/null & disown # levanta el proceso + oculta el output + disocia el proceso de la terminal
 burpsuite &> /dev/null & disown
 
 # wget

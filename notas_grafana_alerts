@@ -12,17 +12,13 @@
 ## telegram_alert_firing
 {{ define "telegram_alert_firing" }}
   Alerta: <b>{{ .Labels.alertname }}</b>
-  
   Descripcion: <b>{{ .Annotations.summary }}</b>
-
   Equipo: <b>{{ .Annotations.Equipo }}</b>
 {{ end }}
   
 ## telegram_alert_resolved
 {{ define "telegram_alert_resolved" }}
   Alerta: <b>{{ .Labels.alertname }}</b>
-
   Descripcion: Resuelto.
-  
   Equipo: <b>{{ .Annotations.Equipo }}</b>
 {{ end }}

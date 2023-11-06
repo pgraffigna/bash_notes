@@ -1,1 +1,0 @@
-wpscan --url https://juegosevita.cultura.gob.ar --enumerate vp --api-token r3oMWLulmQIIa3Fht6Y9p1T83FABWMbcevL5sz7QGSQ --random-user-agent --no-update

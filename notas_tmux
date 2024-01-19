@@ -10,6 +10,27 @@ tmux ls
 # atachear sesiones
 tmux attach-session -t NOMBRE_SESION
 
-# alias tmux 
+# ejecute tmux y crea 3 windows con su respectivo nombre
 alias tmux_hack='tmux new-session -s testing \; rename-window -t testing:1 vpn \; new-window -t testing:2 -n local \; new-window -t testing:3 -n notas'
 
+# custom variables en .tmux.conf
+online() {
+   ping -c 1 1.1.1.1 >/dev/null 2>&1 && printf '✔' || printf '✘'
+}
+
+ip_local() {
+   ip addr show enp2s0 | grep -m 1 inet | awk '{print $2}' | cut -d / -f 1
+}
+ 
+ip_vpn() {
+   ip addr show tun0 | grep -m 1 inet | awk '{print $2}' | cut -d / -f 1
+}
+
+ip_l2tp() {
+   ip addr show ppp0 | grep -m 1 inet | awk '{print $2}' | cut -d / -f 1
+}
+
+# barra custom
+set -g @cpu_low_bg_color "#[bg=#000501]" --> background negro
+tmux_conf_theme_status_left=" #{ip_local} | #{ip_vpn} | #{ip_l2tp} "
+tmux_conf_theme_status_right=" #{prefix}#{mouse}#{pairing}#{synchronized}#{?battery_status,#{battery_status},}#{?battery_bar, #{battery_bar},}#{?battery_percentage, #{battery_percentage},} , %R , %d %b | #{username}#{root} | #{hostname} | #{cpu_bg_color} CPU: #{cpu_percentage} "

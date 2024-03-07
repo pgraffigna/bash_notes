@@ -11,7 +11,7 @@ for i in "${GRUPOS[@]}"; do sudo usermod -aG "$i" "$USER"; done
 sudo add-apt-repository ppa:gns3/ppa -y
 sudo apt update && sudo DEBIAN_FRONTEND=noninteractive apt-get -q -y install gns3-gui gns3-server
 
-# mucho texto
+# bloques de texto
 function cabecera(){
 cat <<EOM
 
@@ -43,6 +43,3 @@ prefix + ]
 
 # while loop one-liner
 x=0; while [ $x -lt 5 ]; do echo 'probando el loop'; x=$(( x+1 )); done | xargs -I{} echo "{} one more time"
-
-# error handling
-sudo apt update >/dev/null 2>&1 || { printf "${ROJO} Error actualizando lista de paquetes ${END}\n"; exit 1; }

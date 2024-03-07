@@ -26,35 +26,8 @@ cat cert.pem ca.pem > fullchain.pem
 # creando certificados autofirmados para sitios APACHE 
 sudo openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout /etc/ssl/private/ssp.cultura.lab.key -out /etc/ssl/certs/ssp.cultura.lab.crt
 
-# template sitio con ssl
-<VirtualHost *:443>
-        ServerName ssp.cultura.lab
-        ServerAdmin administradores@cultura.lab
-        DocumentRoot /usr/share/self-service-password/htdocs
-        DirectoryIndex index.php
-
-        AddDefaultCharset UTF-8
-
-        <Directory "/usr/share/self-service-password/htdocs">
-            Options +MultiViews -FollowSymLinks -Indexes -ExecCGI +SymLinksIfOwnerMatch
-            AllowOverride All
-            Order allow,deny
-            Allow from all
-        </Directory>
-
-        #LogLevel info ssl:warn
-
-        ErrorLog ${APACHE_LOG_DIR}/error.log
-        CustomLog ${APACHE_LOG_DIR}/access.log combined
-
-        SSLEngine on
-        SSLCertificateFile /etc/ssl/certs/ssp.cultura.lab.crt
-        SSLCertificateKeyFile /etc/ssl/private/ssp.cultura.lab.key
-</VirtualHost>
-
 # activando ssl 
-a2enmod ssl
-systemctl restart apache2
+a2enmod ssl && systemctl restart apache2
 
 # ufw 
 ufw allow "Apache Full"

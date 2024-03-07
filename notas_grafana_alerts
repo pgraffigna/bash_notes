@@ -1,5 +1,5 @@
-## agregar llamado a templates en "optional telegram options" en contact_point
-## telegram_alert
+## configurar "optional telegram options" en contact_point
+# telegram_alert
 {{ define "telegram_message" }}
   {{ if gt (len .Alerts.Firing) 0 }}
   <b>🔥 {{ len .Alerts.Firing }} alerta en curso:</b>
@@ -9,14 +9,14 @@
     {{ range .Alerts.Resolved }} {{ template "telegram_alert_resolved" .}} {{ end }} {{ end }}
 {{ end }}
 
-## telegram_alert_firing
+# telegram_alert_firing
 {{ define "telegram_alert_firing" }}
   Alerta: <b>{{ .Labels.alertname }}</b>
   Descripcion: <b>{{ .Annotations.summary }}</b>
   Equipo: <b>{{ .Annotations.Equipo }}</b>
 {{ end }}
   
-## telegram_alert_resolved
+# telegram_alert_resolved
 {{ define "telegram_alert_resolved" }}
   Alerta: <b>{{ .Labels.alertname }}</b>
   Descripcion: Resuelto.

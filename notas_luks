@@ -22,16 +22,16 @@ sudo apt update && sudo apt -y install cryptsetup
 # encripado + password
 cryptsetup -c aes-cbc-essiv:sha256 -y -s 256 luksFormat /dev/sda1
 
-# abrimos el dispositivo y asociamos al nombre "cultura"
-cryptsetup luksOpen /dev/sda1 cultura
+# abrimos el dispositivo y asociamos al nombre "testdisk"
+cryptsetup luksOpen /dev/sda1 testdisk
 
 # formateo de la partición en ext4
-mkfs.ext4 -L privado /dev/mapper/cultura // L=label
+mkfs.ext4 -L privado /dev/mapper/testdisk // L=label
 
 # montaje
-mkdir /mnt/encriptado && mount /dev/mapper/cultura /mnt/encriptado
+mkdir /mnt/encriptado && mount /dev/mapper/testdisk /mnt/encriptado
 
 # desmontaje y cierre del disco
-umount /mnt/encriptado && cryptsetup luksClose cultura
+umount /mnt/encriptado && cryptsetup luksClose testdisk
 
 ## NbZq7NJy9K7bKR5wnUAI ##

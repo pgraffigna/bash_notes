@@ -19,19 +19,19 @@ sudo arp-scan --arpspa 0.0.0.0 10.10.6.0/24
 # arp scan red local
 sudo arp-scan -I enp6s0 --localnet
 
-# cli calc
-ipcalc 10.10.6.0/24
-
 # arp scan usando src-ip broadcast
 sudo arp-scan --arpspa=10.10.6.255 10.10.6.0/24
 
 # arp scan usando mac destino y vlans
 sudo arp-scan -I enp6s0 -Q 1006 --destaddr=EC:CD:6D:41:23:B4 10.24.4.0/24
 
-### actualizar db oui-iab
+# actualizar db oui-iab
 /usr/share/arp-scan
 sudo get-iab -v -u https://standards-oui.ieee.org/iab/iab.txt
 sudo get-oui -v -u https://standards-oui.ieee.org/oui/oui.txt
+
+# cli calc
+ipcalc 10.10.6.0/24
 
 # ip vlan config
 modprobe --first-time 8021q
@@ -59,7 +59,6 @@ tcpdump -n -i eth0 port 3478 and host 10.21.5.21
 tcpdump -n -i eth0 port 3478 and host 10.21.5.21 -w captura.pcap 
 
 # testeando conectividad entre equipos con netcat
-## escuchando por paquetes
 a> sudo tcpdump -i enp6s0 -n host 10.10.6.155 and port 3478
 a> nc -lu 3478
 

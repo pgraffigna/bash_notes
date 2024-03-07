@@ -10,22 +10,15 @@ scp -o 'ProxyJump user@192.168.122.1' copy-paste-qemu.sh quentin@192.168.0.20:
 find thm/ -type f -iname 'notas'| xargs -i scp -o 'ProxyJump pgraffigna@192.168.122.1' '{}' quentin@192.168.0.20:
 
 # ssh dinamyc portforwarding
-ssh -D 1080 -fN equipoCNB --> acceso a red interna/vagrant vms
-
-A> ssh -Nf -D 8888 user@ip_victima
+A> ssh -D 1080 -fN equipoCNB user@ip_victima
 A> editar /etc/proxychains.conf --> agregar socks5 127.0.0.1 1080
 A> proxychains nmap -p- -n localhost -Pn
-
 A> proxychains firefox http://127.0.0.1:631
 A> proxychains C:\Program Files\Mozilla Firefox\firefox.exe http://127.0.0.1:631 
 
 # ssh local portforwarding (desde equipo local)
 ssh -L PUERTO_LOCAL:IP_REMOTA:PUERTO_REMOTO USUARIO@IP_REMOTA -fN
 ssh -L 8080:127.0.0.1:80 usuario@10.10.54.196 -i ssh_keys
-
-# cuando podes modificar authorized_keys en victima
-kali> ssh-keygen -f apaar
-kali> ssh -i apaar -L 9001:127.0.0.1:9001 apaar@10.10.151.118 -o StrictHostKeyChecking=no -fN
 
 # ssh remote portforwarding (desde equipo remoto)
 ssh -R 6631:127.0.0.1:631 USUARIO@IP_REMOTA -o StrictHostKeyChecking=no -fN
@@ -79,7 +72,7 @@ Host server-01
 Host server-02
     HostName 10.100.0.119
 
-Match host 10.100.*.*
+Match host 10.100.*
     Port 2222
     User pgraffigna
     StrictHostKeyChecking no
